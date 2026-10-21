@@ -31,26 +31,26 @@ def similarity(tokens_a, tokens_b):
 
 class PoliticalNewsStory(models.Model):
     _name = 'political.news.story'
-    _description = 'Gündem / Olay'
+    _description = 'Story'
     _inherit = ['mail.thread']
     _order = 'date_last desc, id desc'
 
-    name = fields.Char('Olay', required=True, tracking=True)
-    article_ids = fields.One2many('political.news.article', 'story_id', 'Haberler')
-    article_count = fields.Integer('Haber Sayısı', compute='_compute_stats', store=True)
-    publisher_count = fields.Integer('Yayın Organı', compute='_compute_stats', store=True)
-    date_first = fields.Datetime('İlk Haber', compute='_compute_stats', store=True)
-    date_last = fields.Datetime('Son Haber', compute='_compute_stats', store=True, index=True)
+    name = fields.Char('Event', required=True, tracking=True)
+    article_ids = fields.One2many('political.news.article', 'story_id', 'Articles')
+    article_count = fields.Integer('Article Count', compute='_compute_stats', store=True)
+    publisher_count = fields.Integer('Publisher Count', compute='_compute_stats', store=True)
+    date_first = fields.Datetime('First Article', compute='_compute_stats', store=True)
+    date_last = fields.Datetime('Latest Article', compute='_compute_stats', store=True, index=True)
     importance = fields.Selection([
-        ('low', 'Düşük'),
-        ('medium', 'Orta'),
-        ('high', 'Yüksek'),
-        ('critical', 'Kritik'),
-    ], string='Önem', compute='_compute_stats', store=True)
-    negative_count = fields.Integer('Olumsuz Haber', compute='_compute_stats', store=True)
-    tag_ids = fields.Many2many('political.news.tag', string='Etiketler', compute='_compute_tag_ids')
-    press_statement = fields.Html('Basın Açıklaması Taslağı', sanitize=True)
-    press_statement_date = fields.Datetime('Taslak Tarihi', readonly=True)
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+        ('critical', 'Critical'),
+    ], string='Importance', compute='_compute_stats', store=True)
+    negative_count = fields.Integer('Negative Articles', compute='_compute_stats', store=True)
+    tag_ids = fields.Many2many('political.news.tag', string='Tags', compute='_compute_tag_ids')
+    press_statement = fields.Html('Press Statement Draft', sanitize=True)
+    press_statement_date = fields.Datetime('Draft Date', readonly=True)
     active = fields.Boolean(default=True)
 
     @api.depends('article_ids.published_date', 'article_ids.importance', 'article_ids.sentiment', 'article_ids.publisher')
@@ -147,8 +147,8 @@ class PoliticalNewsStory(models.Model):
                 'press_statement': (
                     Markup('<h3>%s</h3>') % (result.get('title') or story.name)
                     + paragraphs
-                    + bullets(self.env._('Ana Mesajlar'), result.get('key_messages'))
-                    + bullets(self.env._('Dikkat Edilecekler'), result.get('cautions'))
+                    + bullets(self.env._('Key Messages'), result.get('key_messages'))
+                    + bullets(self.env._('Cautions'), result.get('cautions'))
                 ),
                 'press_statement_date': fields.Datetime.now(),
             })

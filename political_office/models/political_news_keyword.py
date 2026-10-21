@@ -19,41 +19,41 @@ def fold_text(text):
 
 class PoliticalNewsKeyword(models.Model):
     _name = 'political.news.keyword'
-    _description = 'Takip Edilen Anahtar Kelime'
+    _description = 'Tracked Keyword'
     _order = 'priority desc, name'
 
-    name = fields.Char('Anahtar Kelime / İfade', required=True)
+    name = fields.Char('Keyword / Phrase', required=True)
     keyword_type = fields.Selection([
-        ('self', 'Siyasetçinin Kendisi'),
-        ('party', 'Parti'),
-        ('rival', 'Rakip'),
-        ('topic', 'Gündem / Konu'),
-        ('region', 'Bölge'),
-        ('other', 'Diğer'),
-    ], string='Tür', required=True, default='topic')
+        ('self', 'The Politician'),
+        ('party', 'Party'),
+        ('rival', 'Rival'),
+        ('topic', 'Topic'),
+        ('region', 'Area'),
+        ('other', 'Other'),
+    ], string='Type', required=True, default='topic')
     match_mode = fields.Selection([
-        ('prefix', 'Kelime başı (ekleri kapsar)'),
-        ('exact', 'Tam kelime'),
-        ('substring', 'Metnin herhangi bir yerinde'),
-    ], string='Eşleşme', required=True, default='prefix',
-        help="Kelime başı: 'Ankara' ifadesi 'Ankara'da', 'Ankaralı' kelimelerini de yakalar.")
+        ('prefix', 'Word start (includes suffixes)'),
+        ('exact', 'Whole word'),
+        ('substring', 'Anywhere in the text'),
+    ], string='Matching', required=True, default='prefix',
+        help="Word start: 'Ankara' also matches 'Ankara'da' and 'Ankaralı'.")
     exclude_terms = fields.Char(
-        'Hariç Tutulacaklar',
-        help='Virgülle ayrılmış ifadeler. Bunlardan biri geçen haberler bu kelimeyle eşleşmez (yanlış pozitifleri azaltır).',
+        'Excluded Terms',
+        help='Comma separated phrases. Articles containing one of them do not match this keyword (reduces false positives).',
     )
     search_query = fields.Char(
-        'Arama Sorgusu',
-        help='Google News araması için özel sorgu (ör. "Ahmet Yılmaz" OR "A. Yılmaz"). Boşsa ifade tırnak içinde aranır.',
+        'Search Query',
+        help='Custom Google News query (e.g. "Ahmet Yılmaz" OR "A. Yılmaz"). When empty, the phrase is searched in quotes.',
     )
     tag_ids = fields.Many2many(
-        'political.news.tag', 'political_news_keyword_tag_rel', 'keyword_id', 'tag_id', 'Otomatik Etiketler',
-        help='Bu kelimeyle eşleşen haberlere otomatik eklenecek etiketler.',
+        'political.news.tag', 'political_news_keyword_tag_rel', 'keyword_id', 'tag_id', 'Automatic Tags',
+        help='Tags added automatically to articles matching this keyword.',
     )
-    priority = fields.Selection([('0', 'Normal'), ('1', 'Yüksek')], string='Öncelik', default='0')
-    article_count = fields.Integer('Haber Sayısı', compute='_compute_article_count')
+    priority = fields.Selection([('0', 'Normal'), ('1', 'High')], string='Priority', default='0')
+    article_count = fields.Integer('Article Count', compute='_compute_article_count')
     active = fields.Boolean(default=True)
 
-    _name_uniq = models.Constraint('UNIQUE(name)', 'Bu anahtar kelime zaten tanımlı.')
+    _name_uniq = models.Constraint('UNIQUE(name)', 'This keyword already exists.')
 
     def _compute_article_count(self):
         counts = dict(self.env['political.news.article']._read_group(

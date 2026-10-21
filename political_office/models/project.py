@@ -9,9 +9,9 @@ from .political_news_keyword import fold_text
 
 
 POLITICAL_PROJECT_TYPES = [
-    ('request', 'Vatandaş Talepleri'),
-    ('parliament', 'Meclis Çalışmaları'),
-    ('campaign', 'Saha / Kampanya Çalışmaları'),
+    ('request', 'Citizen Requests'),
+    ('parliament', 'Parliament Work'),
+    ('campaign', 'Field / Campaign Work'),
 ]
 
 
@@ -19,8 +19,8 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     political_project_type = fields.Selection(
-        POLITICAL_PROJECT_TYPES, string='Siyasi Ofis Kullanımı',
-        help='Görevlerin siyasi ofis için nasıl kullanılacağını belirler; ilgili ek alanlar görevlerde görünür.',
+        POLITICAL_PROJECT_TYPES, string='Political Office Usage',
+        help='Defines how the tasks are used by the political office; the related extra fields are shown on tasks.',
     )
 
 
@@ -28,8 +28,8 @@ class ProjectTags(models.Model):
     _inherit = 'project.tags'
 
     political_sla_days = fields.Integer(
-        'Talep Çözüm Süresi (gün)',
-        help='Bu etiketle açılan vatandaş taleplerinde, son tarih girilmemişse alınma tarihine bu kadar gün eklenir.',
+        'Request Resolution Time (days)',
+        help='For citizen requests with this tag, this many days are added to the reception date when no deadline is set.',
     )
 
 
@@ -38,44 +38,44 @@ class ProjectTask(models.Model):
 
     political_project_type = fields.Selection(related='project_id.political_project_type')
     political_channel = fields.Selection([
-        ('office', 'Ofis Ziyareti'),
-        ('phone', 'Telefon'),
-        ('email', 'E-posta'),
-        ('social', 'Sosyal Medya'),
-        ('field', 'Saha Ziyareti'),
-        ('citizen_day', 'Halk Günü'),
-        ('website', 'Web Sitesi'),
-        ('news', 'Basın / Haber'),
-        ('other', 'Diğer'),
-    ], string='Başvuru Kanalı', tracking=True)
+        ('office', 'Office Visit'),
+        ('phone', 'Phone'),
+        ('email', 'Email'),
+        ('social', 'Social Media'),
+        ('field', 'Field Visit'),
+        ('citizen_day', 'Citizen Day'),
+        ('website', 'Website'),
+        ('news', 'Press / News'),
+        ('other', 'Other'),
+    ], string='Channel', tracking=True)
     constituency_id = fields.Many2one(
-        'political.constituency', 'Bölge', tracking=True, index='btree_not_null',
+        'political.constituency', 'Area', tracking=True, index='btree_not_null',
         compute='_compute_constituency_id', store=True, readonly=False,
     )
     political_institution_id = fields.Many2one(
-        'res.partner', 'Kurum', tracking=True,
-        help='Talebin yönlendirildiği kurum ya da önergenin muhatabı olan bakanlık / kurum.',
+        'res.partner', 'Institution', tracking=True,
+        help='Institution the request was referred to, or ministry / institution addressed by the motion.',
     )
-    political_institution_ref = fields.Char('Evrak / Esas No')
+    political_institution_ref = fields.Char('Document / Reference No')
     # Parliament work
-    political_submission_date = fields.Date('Veriliş Tarihi', tracking=True)
-    political_answer_date = fields.Date('Cevap Tarihi', tracking=True)
+    political_submission_date = fields.Date('Submission Date', tracking=True)
+    political_answer_date = fields.Date('Answer Date', tracking=True)
     political_source_task_ids = fields.Many2many(
-        'project.task', 'political_task_source_rel', 'task_id', 'source_task_id', 'Dayanak Talepler',
+        'project.task', 'political_task_source_rel', 'task_id', 'source_task_id', 'Related Requests',
         domain="[('project_id.political_project_type', '=', 'request')]",
-        help='Bu önergeye konu olan vatandaş talepleri.',
+        help='Citizen requests this motion is based on.',
     )
     # Field work
     political_volunteer_ids = fields.Many2many(
-        'res.partner', 'political_task_volunteer_rel', 'task_id', 'partner_id', 'Gönüllüler',
+        'res.partner', 'political_task_volunteer_rel', 'task_id', 'partner_id', 'Volunteers',
     )
-    political_target_count = fields.Integer('Hedef (hane / kişi)')
-    political_reached_count = fields.Integer('Ulaşılan (hane / kişi)')
-    political_progress = fields.Float('Gerçekleşme (%)', compute='_compute_political_progress', aggregator='avg')
-    political_article_id = fields.Many2one('political.news.article', 'Kaynak Haber', index='btree_not_null')
-    political_ai_summary = fields.Text('AI Özeti')
-    political_ai_draft_reply = fields.Text('AI Yanıt Taslağı')
-    political_event_count = fields.Integer('Randevu', compute='_compute_political_event_count')
+    political_target_count = fields.Integer('Target (households / people)')
+    political_reached_count = fields.Integer('Reached (households / people)')
+    political_progress = fields.Float('Progress (%)', compute='_compute_political_progress', aggregator='avg')
+    political_article_id = fields.Many2one('political.news.article', 'Source Article', index='btree_not_null')
+    political_ai_summary = fields.Text('AI Summary')
+    political_ai_draft_reply = fields.Text('AI Reply Draft')
+    political_event_count = fields.Integer('Meeting', compute='_compute_political_event_count')
 
     @api.depends('partner_id')
     def _compute_constituency_id(self):
@@ -165,7 +165,7 @@ class ProjectTask(models.Model):
         partners = self.partner_id | self.env.user.partner_id
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._('Randevu Planla'),
+            'name': self.env._('Schedule Meeting'),
             'res_model': 'calendar.event',
             'view_mode': 'form',
             'target': 'current',
@@ -183,7 +183,7 @@ class ProjectTask(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._('Randevular'),
+            'name': self.env._('Meetings'),
             'res_model': 'calendar.event',
             'view_mode': 'list,form,calendar',
             'domain': [('res_model', '=', self._name), ('res_id', '=', self.id)],
@@ -235,6 +235,6 @@ class ProjectTask(models.Model):
             if tag and not task.date_deadline:
                 task._set_political_deadline()
             task.message_post(
-                body=Markup('<b>%s</b><br/>%s') % (self.env._('AI analizi tamamlandı.'), result.get('summary') or ''),
+                body=Markup('<b>%s</b><br/>%s') % (self.env._('AI analysis completed.'), result.get('summary') or ''),
             )
         return True

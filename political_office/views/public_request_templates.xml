@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="public_request_form" name="Vatandaş Talep Formu">
+    <template id="public_request_form" name="Citizen Request Form">
         <t t-call="portal.frontend_layout">
             <t t-set="no_header" t-value="False"/>
             <div class="container py-5" style="max-width: 760px;">
-                <h1 class="mb-2">Talep ve Önerileriniz</h1>
+                <h1 class="mb-2">Your Requests and Suggestions</h1>
                 <p class="text-muted mb-4">
-                    Sorununuzu veya önerinizi bize iletin. Talebiniz kayda alınacak ve süreç hakkında size bilgi verilecektir.
+                    Send us your issue or suggestion. Your request will be registered and you will be kept informed.
                 </p>
                 <form action="/talep/gonder" method="post" class="needs-validation" novalidate="novalidate">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <input type="text" name="website" class="d-none" tabindex="-1" autocomplete="off"/>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label" for="name">Ad Soyad *</label>
+                            <label class="form-label" for="name">Full Name *</label>
                             <input type="text" id="name" name="name" maxlength="128" required="required"
                                    t-att-value="values.get('name')" t-attf-class="form-control #{'is-invalid' if errors.get('name') else ''}"/>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="constituency_id">İlçe / Bölge</label>
+                            <label class="form-label" for="constituency_id">District / Area</label>
                             <select id="constituency_id" name="constituency_id" class="form-select">
-                                <option value="">Seçiniz</option>
+                                <option value="">Select</option>
                                 <t t-foreach="constituencies" t-as="zone">
                                     <option t-att-value="zone.id" t-att-selected="values.get('constituency_id') == zone.id" t-out="zone.complete_name"/>
                                 </t>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="phone">Telefon</label>
+                            <label class="form-label" for="phone">Phone</label>
                             <input type="tel" id="phone" name="phone" maxlength="32"
                                    t-att-value="values.get('phone')" t-attf-class="form-control #{'is-invalid' if errors.get('contact') else ''}"/>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="email">E-posta</label>
+                            <label class="form-label" for="email">Email</label>
                             <input type="email" id="email" name="email" maxlength="128"
                                    t-att-value="values.get('email')" t-attf-class="form-control #{'is-invalid' if errors.get('contact') or errors.get('email') else ''}"/>
                         </div>
                         <div class="col-12" t-if="errors.get('contact')">
-                            <div class="text-danger small">Size ulaşabilmemiz için telefon veya e-posta adresinizden en az birini yazın.</div>
+                            <div class="text-danger small">Enter your phone number or email address so that we can reach you.</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="subject">Konu *</label>
+                            <label class="form-label" for="subject">Subject *</label>
                             <input type="text" id="subject" name="subject" maxlength="200" required="required"
                                    t-att-value="values.get('subject')" t-attf-class="form-control #{'is-invalid' if errors.get('subject') else ''}"/>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="description">Talebinizin Detayı *</label>
+                            <label class="form-label" for="description">Details of Your Request *</label>
                             <textarea id="description" name="description" rows="6" maxlength="5000" required="required"
-                                      t-attf-class="form-control #{'is-invalid' if errors.get('description') else ''}" t-out="values.get('description')"/>
+                                      t-attf-class="form-control #{'is-invalid' if errors.get('description') else ''}"><t t-out="values.get('description') or ''"/></textarea>
                         </div>
                         <div class="col-12">
                             <div class="form-check">
                                 <input type="checkbox" id="consent" name="consent" value="1"
                                        t-attf-class="form-check-input #{'is-invalid' if errors.get('consent') else ''}"/>
                                 <label class="form-check-label" for="consent">
-                                    Kişisel verilerimin talebimin değerlendirilmesi amacıyla işlenmesine ve benimle iletişime geçilmesine onay veriyorum (KVKK). *
+                                    I consent to the processing of my personal data to handle my request and to being contacted (KVKK). *
                                 </label>
                             </div>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-lg">Talebi Gönder</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Send Request</button>
                         </div>
                     </div>
                 </form>
@@ -67,14 +67,14 @@
         </t>
     </template>
 
-    <template id="public_request_thanks" name="Vatandaş Talebi Alındı">
+    <template id="public_request_thanks" name="Citizen Request Received">
         <t t-call="portal.frontend_layout">
             <div class="container py-5 text-center" style="max-width: 640px;">
                 <i class="fa fa-check-circle fa-4x text-success mb-3"/>
-                <h1>Talebiniz alındı</h1>
-                <p class="lead" t-if="task">Talep numaranız: <strong t-out="task.id"/></p>
-                <p class="text-muted">En kısa sürede sizinle iletişime geçeceğiz. Teşekkür ederiz.</p>
-                <a href="/talep" class="btn btn-outline-primary mt-3">Yeni talep gönder</a>
+                <h1>Your request has been received</h1>
+                <p class="lead" t-if="task">Your request number: <strong t-out="task.id"/></p>
+                <p class="text-muted">We will contact you as soon as possible. Thank you.</p>
+                <a href="/talep" class="btn btn-outline-primary mt-3">Send a new request</a>
             </div>
         </t>
     </template>

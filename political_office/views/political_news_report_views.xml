@@ -6,11 +6,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_collect_articles" type="object" string="Haberleri Topla" invisible="state == 'done'"/>
-                    <button name="action_generate" type="object" string="AI ile Bülten Oluştur" class="btn-primary" icon="fa-magic" invisible="state == 'done'"/>
-                    <button name="action_send" type="object" string="Alıcılara Gönder" class="btn-primary" icon="fa-paper-plane" invisible="state != 'done'"/>
+                    <button name="action_collect_articles" type="object" string="Collect Articles" invisible="state == 'done'"/>
+                    <button name="action_generate" type="object" string="Generate Bulletin with AI" class="btn-primary" icon="fa-magic" invisible="state == 'done'"/>
+                    <button name="action_send" type="object" string="Send to Recipients" class="btn-primary" icon="fa-paper-plane" invisible="state != 'done'"/>
                     <button name="%(political_office.action_report_political_news_report)d" type="action" string="PDF" icon="fa-print" invisible="state != 'done'"/>
-                    <button name="action_reset_draft" type="object" string="Taslağa Al" invisible="state == 'draft'"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -35,10 +35,10 @@
                         <field name="ai_error"/>
                     </div>
                     <notebook>
-                        <page string="Bülten" name="report">
-                            <field name="report_html" placeholder="Bülten henüz oluşturulmadı."/>
+                        <page string="Bulletin" name="report">
+                            <field name="report_html" placeholder="The bulletin has not been generated yet."/>
                         </page>
-                        <page string="Haberler" name="articles">
+                        <page string="Articles" name="articles">
                             <field name="article_ids" readonly="state == 'done'">
                                 <list>
                                     <field name="published_date"/>
@@ -73,12 +73,12 @@
     </record>
 
     <record id="action_political_news_report" model="ir.actions.act_window">
-        <field name="name">Basın Bültenleri</field>
+        <field name="name">Press Bulletins</field>
         <field name="res_model">political.news.report</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Henüz bülten yok</p>
-            <p>Günlük bülten her sabah otomatik oluşturulur; dilediğiniz tarih aralığı için elle de oluşturabilirsiniz.</p>
+            <p class="o_view_nocontent_smiling_face">No bulletin yet</p>
+            <p>The daily bulletin is generated every morning; you can also create one for any period.</p>
         </field>
     </record>
 </odoo>

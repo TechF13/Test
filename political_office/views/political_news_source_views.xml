@@ -6,25 +6,25 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_fetch" type="object" string="Şimdi Çek" class="btn-primary" icon="fa-refresh" invisible="source_type == 'webhook'"/>
+                    <button name="action_fetch" type="object" string="Fetch Now" class="btn-primary" icon="fa-refresh" invisible="source_type == 'webhook'"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_articles" type="object" class="oe_stat_button" icon="fa-newspaper-o">
-                            <field name="article_count" widget="statinfo" string="Haber"/>
+                            <field name="article_count" widget="statinfo" string="News"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Arşivlendi" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="ör. Anadolu Ajansı - Politika"/></h1>
+                        <h1><field name="name" placeholder="e.g. Anadolu Agency - Politics"/></h1>
                     </div>
                     <group>
                         <group>
                             <field name="source_type" widget="radio"/>
                             <field name="url" widget="url" invisible="source_type != 'rss'" required="source_type == 'rss'"/>
                             <field name="youtube_channel_id" invisible="source_type != 'youtube'" required="source_type == 'youtube'" placeholder="UCxxxxxxxxxxxxxxxxxxxxxx"/>
-                            <field name="platform" invisible="source_type not in ('webhook', 'youtube')" placeholder="ör. X, Instagram"/>
+                            <field name="platform" invisible="source_type not in ('webhook', 'youtube')" placeholder="e.g. X, Instagram"/>
                             <field name="media_type"/>
                             <field name="website" widget="url"/>
                             <field name="language" invisible="source_type != 'google_news'"/>
@@ -34,21 +34,21 @@
                         <group>
                             <field name="filter_by_keywords" invisible="source_type == 'google_news'"/>
                             <field name="fetch_full_content" invisible="source_type != 'rss'"/>
-                            <field name="keyword_ids" widget="many2many_tags" placeholder="Tüm aktif anahtar kelimeler"/>
+                            <field name="keyword_ids" widget="many2many_tags" placeholder="All active keywords"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </group>
                     </group>
                     <group string="Webhook" invisible="source_type != 'webhook'" groups="political_office.group_political_manager">
                         <div colspan="2" class="text-muted">
-                            X, Instagram, Facebook gibi platformlardaki paylaşımları n8n, Make veya Zapier gibi bir otomasyon
-                            aracıyla bu adrese JSON olarak gönderin. Örnek:
-                            <code>{"title": "...", "text": "...", "url": "https://...", "author": "@hesap", "published": "2026-10-21T10:00:00Z"}</code>
+                            Send posts from platforms such as X, Instagram or Facebook to this URL as JSON with an automation tool
+                            such as n8n, Make or Zapier. Example:
+                            <code>{"title": "...", "text": "...", "url": "https://...", "author": "@account", "published": "2026-10-21T10:00:00Z"}</code>
                         </div>
                         <field name="webhook_url" widget="CopyClipboardChar" readonly="1"/>
-                        <button name="action_regenerate_webhook_token" type="object" string="Yeni Anahtar Üret" class="btn-link"
-                                confirm="Eski adres çalışmayı bırakacak. Devam edilsin mi?"/>
+                        <button name="action_regenerate_webhook_token" type="object" string="Generate New Token" class="btn-link"
+                                confirm="The old URL will stop working. Continue?"/>
                     </group>
-                    <group string="Son Çekim">
+                    <group string="Last Fetch">
                         <group>
                             <field name="last_fetch_date"/>
                             <field name="last_fetch_count"/>
@@ -74,18 +74,18 @@
                 <field name="last_fetch_date"/>
                 <field name="last_fetch_count"/>
                 <field name="last_error" column_invisible="True"/>
-                <button name="action_fetch" type="object" string="Çek" icon="fa-refresh"/>
+                <button name="action_fetch" type="object" string="Fetch" icon="fa-refresh"/>
             </list>
         </field>
     </record>
 
     <record id="action_political_news_source" model="ir.actions.act_window">
-        <field name="name">Haber Kaynakları</field>
+        <field name="name">News Sources</field>
         <field name="res_model">political.news.source</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Haber kaynağı ekleyin</p>
-            <p>Gazetelerin RSS beslemelerini ekleyin veya Google News araması ile tüm sitelerde anahtar kelimelerinizi tarayın.</p>
+            <p class="o_view_nocontent_smiling_face">Add a news source</p>
+            <p>Add the RSS feeds of newspapers or scan all sites for your keywords with Google News search.</p>
         </field>
     </record>
 </odoo>

@@ -20,7 +20,7 @@ class PoliticalNewsSource(models.Model):
         for source in self.search([('source_type', '!=', 'webhook')]):
             source.with_delay(
                 channel=CHANNEL, identity_key=identity_exact,
-                description=self.env._('Haber çek: %s', source.name),
+                description=self.env._('Fetch news: %s', source.name),
             )._job_fetch_articles()
 
     def _job_fetch_articles(self):
@@ -30,7 +30,7 @@ class PoliticalNewsSource(models.Model):
         except (requests.RequestException, etree.XMLSyntaxError) as e:
             self.write({'last_error': str(e)[:2000]})
             raise RetryableJobError(str(e), ignore_retry=False) from e
-        return self.env._('%s yeni haber', len(articles))
+        return self.env._('%s new articles', len(articles))
 
 
 class PoliticalNewsArticle(models.Model):
@@ -48,7 +48,7 @@ class PoliticalNewsArticle(models.Model):
         for article in self:
             article.with_delay(
                 channel=CHANNEL, identity_key=identity_exact,
-                description=self.env._('AI analizi: %s', article.name[:80]),
+                description=self.env._('AI analysis: %s', article.name[:80]),
             )._job_ai_analyze()
 
     @api.model
@@ -63,7 +63,7 @@ class PoliticalNewsArticle(models.Model):
     def _job_ai_analyze(self):
         self.ensure_one()
         if self.ai_state != 'pending':
-            return self.env._('Zaten analiz edilmiş')
+            return self.env._('Already analyzed')
         try:
             self._ai_analyze()
         except AiRateLimitError as e:

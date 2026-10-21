@@ -7,9 +7,9 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="Siyasi Ofis" string="Siyasi Ofis" name="political_office" groups="political_office.group_political_manager">
-                    <block title="Siyasetçi Profili" name="political_profile">
-                        <setting string="Profil" help="Yapay zekâ analizlerinde bağlam olarak kullanılır.">
+                <app data-string="Political Office" string="Political Office" name="political_office" groups="political_office.group_political_manager">
+                    <block title="Politician Profile" name="political_profile">
+                        <setting string="Profile" help="Used as context by the AI analyses.">
                             <div class="content-group">
                                 <div class="row mt-2">
                                     <label for="political_politician_name" class="col-lg-4 o_light_label"/>
@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="row">
                                     <label for="political_politician_title" class="col-lg-4 o_light_label"/>
-                                    <field name="political_politician_title" placeholder="ör. Ankara Milletvekili"/>
+                                    <field name="political_politician_title" placeholder="e.g. Member of Parliament for Ankara"/>
                                 </div>
                                 <div class="row">
                                     <label for="political_politician_party" class="col-lg-4 o_light_label"/>
@@ -30,8 +30,8 @@
                             </div>
                         </setting>
                     </block>
-                    <block title="Yapay Zekâ (Claude)" name="political_ai">
-                        <setting string="Anthropic API" help="Haber özetleme, etiketleme, duygu analizi ve bülten için kullanılır.">
+                    <block title="AI (Claude)" name="political_ai">
+                        <setting string="Anthropic API" help="Used for news summaries, tagging, sentiment analysis and bulletins.">
                             <div class="content-group">
                                 <div class="row mt-2">
                                     <label for="political_anthropic_api_key" class="col-lg-4 o_light_label"/>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </setting>
-                        <setting help="Yeni çekilen haberler 15 dakikada bir arka planda analiz edilir.">
+                        <setting help="New articles are analyzed in the background every 15 minutes.">
                             <field name="political_ai_auto_process"/>
                             <div class="content-group" invisible="not political_ai_auto_process">
                                 <div class="row mt-2">
@@ -56,20 +56,20 @@
                                 </div>
                             </div>
                         </setting>
-                        <setting help="AI mevcut etiketler yetersiz kaldığında en fazla 2 yeni etiket oluşturabilir.">
+                        <setting help="When existing tags are not enough, the AI can create up to 2 new tags.">
                             <field name="political_ai_allow_new_tags"/>
                         </setting>
                     </block>
-                    <block title="Vatandaş Talepleri" name="political_requests">
-                        <setting help="Vatandaşlar web sitenizin /talep adresindeki formdan doğrudan talep gönderebilir.">
+                    <block title="Citizen Requests" name="political_requests">
+                        <setting help="Citizens can send requests directly from the form at /talep on your website.">
                             <field name="political_public_form_enabled"/>
                             <div class="content-group mt-2" invisible="not political_public_form_enabled">
-                                <a href="/talep" target="_blank" role="button" class="btn-link"><i class="fa fa-arrow-right"/> Formu görüntüle</a>
+                                <a href="/talep" target="_blank" role="button" class="btn-link"><i class="fa fa-arrow-right"/> View the form</a>
                             </div>
                         </setting>
                     </block>
-                    <block title="Medya Uyarıları" name="political_alerts">
-                        <setting string="Anlık Uyarı" help="AI analizinde önemli bulunan haberler seçili kullanıcılara hemen bildirilir.">
+                    <block title="Media Alerts" name="political_alerts">
+                        <setting string="Instant Alert" help="Articles rated important by the AI analysis are notified to the selected users immediately.">
                             <div class="content-group">
                                 <div class="row mt-2">
                                     <label for="political_alert_level" class="col-lg-4 o_light_label"/>
@@ -82,8 +82,8 @@
                             </div>
                         </setting>
                     </block>
-                    <block title="Günlük Basın Bülteni" name="political_digest">
-                        <setting string="Bülten" help="Her sabah son 24 saatin bülteni oluşturulur ve bu kullanıcılara bildirilir.">
+                    <block title="Daily Press Bulletin" name="political_digest">
+                        <setting string="Bulletin" help="Every morning the bulletin of the last 24 hours is generated and sent to these users.">
                             <div class="content-group">
                                 <div class="row mt-2">
                                     <label for="political_digest_user_ids" class="col-lg-4 o_light_label"/>
@@ -102,7 +102,7 @@
     </record>
 
     <record id="action_political_office_settings" model="ir.actions.act_window">
-        <field name="name">Ayarlar</field>
+        <field name="name">Settings</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="context">{'module': 'political_office', 'bin_size': False}</field>

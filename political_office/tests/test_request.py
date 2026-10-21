@@ -136,7 +136,8 @@ class TestPublicRequestForm(HttpCase):
         self.env['ir.config_parameter'].set_param('political_office.public_form_enabled', True)
         page = self.url_open('/talep')
         self.assertEqual(page.status_code, 200)
-        self.assertIn('Talebi Gönder', page.text)
+        self.assertIn('Send Request', page.text)
+        self.assertIn('<textarea id="description"', page.text)
         csrf = page.text.split('name="csrf_token" value="')[1].split('"')[0]
         data = {
             'csrf_token': csrf, 'name': 'Mehmet Kaya', 'email': 'mehmet@example.com', 'phone': '',
@@ -144,7 +145,7 @@ class TestPublicRequestForm(HttpCase):
         }
         response = self.url_open('/talep/gonder', data=data)
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Talebiniz alındı', response.text)
+        self.assertIn('Your request has been received', response.text)
         task = self.env['project.task'].search([('name', '=', 'Park bakımı')])
         self.assertEqual(task.project_id, self.env.ref('political_office.project_citizen_requests'))
         self.assertEqual(task.political_channel, 'website')
@@ -152,7 +153,7 @@ class TestPublicRequestForm(HttpCase):
 
         # missing consent and contact information are rejected
         response = self.url_open('/talep/gonder', data=dict(data, email='', consent='', subject='Eksik'))
-        self.assertIn('telefon veya e-posta', response.text)
+        self.assertIn('phone number or email', response.text)
         self.assertFalse(self.env['project.task'].search([('name', '=', 'Eksik')]))
 
         # honeypot

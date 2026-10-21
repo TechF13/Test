@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_political_root" name="Siyasi Ofis" web_icon="political_office,static/description/icon.png"
+    <menuitem id="menu_political_root" name="Political Office" web_icon="political_office,static/description/icon.png"
               groups="group_political_user" sequence="45" action="action_political_dashboard"/>
 
-    <menuitem id="menu_political_dashboard" name="Panel" parent="menu_political_root" action="action_political_dashboard" sequence="5"/>
+    <menuitem id="menu_political_dashboard" name="Dashboard" parent="menu_political_root" action="action_political_dashboard" sequence="5"/>
 
-    <menuitem id="menu_political_agenda" name="Ajanda" parent="menu_political_root" action="calendar.action_calendar_event" sequence="10"/>
+    <menuitem id="menu_political_agenda" name="Agenda" parent="menu_political_root" action="calendar.action_calendar_event" sequence="10"/>
 
-    <menuitem id="menu_political_requests_root" name="Talepler" parent="menu_political_root" sequence="20"/>
-    <menuitem id="menu_political_requests" name="Vatandaş Talepleri" parent="menu_political_requests_root" action="action_political_request" sequence="10"/>
-    <menuitem id="menu_political_contacts" name="Kişiler" parent="menu_political_requests_root" action="contacts.action_contacts" sequence="20"/>
+    <menuitem id="menu_political_requests_root" name="Requests" parent="menu_political_root" sequence="20"/>
+    <menuitem id="menu_political_requests" name="Citizen Requests" parent="menu_political_requests_root" action="action_political_request" sequence="10"/>
+    <menuitem id="menu_political_contacts" name="Contacts" parent="menu_political_requests_root" action="contacts.action_contacts" sequence="20"/>
 
-    <menuitem id="menu_political_parliament" name="Meclis Çalışmaları" parent="menu_political_root" action="action_political_parliament" sequence="25"/>
+    <menuitem id="menu_political_parliament" name="Parliament Work" parent="menu_political_root" action="action_political_parliament" sequence="25"/>
 
-    <menuitem id="menu_political_campaign_root" name="Saha" parent="menu_political_root" sequence="27"/>
-    <menuitem id="menu_political_campaign" name="Saha Çalışmaları" parent="menu_political_campaign_root" action="action_political_campaign" sequence="10"/>
-    <menuitem id="menu_political_volunteers" name="Gönüllüler" parent="menu_political_campaign_root" action="action_political_volunteers" sequence="20"/>
+    <menuitem id="menu_political_campaign_root" name="Field" parent="menu_political_root" sequence="27"/>
+    <menuitem id="menu_political_campaign" name="Field Work" parent="menu_political_campaign_root" action="action_political_campaign" sequence="10"/>
+    <menuitem id="menu_political_volunteers" name="Volunteers" parent="menu_political_campaign_root" action="action_political_volunteers" sequence="20"/>
 
-    <menuitem id="menu_political_media_root" name="Medya Takibi" parent="menu_political_root" sequence="30"/>
-    <menuitem id="menu_political_news" name="Haberler" parent="menu_political_media_root" action="action_political_news_article" sequence="10"/>
-    <menuitem id="menu_political_news_story" name="Gündemler" parent="menu_political_media_root" action="action_political_news_story" sequence="15"/>
-    <menuitem id="menu_political_news_report" name="Basın Bültenleri" parent="menu_political_media_root" action="action_political_news_report" sequence="20"/>
+    <menuitem id="menu_political_media_root" name="Media Monitoring" parent="menu_political_root" sequence="30"/>
+    <menuitem id="menu_political_news" name="Articles" parent="menu_political_media_root" action="action_political_news_article" sequence="10"/>
+    <menuitem id="menu_political_news_story" name="Stories" parent="menu_political_media_root" action="action_political_news_story" sequence="15"/>
+    <menuitem id="menu_political_news_report" name="Press Bulletins" parent="menu_political_media_root" action="action_political_news_report" sequence="20"/>
 
-    <menuitem id="menu_political_reporting" name="Raporlama" parent="menu_political_root" sequence="80"/>
-    <menuitem id="menu_political_request_analysis" name="Talep Analizi" parent="menu_political_reporting" action="action_political_request_analysis" sequence="10"/>
-    <menuitem id="menu_political_news_analysis" name="Medya Analizi" parent="menu_political_reporting" action="action_political_news_analysis" sequence="20"/>
-    <menuitem id="menu_political_agenda_analysis" name="Etkinlik Analizi" parent="menu_political_reporting" action="action_political_agenda_analysis" sequence="30"/>
+    <menuitem id="menu_political_reporting" name="Reporting" parent="menu_political_root" sequence="80"/>
+    <menuitem id="menu_political_request_analysis" name="Request Analysis" parent="menu_political_reporting" action="action_political_request_analysis" sequence="10"/>
+    <menuitem id="menu_political_news_analysis" name="Media Analysis" parent="menu_political_reporting" action="action_political_news_analysis" sequence="20"/>
+    <menuitem id="menu_political_agenda_analysis" name="Event Analysis" parent="menu_political_reporting" action="action_political_agenda_analysis" sequence="30"/>
 
-    <menuitem id="menu_political_config" name="Yapılandırma" parent="menu_political_root" sequence="90" groups="group_political_manager"/>
-    <menuitem id="menu_political_settings" name="Ayarlar" parent="menu_political_config" action="action_political_office_settings" sequence="1"/>
-    <menuitem id="menu_political_constituency" name="Bölgeler" parent="menu_political_config" action="action_political_constituency" sequence="10"/>
-    <menuitem id="menu_political_request_stage" name="Talep Aşamaları" parent="menu_political_config" action="project.open_task_type_form" sequence="20"/>
-    <menuitem id="menu_political_request_category" name="Talep Kategorileri" parent="menu_political_config" action="action_political_request_tags" sequence="30"/>
-    <menuitem id="menu_political_news_source" name="Haber Kaynakları" parent="menu_political_config" action="action_political_news_source" sequence="40"/>
-    <menuitem id="menu_political_news_keyword" name="Anahtar Kelimeler" parent="menu_political_config" action="action_political_news_keyword" sequence="50"/>
-    <menuitem id="menu_political_news_tag" name="Haber Etiketleri" parent="menu_political_config" action="action_political_news_tag" sequence="60"/>
+    <menuitem id="menu_political_config" name="Configuration" parent="menu_political_root" sequence="90" groups="group_political_manager"/>
+    <menuitem id="menu_political_settings" name="Settings" parent="menu_political_config" action="action_political_office_settings" sequence="1"/>
+    <menuitem id="menu_political_constituency" name="Areas" parent="menu_political_config" action="action_political_constituency" sequence="10"/>
+    <menuitem id="menu_political_request_stage" name="Request Stages" parent="menu_political_config" action="project.open_task_type_form" sequence="20"/>
+    <menuitem id="menu_political_request_category" name="Request Categories" parent="menu_political_config" action="action_political_request_tags" sequence="30"/>
+    <menuitem id="menu_political_news_source" name="News Sources" parent="menu_political_config" action="action_political_news_source" sequence="40"/>
+    <menuitem id="menu_political_news_keyword" name="Keywords" parent="menu_political_config" action="action_political_news_keyword" sequence="50"/>
+    <menuitem id="menu_political_news_tag" name="News Tags" parent="menu_political_config" action="action_political_news_tag" sequence="60"/>
 </odoo>

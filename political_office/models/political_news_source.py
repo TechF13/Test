@@ -17,7 +17,7 @@ HTTP_TIMEOUT = 20
 MAX_DOWNLOAD_BYTES = 5 * 1024 * 1024
 GOOGLE_NEWS_URL = 'https://news.google.com/rss/search?q={query}&hl={lang}&gl={country}&ceid={country}:{lang}'
 YOUTUBE_FEED_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id={channel}'
-MEDIA_TYPES = [('news', 'Haber'), ('social', 'Sosyal Medya'), ('video', 'Video')]
+MEDIA_TYPES = [('news', 'News'), ('social', 'Social Media'), ('video', 'Video')]
 
 
 def http_get(url):
@@ -125,49 +125,49 @@ def extract_article_text(content, max_chars=20000):
 
 class PoliticalNewsSource(models.Model):
     _name = 'political.news.source'
-    _description = 'Haber Kaynağı'
+    _description = 'News Source'
     _order = 'sequence, name'
 
-    name = fields.Char('Kaynak Adı', required=True)
+    name = fields.Char('Source Name', required=True)
     sequence = fields.Integer(default=10)
     source_type = fields.Selection([
-        ('rss', 'RSS / Atom Beslemesi'),
-        ('google_news', 'Google News Araması'),
-        ('youtube', 'YouTube Kanalı'),
-        ('webhook', 'Sosyal Medya (Webhook)'),
-    ], string='Tür', required=True, default='rss')
+        ('rss', 'RSS / Atom Feed'),
+        ('google_news', 'Google News Search'),
+        ('youtube', 'YouTube Channel'),
+        ('webhook', 'Social Media (Webhook)'),
+    ], string='Type', required=True, default='rss')
     media_type = fields.Selection(
-        MEDIA_TYPES, string='İçerik Türü', required=True,
+        MEDIA_TYPES, string='Content Type', required=True,
         compute='_compute_media_type', store=True, readonly=False, precompute=True,
     )
-    platform = fields.Char('Platform', help='ör. X, Instagram, Facebook, TikTok, YouTube')
-    youtube_channel_id = fields.Char('YouTube Kanal ID', help="Kanal sayfasındaki 'UC' ile başlayan kimlik.")
-    webhook_token = fields.Char('Webhook Anahtarı', copy=False, groups='political_office.group_political_manager')
-    webhook_url = fields.Char('Webhook Adresi', compute='_compute_webhook_url', groups='political_office.group_political_manager')
-    url = fields.Char('Besleme Adresi', help='RSS veya Atom besleme URL adresi.')
-    website = fields.Char('Web Sitesi')
-    language = fields.Char('Dil', default='tr')
-    country = fields.Char('Ülke', default='TR')
-    google_news_period = fields.Integer('Arama Aralığı (gün)', default=2)
+    platform = fields.Char('Platform', help='e.g. X, Instagram, Facebook, TikTok, YouTube')
+    youtube_channel_id = fields.Char('YouTube Channel ID', help="The ID starting with 'UC' on the channel page.")
+    webhook_token = fields.Char('Webhook Token', copy=False, groups='political_office.group_political_manager')
+    webhook_url = fields.Char('Webhook URL', compute='_compute_webhook_url', groups='political_office.group_political_manager')
+    url = fields.Char('Feed URL', help='URL of the RSS or Atom feed.')
+    website = fields.Char('Website')
+    language = fields.Char('Language', default='tr')
+    country = fields.Char('Country', default='TR')
+    google_news_period = fields.Integer('Search Period (days)', default=2)
     filter_by_keywords = fields.Boolean(
-        'Sadece eşleşen haberleri al', default=True,
-        help='İşaretliyse sadece anahtar kelimelerden en az biriyle eşleşen haberler kaydedilir.',
+        'Only keep matching articles', default=True,
+        help='When checked, only articles matching at least one keyword are saved.',
     )
     keyword_ids = fields.Many2many(
-        'political.news.keyword', 'political_news_source_keyword_rel', 'source_id', 'keyword_id', 'Anahtar Kelimeler',
-        help='Boş bırakılırsa tüm aktif anahtar kelimeler kullanılır.',
+        'political.news.keyword', 'political_news_source_keyword_rel', 'source_id', 'keyword_id', 'Keywords',
+        help='When empty, all active keywords are used.',
     )
     tag_ids = fields.Many2many(
-        'political.news.tag', 'political_news_source_tag_rel', 'source_id', 'tag_id', 'Varsayılan Etiketler',
+        'political.news.tag', 'political_news_source_tag_rel', 'source_id', 'tag_id', 'Default Tags',
     )
     fetch_full_content = fields.Boolean(
-        'Haber metnini siteden indir',
-        help='Beslemedeki özete ek olarak haber sayfasındaki metin çıkarılır. Google News bağlantılarında çalışmaz.',
+        'Download the article text',
+        help='Extracts the text of the article page in addition to the feed summary. Does not work with Google News links.',
     )
-    last_fetch_date = fields.Datetime('Son Çekim', readonly=True)
-    last_fetch_count = fields.Integer('Son Çekimde Yeni Haber', readonly=True)
-    last_error = fields.Text('Son Hata', readonly=True)
-    article_count = fields.Integer('Haber Sayısı', compute='_compute_article_count')
+    last_fetch_date = fields.Datetime('Last Fetch', readonly=True)
+    last_fetch_count = fields.Integer('New Articles in Last Fetch', readonly=True)
+    last_error = fields.Text('Last Error', readonly=True)
+    article_count = fields.Integer('Article Count', compute='_compute_article_count')
     active = fields.Boolean(default=True)
 
     @api.depends('source_type')
@@ -217,9 +217,9 @@ class PoliticalNewsSource(models.Model):
     def _check_url(self):
         for source in self:
             if source.source_type == 'rss' and not (source.url or '').startswith(('http://', 'https://')):
-                raise ValidationError(self.env._('%s: geçerli bir http(s) besleme adresi girin.', source.name))
+                raise ValidationError(self.env._('%s: enter a valid http(s) feed URL.', source.name))
             if source.source_type == 'youtube' and not (source.youtube_channel_id or '').startswith('UC'):
-                raise ValidationError(self.env._("%s: YouTube kanal kimliği 'UC' ile başlamalıdır.", source.name))
+                raise ValidationError(self.env._("%s: the YouTube channel ID must start with 'UC'.", source.name))
 
     def _get_keywords(self):
         self.ensure_one()
@@ -268,13 +268,13 @@ class PoliticalNewsSource(models.Model):
             try:
                 total |= source._fetch_articles()
             except (requests.RequestException, etree.XMLSyntaxError) as e:
-                raise UserError(self.env._('%(source)s kaynağından haber çekilemedi: %(error)s', source=source.name, error=e))
+                raise UserError(self.env._('Could not fetch news from %(source)s: %(error)s', source=source.name, error=e))
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
                 'type': 'success',
-                'message': self.env._('%s yeni haber kaydedildi.', len(total)),
+                'message': self.env._('%s new articles saved.', len(total)),
                 'next': {'type': 'ir.actions.act_window_close'},
             },
         }

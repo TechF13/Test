@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="action_report_political_news_report" model="ir.actions.report">
-        <field name="name">Basın Bülteni</field>
+        <field name="name">Press Bulletin</field>
         <field name="model">political.news.report</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">political_office.report_political_news_report</field>
         <field name="report_file">political_office.report_political_news_report</field>
-        <field name="print_report_name">'Basın Bülteni - %s' % (object.date_to.strftime('%Y-%m-%d'))</field>
+        <field name="print_report_name">'Press Bulletin - %s' % (object.date_to.strftime('%Y-%m-%d'))</field>
         <field name="binding_model_id" ref="model_political_news_report"/>
         <field name="binding_type">report</field>
     </record>
@@ -23,11 +23,11 @@
                         <table class="table table-sm mb-4">
                             <thead>
                                 <tr>
-                                    <th>Haber</th>
-                                    <th>Olumlu</th>
-                                    <th>Nötr</th>
-                                    <th>Olumsuz</th>
-                                    <th>Kritik / Yüksek</th>
+                                    <th>News</th>
+                                    <th>Positive</th>
+                                    <th>Neutral</th>
+                                    <th>Negative</th>
+                                    <th>Critical / High</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,15 +41,15 @@
                             </tbody>
                         </table>
                         <div t-field="doc.report_html"/>
-                        <h3 class="mt-4">Haber Listesi</h3>
+                        <h3 class="mt-4">Article List</h3>
                         <table class="table table-sm">
                             <thead>
                                 <tr>
-                                    <th>Tarih</th>
-                                    <th>Başlık</th>
-                                    <th>Yayın Organı</th>
-                                    <th>Duygu</th>
-                                    <th>Önem</th>
+                                    <th>Date</th>
+                                    <th>Title</th>
+                                    <th>Publisher</th>
+                                    <th>Sentiment</th>
+                                    <th>Importance</th>
                                 </tr>
                             </thead>
                             <tbody>

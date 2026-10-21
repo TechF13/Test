@@ -13,9 +13,9 @@ except ImportError:
 
 DEFAULT_MODEL = 'claude-opus-5-5'
 AI_MODELS = [
-    ('claude-opus-5-5', 'Claude Opus 5.5 (önerilen)'),
+    ('claude-opus-5-5', 'Claude Opus 5.5 (recommended)'),
     ('claude-sonnet-5-5', 'Claude Sonnet 5.5'),
-    ('claude-haiku-5-5', 'Claude Haiku 5.5 (en ekonomik)'),
+    ('claude-haiku-5-5', 'Claude Haiku 5.5 (most economical)'),
 ]
 # Models that accept the server-side refusal fallback ("default" routing).
 FALLBACK_MODELS = {'claude-opus-5-5', 'claude-sonnet-5-5'}
@@ -28,7 +28,7 @@ class AiRateLimitError(UserError):
 
 class PoliticalAiService(models.AbstractModel):
     _name = 'political.ai.service'
-    _description = 'Yapay Zekâ Servisi'
+    _description = 'AI Service'
 
     @api.model
     def _get_param(self, key, default=False):
@@ -60,11 +60,11 @@ class PoliticalAiService(models.AbstractModel):
     def _get_client(self):
         if anthropic is None:
             raise UserError(self.env._(
-                "Yapay zekâ özellikleri için 'anthropic' Python paketi gerekli: pip install anthropic"
+                "The AI features need the 'anthropic' Python package: pip install anthropic"
             ))
         api_key = self._get_param('anthropic_api_key') or None
         if not api_key and not self._get_param('ai_use_env_credentials'):
-            raise UserError(self.env._('Ayarlar > Siyasi Ofis bölümünden Anthropic API anahtarını girin.'))
+            raise UserError(self.env._('Enter the Anthropic API key in Settings > Political Office.'))
         # api_key=None lets the SDK resolve ANTHROPIC_API_KEY from the environment.
         return anthropic.Anthropic(api_key=api_key, timeout=120.0, max_retries=2)
 
@@ -93,24 +93,24 @@ class PoliticalAiService(models.AbstractModel):
             else:
                 response = client.messages.create(**params)
         except anthropic.AuthenticationError:
-            raise UserError(self.env._('Anthropic API anahtarı geçersiz.'))
+            raise UserError(self.env._('The Anthropic API key is invalid.'))
         except anthropic.PermissionDeniedError:
-            raise UserError(self.env._('API anahtarının bu modele erişim yetkisi yok.'))
+            raise UserError(self.env._('The API key has no access to this model.'))
         except anthropic.RateLimitError:
-            raise AiRateLimitError(self.env._('Anthropic API hız sınırına ulaşıldı, daha sonra tekrar denenecek.'))
+            raise AiRateLimitError(self.env._('The Anthropic API rate limit was reached; it will be retried later.'))
         except anthropic.APIStatusError as e:
             _logger.warning('Anthropic API error %s (request id %s): %s', e.status_code, e.request_id, e.message)
-            raise UserError(self.env._('Anthropic API hatası (%(code)s): %(msg)s', code=e.status_code, msg=e.message))
+            raise UserError(self.env._('Anthropic API error (%(code)s): %(msg)s', code=e.status_code, msg=e.message))
         except anthropic.APIConnectionError:
-            raise UserError(self.env._('Anthropic API sunucusuna bağlanılamadı.'))
+            raise UserError(self.env._('Could not connect to the Anthropic API.'))
 
         if response.stop_reason == 'refusal':
-            raise UserError(self.env._('Model bu içeriği işlemeyi reddetti.'))
+            raise UserError(self.env._('The model declined to process this content.'))
         if response.stop_reason == 'max_tokens':
-            raise UserError(self.env._('Model yanıtı token sınırında kesildi.'))
+            raise UserError(self.env._('The model answer was cut at the token limit.'))
         text = next((block.text for block in response.content if block.type == 'text'), '')
         try:
             return json.loads(text)
         except ValueError:
             _logger.warning('Unparsable AI response (request id %s): %r', response._request_id, text[:500])
-            raise UserError(self.env._('Model geçerli bir JSON yanıtı döndürmedi.'))
+            raise UserError(self.env._('The model did not return valid JSON.'))

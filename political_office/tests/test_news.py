@@ -248,7 +248,7 @@ class TestNewsExtensions(TransactionCase):
             article.action_ai_analyze()
             article.action_ai_analyze()
         self.assertTrue(article.alert_sent)
-        alerts = article.message_ids.filtered(lambda m: m.subject and m.subject.startswith('Medya uyarısı'))
+        alerts = article.message_ids.filtered(lambda m: m.subject and m.subject.startswith('Media alert'))
         self.assertEqual(len(alerts), 1, 'an article triggers a single alert')
         self.assertIn(admin.partner_id, alerts.partner_ids)
 

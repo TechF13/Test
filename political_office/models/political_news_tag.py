@@ -5,21 +5,21 @@ from odoo import fields, models
 
 class PoliticalNewsTag(models.Model):
     _name = 'political.news.tag'
-    _description = 'Haber Etiketi'
+    _description = 'News Tag'
     _order = 'name'
 
-    name = fields.Char('Etiket', required=True)
-    color = fields.Integer('Renk', default=lambda self: randint(1, 11))
+    name = fields.Char('Tag', required=True)
+    color = fields.Integer('Color', default=lambda self: randint(1, 11))
     description = fields.Text(
-        'AI için Açıklama',
-        help='Yapay zekâ bu etiketi hangi haberlere vereceğine karar verirken bu açıklamayı kullanır.',
+        'Description for the AI',
+        help='The AI uses this description to decide which articles get this tag.',
     )
-    ai_assignable = fields.Boolean('AI Atayabilir', default=True)
-    created_by_ai = fields.Boolean('AI Tarafından Oluşturuldu', readonly=True)
-    article_count = fields.Integer('Haber Sayısı', compute='_compute_article_count')
+    ai_assignable = fields.Boolean('AI Can Assign', default=True)
+    created_by_ai = fields.Boolean('Created by AI', readonly=True)
+    article_count = fields.Integer('Article Count', compute='_compute_article_count')
     active = fields.Boolean(default=True)
 
-    _name_uniq = models.Constraint('UNIQUE(name)', 'Bu etiket zaten mevcut.')
+    _name_uniq = models.Constraint('UNIQUE(name)', 'This tag already exists.')
 
     def _compute_article_count(self):
         counts = dict(self.env['political.news.article']._read_group(

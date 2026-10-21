@@ -8,13 +8,13 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_requests" type="object" class="oe_stat_button" icon="fa-bullhorn">
-                            <field name="request_count" widget="statinfo" string="Talep"/>
+                            <field name="request_count" widget="statinfo" string="Request"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Arşivlendi" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="ör. Çankaya"/></h1>
+                        <h1><field name="name" placeholder="e.g. Çankaya"/></h1>
                     </div>
                     <group>
                         <group>
@@ -30,7 +30,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Alt Bölgeler" name="children">
+                        <page string="Sub-areas" name="children">
                             <field name="child_ids">
                                 <list editable="bottom">
                                     <field name="name"/>
@@ -40,7 +40,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Notlar" name="notes">
+                        <page string="Notes" name="notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
@@ -56,7 +56,7 @@
             <list>
                 <field name="complete_name"/>
                 <field name="level"/>
-                <field name="voter_count" sum="Toplam"/>
+                <field name="voter_count" sum="Total"/>
                 <field name="responsible_user_id" widget="many2one_avatar_user" optional="show"/>
             </list>
         </field>
@@ -69,17 +69,17 @@
             <search>
                 <field name="complete_name"/>
                 <field name="responsible_user_id"/>
-                <filter string="İl" name="province" domain="[('level', '=', 'province')]"/>
-                <filter string="İlçe" name="district" domain="[('level', '=', 'district')]"/>
-                <filter string="Mahalle / Köy" name="neighborhood" domain="[('level', '=', 'neighborhood')]"/>
+                <filter string="Province" name="province" domain="[('level', '=', 'province')]"/>
+                <filter string="District" name="district" domain="[('level', '=', 'district')]"/>
+                <filter string="Neighborhood / Village" name="neighborhood" domain="[('level', '=', 'neighborhood')]"/>
                 <separator/>
-                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
 
     <record id="action_political_constituency" model="ir.actions.act_window">
-        <field name="name">Bölgeler</field>
+        <field name="name">Areas</field>
         <field name="res_model">political.constituency</field>
         <field name="view_mode">list,form</field>
     </record>

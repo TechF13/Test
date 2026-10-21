@@ -1,3 +1,4 @@
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
@@ -16,6 +17,18 @@ export class PoliticalDashboard extends Component {
 
     async load() {
         this.state.data = await this.orm.call("political.dashboard", "get_dashboard_data", []);
+    }
+
+    get kpis() {
+        return [
+            { key: "open_requests", label: _t("Open Requests"), icon: "fa-bullhorn" },
+            { key: "overdue_requests", label: _t("Overdue Requests"), icon: "fa-clock-o", alert: true },
+            { key: "today_events", label: _t("Today's Events"), icon: "fa-calendar" },
+            { key: "open_motions", label: _t("Open Motions"), icon: "fa-university" },
+            { key: "new_news", label: _t("New Articles (24 hours)"), icon: "fa-newspaper-o" },
+            { key: "negative_news", label: _t("Negative Articles (7 days)"), icon: "fa-thumbs-o-down", alert: true },
+            { key: "action_news", label: _t("Articles Awaiting Action"), icon: "fa-flag", alert: true },
+        ];
     }
 
     get trendMax() {

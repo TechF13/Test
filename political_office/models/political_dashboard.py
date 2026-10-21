@@ -11,7 +11,7 @@ SENTIMENTS = ('positive', 'neutral', 'negative')
 
 class PoliticalDashboard(models.AbstractModel):
     _name = 'political.dashboard'
-    _description = 'Siyasi Ofis Paneli'
+    _description = 'Political Office Dashboard'
 
     @api.model
     def _tz(self):
@@ -49,9 +49,9 @@ class PoliticalDashboard(models.AbstractModel):
     def open_kpi(self, key):
         model, domain = self._kpi_domains()[key]
         names = {
-            'project.task': self.env._('Görevler'),
-            'calendar.event': self.env._('Bugünkü Etkinlikler'),
-            'political.news.article': self.env._('Haberler'),
+            'project.task': self.env._('Tasks'),
+            'calendar.event': self.env._("Today's Events"),
+            'political.news.article': self.env._('Articles'),
         }
         return {
             'type': 'ir.actions.act_window',
@@ -90,14 +90,14 @@ class PoliticalDashboard(models.AbstractModel):
             self._kpi_domains()['open_requests'][1] + [('constituency_id', '!=', False)],
             ['constituency_id'], ['__count'], order='__count desc', limit=6,
         )
-        importance_labels = dict(Article._fields['importance'].selection)
-        sentiment_labels = dict(Article._fields['sentiment'].selection)
+        importance_labels = dict(Article._fields['importance']._description_selection(self.env))
+        sentiment_labels = dict(Article._fields['sentiment']._description_selection(self.env))
         return {
             'kpis': kpis,
             'events': [{
                 'id': event.id,
                 'name': event.name,
-                'time': self.env._('Tüm gün') if event.allday else self._format_local(event.start),
+                'time': self.env._('All day') if event.allday else self._format_local(event.start),
                 'location': event.location or '',
                 'tags': event.categ_ids.mapped('name'),
             } for event in events],

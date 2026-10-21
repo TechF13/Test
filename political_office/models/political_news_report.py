@@ -15,33 +15,33 @@ IMPORTANCE_RANK = {'critical': 4, 'high': 3, 'medium': 2, 'low': 1}
 
 class PoliticalNewsReport(models.Model):
     _name = 'political.news.report'
-    _description = 'Basın Bülteni'
+    _description = 'Press Bulletin'
     _inherit = ['mail.thread']
     _order = 'date_to desc, id desc'
 
-    name = fields.Char('Başlık', required=True, default=lambda self: self.env._('Basın Bülteni'))
-    date_from = fields.Datetime('Başlangıç', required=True, default=lambda self: fields.Datetime.now() - timedelta(days=1))
-    date_to = fields.Datetime('Bitiş', required=True, default=fields.Datetime.now)
+    name = fields.Char('Title', required=True, default=lambda self: self.env._('Press Bulletin'))
+    date_from = fields.Datetime('Start', required=True, default=lambda self: fields.Datetime.now() - timedelta(days=1))
+    date_to = fields.Datetime('End', required=True, default=fields.Datetime.now)
     min_relevance = fields.Integer(
-        'Asgari İlgililik', default=lambda self: int(self.env['political.ai.service']._get_param('digest_min_relevance') or 30),
+        'Minimum Relevance', default=lambda self: int(self.env['political.ai.service']._get_param('digest_min_relevance') or 30),
     )
     article_ids = fields.Many2many(
-        'political.news.article', 'political_news_report_article_rel', 'report_id', 'article_id', 'Haberler',
+        'political.news.article', 'political_news_report_article_rel', 'report_id', 'article_id', 'Articles',
     )
-    article_count = fields.Integer('Haber', compute='_compute_stats')
-    positive_count = fields.Integer('Olumlu', compute='_compute_stats')
-    neutral_count = fields.Integer('Nötr', compute='_compute_stats')
-    negative_count = fields.Integer('Olumsuz', compute='_compute_stats')
-    critical_count = fields.Integer('Kritik / Yüksek', compute='_compute_stats')
-    headline = fields.Char('Manşet', readonly=True)
-    executive_summary = fields.Text('Yönetici Özeti', readonly=True)
-    report_html = fields.Html('Rapor', readonly=True, sanitize=True)
+    article_count = fields.Integer('News', compute='_compute_stats')
+    positive_count = fields.Integer('Positive', compute='_compute_stats')
+    neutral_count = fields.Integer('Neutral', compute='_compute_stats')
+    negative_count = fields.Integer('Negative', compute='_compute_stats')
+    critical_count = fields.Integer('Critical / High', compute='_compute_stats')
+    headline = fields.Char('Headline', readonly=True)
+    executive_summary = fields.Text('Executive Summary', readonly=True)
+    report_html = fields.Html('Report', readonly=True, sanitize=True)
     state = fields.Selection([
-        ('draft', 'Taslak'),
-        ('done', 'Hazır'),
-        ('error', 'Hata'),
-    ], string='Durum', default='draft', required=True, tracking=True)
-    ai_error = fields.Text('Hata', readonly=True)
+        ('draft', 'Draft'),
+        ('done', 'Ready'),
+        ('error', 'Error'),
+    ], string='Status', default='draft', required=True, tracking=True)
+    ai_error = fields.Text('Error', readonly=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
 
     @api.depends('article_ids.sentiment', 'article_ids.importance')
@@ -58,7 +58,7 @@ class PoliticalNewsReport(models.Model):
     def _check_dates(self):
         for report in self:
             if report.date_from > report.date_to:
-                raise ValidationError(self.env._('Başlangıç tarihi bitiş tarihinden sonra olamaz.'))
+                raise ValidationError(self.env._('The start date cannot be after the end date.'))
 
     def _find_articles(self):
         self.ensure_one()
@@ -142,10 +142,10 @@ class PoliticalNewsReport(models.Model):
         )
         return (
             Markup('<h2>%s</h2><p>%s</p>') % (result.get('headline') or '', result.get('executive_summary') or '')
-            + (Markup('<h3>%s</h3>%s') % (self.env._('Öne Çıkan Başlıklar'), themes) if themes else Markup())
-            + bullet_list(self.env._('Riskler'), result.get('risks'))
-            + bullet_list(self.env._('Fırsatlar'), result.get('opportunities'))
-            + bullet_list(self.env._('Önerilen Aksiyonlar'), result.get('recommended_actions'))
+            + (Markup('<h3>%s</h3>%s') % (self.env._('Highlights'), themes) if themes else Markup())
+            + bullet_list(self.env._('Risks'), result.get('risks'))
+            + bullet_list(self.env._('Opportunities'), result.get('opportunities'))
+            + bullet_list(self.env._('Recommended Actions'), result.get('recommended_actions'))
         )
 
     def action_generate(self):
@@ -167,7 +167,7 @@ class PoliticalNewsReport(models.Model):
                 lambda a: (IMPORTANCE_RANK.get(a.importance, 0), a.relevance, a.published_date), reverse=True,
             )
             if not articles:
-                raise UserError(self.env._('Seçilen dönemde bültene girecek haber bulunamadı.'))
+                raise UserError(self.env._('No article found for the bulletin in the selected period.'))
             result = service._generate_json(system, report._ai_prompt(articles), self._ai_schema(), effort='medium')
             report.write({
                 'headline': result.get('headline'),
@@ -203,7 +203,7 @@ class PoliticalNewsReport(models.Model):
         now = fields.Datetime.now()
         for company in self.env['res.company'].search([('political_digest_user_ids', '!=', False)]):
             report = self.with_company(company).create({
-                'name': self.env._('Günlük Basın Bülteni - %s', fields.Date.to_string(now.date())),
+                'name': self.env._('Daily Press Bulletin - %s', fields.Date.to_string(now.date())),
                 'date_from': now - timedelta(days=1),
                 'date_to': now,
                 'company_id': company.id,

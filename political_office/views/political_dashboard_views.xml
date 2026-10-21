@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="action_political_dashboard" model="ir.actions.client">
-        <field name="name">Panel</field>
+        <field name="name">Dashboard</field>
         <field name="tag">political_office.dashboard</field>
         <field name="path">political-office</field>
     </record>

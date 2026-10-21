@@ -11,7 +11,7 @@
                 <field name="created_by_ai" optional="show"/>
                 <field name="color" widget="color_picker"/>
                 <field name="article_count"/>
-                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Haberler"/>
+                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Articles"/>
                 <field name="active" column_invisible="True"/>
             </list>
         </field>
@@ -23,14 +23,14 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <filter string="AI Tarafından Oluşturulan" name="ai_created" domain="[('created_by_ai', '=', True)]"/>
-                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Created by AI" name="ai_created" domain="[('created_by_ai', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
 
     <record id="action_political_news_tag" model="ir.actions.act_window">
-        <field name="name">Haber Etiketleri</field>
+        <field name="name">News Tags</field>
         <field name="res_model">political.news.tag</field>
         <field name="view_mode">list</field>
     </record>

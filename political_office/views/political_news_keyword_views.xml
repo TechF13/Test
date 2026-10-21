@@ -13,7 +13,7 @@
                 <field name="search_query" optional="hide"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="article_count"/>
-                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Haberler"/>
+                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Articles"/>
                 <field name="active" column_invisible="True"/>
             </list>
         </field>
@@ -26,22 +26,22 @@
             <search>
                 <field name="name"/>
                 <field name="tag_ids"/>
-                <filter string="Yüksek Öncelikli" name="high" domain="[('priority', '=', '1')]"/>
-                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="High Priority" name="high" domain="[('priority', '=', '1')]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
                 <group>
-                    <filter string="Tür" name="group_type" context="{'group_by': 'keyword_type'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'keyword_type'}"/>
                 </group>
             </search>
         </field>
     </record>
 
     <record id="action_political_news_keyword" model="ir.actions.act_window">
-        <field name="name">Anahtar Kelimeler</field>
+        <field name="name">Keywords</field>
         <field name="res_model">political.news.keyword</field>
         <field name="view_mode">list</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Takip edilecek kelimeleri ekleyin</p>
-            <p>Siyasetçinin adı, partisi, rakipleri, seçim bölgesi ve gündem konuları gibi ifadeler ekleyin.</p>
+            <p class="o_view_nocontent_smiling_face">Add the keywords to track</p>
+            <p>Add phrases such as the politician's name, party, rivals, constituency and topics.</p>
         </field>
     </record>
 </odoo>

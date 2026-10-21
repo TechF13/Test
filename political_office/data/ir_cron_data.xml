@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
     <record id="ir_cron_fetch_news" model="ir.cron">
-        <field name="name">Siyasi Ofis: Haberleri Çek</field>
+        <field name="name">Political Office: Fetch News</field>
         <field name="model_id" ref="model_political_news_source"/>
         <field name="state">code</field>
         <field name="code">model._cron_fetch_news()</field>
@@ -12,7 +12,7 @@
     </record>
 
     <record id="ir_cron_ai_process_news" model="ir.cron">
-        <field name="name">Siyasi Ofis: Haberleri AI ile Analiz Et</field>
+        <field name="name">Political Office: Analyze News with AI</field>
         <field name="model_id" ref="model_political_news_article"/>
         <field name="state">code</field>
         <field name="code">model._cron_ai_process()</field>
@@ -23,7 +23,7 @@
     </record>
 
     <record id="ir_cron_daily_digest" model="ir.cron">
-        <field name="name">Siyasi Ofis: Günlük Basın Bülteni</field>
+        <field name="name">Political Office: Daily Press Bulletin</field>
         <field name="model_id" ref="model_political_news_report"/>
         <field name="state">code</field>
         <field name="code">model._cron_generate_daily_report()</field>

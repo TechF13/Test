@@ -32,63 +32,63 @@ def normalize_url(url):
 
 class PoliticalNewsArticle(models.Model):
     _name = 'political.news.article'
-    _description = 'Haber'
+    _description = 'News'
     _inherit = ['mail.thread']
     _order = 'published_date desc, id desc'
 
-    name = fields.Char('Başlık', required=True)
-    url = fields.Char('Bağlantı', required=True, index=True)
-    source_id = fields.Many2one('political.news.source', 'Kaynak', index=True, ondelete='set null')
-    publisher = fields.Char('Yayın Organı', index=True)
-    media_type = fields.Selection(MEDIA_TYPES, string='İçerik Türü', default='news', required=True, index=True)
+    name = fields.Char('Title', required=True)
+    url = fields.Char('Link', required=True, index=True)
+    source_id = fields.Many2one('political.news.source', 'Source', index=True, ondelete='set null')
+    publisher = fields.Char('Publisher', index=True)
+    media_type = fields.Selection(MEDIA_TYPES, string='Content Type', default='news', required=True, index=True)
     platform = fields.Char('Platform')
-    story_id = fields.Many2one('political.news.story', 'Gündem / Olay', index='btree_not_null', ondelete='set null')
-    alert_sent = fields.Boolean('Uyarı Gönderildi', readonly=True, copy=False)
-    published_date = fields.Datetime('Yayın Tarihi', index=True, default=fields.Datetime.now)
-    fetch_date = fields.Datetime('Çekilme Tarihi', default=fields.Datetime.now, readonly=True)
-    content = fields.Text('Besleme Özeti')
-    full_text = fields.Text('Haber Metni')
+    story_id = fields.Many2one('political.news.story', 'Story', index='btree_not_null', ondelete='set null')
+    alert_sent = fields.Boolean('Alert Sent', readonly=True, copy=False)
+    published_date = fields.Datetime('Published On', index=True, default=fields.Datetime.now)
+    fetch_date = fields.Datetime('Fetched On', default=fields.Datetime.now, readonly=True)
+    content = fields.Text('Feed Summary')
+    full_text = fields.Text('Article Text')
     keyword_ids = fields.Many2many(
-        'political.news.keyword', 'political_news_article_keyword_rel', 'article_id', 'keyword_id', 'Eşleşen Kelimeler',
+        'political.news.keyword', 'political_news_article_keyword_rel', 'article_id', 'keyword_id', 'Matched Keywords',
     )
-    tag_ids = fields.Many2many('political.news.tag', 'political_news_article_tag_rel', 'article_id', 'tag_id', 'Etiketler')
-    constituency_id = fields.Many2one('political.constituency', 'Bölge', index='btree_not_null')
+    tag_ids = fields.Many2many('political.news.tag', 'political_news_article_tag_rel', 'article_id', 'tag_id', 'Tags')
+    constituency_id = fields.Many2one('political.constituency', 'Area', index='btree_not_null')
     review_state = fields.Selection([
-        ('new', 'Yeni'),
-        ('reviewed', 'İncelendi'),
-        ('archived', 'Arşivlendi'),
-    ], string='Durum', default='new', required=True, tracking=True, index=True)
+        ('new', 'New'),
+        ('reviewed', 'Reviewed'),
+        ('archived', 'Archived'),
+    ], string='Status', default='new', required=True, tracking=True, index=True)
 
     ai_state = fields.Selection([
-        ('pending', 'Analiz Bekliyor'),
-        ('done', 'Analiz Edildi'),
-        ('error', 'Hata'),
-    ], string='AI Durumu', default='pending', required=True, index=True, copy=False)
-    ai_summary = fields.Text('AI Özeti')
-    ai_date = fields.Datetime('AI Analiz Tarihi', readonly=True, copy=False)
-    ai_error = fields.Text('AI Hatası', readonly=True, copy=False)
+        ('pending', 'Waiting for Analysis'),
+        ('done', 'Analyzed'),
+        ('error', 'Error'),
+    ], string='AI Status', default='pending', required=True, index=True, copy=False)
+    ai_summary = fields.Text('AI Summary')
+    ai_date = fields.Datetime('AI Analysis Date', readonly=True, copy=False)
+    ai_error = fields.Text('AI Error', readonly=True, copy=False)
     sentiment = fields.Selection([
-        ('positive', 'Olumlu'),
-        ('neutral', 'Nötr'),
-        ('negative', 'Olumsuz'),
-    ], string='Duygu', tracking=True, index=True)
+        ('positive', 'Positive'),
+        ('neutral', 'Neutral'),
+        ('negative', 'Negative'),
+    ], string='Sentiment', tracking=True, index=True)
     importance = fields.Selection([
-        ('low', 'Düşük'),
-        ('medium', 'Orta'),
-        ('high', 'Yüksek'),
-        ('critical', 'Kritik'),
-    ], string='Önem', tracking=True, index=True)
-    relevance = fields.Integer('İlgililik', aggregator='avg', help='0-100 arası; haberin siyasetçiyle ilgisi.')
-    action_required = fields.Boolean('Aksiyon Gerekli', index=True)
-    action_suggestion = fields.Text('Önerilen Aksiyon')
-    entity_people = fields.Char('Geçen Kişiler')
-    entity_organizations = fields.Char('Geçen Kurumlar')
-    entity_locations = fields.Char('Geçen Yerler')
-    request_ids = fields.One2many('project.task', 'political_article_id', 'Oluşturulan Talepler')
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+        ('critical', 'Critical'),
+    ], string='Importance', tracking=True, index=True)
+    relevance = fields.Integer('Relevance', aggregator='avg', help='From 0 to 100: how relevant the article is to the politician.')
+    action_required = fields.Boolean('Action Required', index=True)
+    action_suggestion = fields.Text('Suggested Action')
+    entity_people = fields.Char('People Mentioned')
+    entity_organizations = fields.Char('Organizations Mentioned')
+    entity_locations = fields.Char('Places Mentioned')
+    request_ids = fields.One2many('project.task', 'political_article_id', 'Created Requests')
     request_count = fields.Integer(compute='_compute_request_count')
     active = fields.Boolean(default=True)
 
-    _url_uniq = models.Constraint('UNIQUE(url)', 'Bu haber zaten kayıtlı.')
+    _url_uniq = models.Constraint('UNIQUE(url)', 'This article is already saved.')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -330,12 +330,12 @@ Etiket listesi:
             partners = self.env.company.political_alert_user_ids.partner_id
             if not partners:
                 continue
-            importance = dict(article._fields['importance'].selection)[article.importance]
+            importance = dict(article._fields['importance']._description_selection(self.env))[article.importance]
             article.message_post(
                 body=Markup('<p><b>%s</b> - %s</p><p>%s</p><p><a href="%s" target="_blank">%s</a></p>') % (
                     importance, article.name, article.ai_summary or '', article.url, article.publisher or article.url,
                 ),
-                subject=self.env._('Medya uyarısı: %s', article.name),
+                subject=self.env._('Media alert: %s', article.name),
                 partner_ids=partners.ids,
                 message_type='comment',
                 subtype_xmlid='mail.mt_comment',
@@ -373,7 +373,7 @@ Etiket listesi:
         description = f'<p>{escape(self.ai_summary or self.content or "")}</p><p><a href="{escape(self.url)}">{escape(self.url)}</a></p>'
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._('Talep Oluştur'),
+            'name': self.env._('Create Request'),
             'res_model': 'project.task',
             'view_mode': 'form',
             'target': 'current',

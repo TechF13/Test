@@ -9,7 +9,7 @@
                 <field name="constituency_id" groups="political_office.group_political_user"/>
             </field>
             <xpath expr="//notebook/page[@name='notes']" position="after">
-                <page name="political" string="Siyasi Ofis" groups="political_office.group_political_user">
+                <page name="political" string="Political Office" groups="political_office.group_political_user">
                     <group>
                         <group>
                             <field name="expected_attendance"/>
@@ -41,8 +41,8 @@
         <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
         <field name="arch" type="xml">
             <xpath expr="//group/filter[@name='responsible']" position="after">
-                <filter string="Etiket" name="group_categ" context="{'group_by': 'categ_ids'}"/>
-                <filter string="Bölge" name="group_constituency" context="{'group_by': 'constituency_id'}"/>
+                <filter string="Tag" name="group_categ" context="{'group_by': 'categ_ids'}"/>
+                <filter string="Area" name="group_constituency" context="{'group_by': 'constituency_id'}"/>
             </xpath>
         </field>
     </record>
@@ -51,7 +51,7 @@
         <field name="name">calendar.event.graph.political</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
-            <graph string="Etkinlik Analizi" type="bar" stacked="1">
+            <graph string="Event Analysis" type="bar" stacked="1">
                 <field name="start" interval="month"/>
                 <field name="categ_ids"/>
             </graph>
@@ -62,7 +62,7 @@
         <field name="name">calendar.event.pivot.political</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
-            <pivot string="Etkinlik Analizi">
+            <pivot string="Event Analysis">
                 <field name="categ_ids" type="row"/>
                 <field name="start" interval="month" type="col"/>
                 <field name="actual_attendance" type="measure"/>
@@ -71,7 +71,7 @@
     </record>
 
     <record id="action_political_agenda_analysis" model="ir.actions.act_window">
-        <field name="name">Etkinlik Analizi</field>
+        <field name="name">Event Analysis</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">graph,pivot,list</field>
         <field name="view_id" ref="calendar_event_view_graph_political"/>

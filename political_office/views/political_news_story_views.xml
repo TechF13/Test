@@ -6,18 +6,18 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_ai_press_statement" type="object" string="AI ile Basın Açıklaması Hazırla"
+                    <button name="action_ai_press_statement" type="object" string="Draft Press Statement with AI"
                             class="btn-primary" icon="fa-magic" invisible="press_statement"/>
-                    <button name="action_ai_press_statement" type="object" string="Açıklamayı Yeniden Hazırla"
+                    <button name="action_ai_press_statement" type="object" string="Redraft the Statement"
                             icon="fa-magic" invisible="not press_statement"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_articles" type="object" class="oe_stat_button" icon="fa-newspaper-o">
-                            <field name="article_count" widget="statinfo" string="Haber"/>
+                            <field name="article_count" widget="statinfo" string="News"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Kritik" bg_color="text-bg-danger" invisible="importance != 'critical'"/>
+                    <widget name="web_ribbon" title="Critical" bg_color="text-bg-danger" invisible="importance != 'critical'"/>
                     <field name="active" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
@@ -35,7 +35,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Haberler" name="articles">
+                        <page string="Articles" name="articles">
                             <field name="article_ids" readonly="1">
                                 <list>
                                     <field name="published_date"/>
@@ -47,9 +47,9 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Basın Açıklaması" name="press_statement">
+                        <page string="Press Statement" name="press_statement">
                             <field name="press_statement_date" invisible="not press_statement_date"/>
-                            <field name="press_statement" placeholder="Taslak hazırlamak için üstteki butonu kullanın; metni burada düzenleyebilirsiniz."/>
+                            <field name="press_statement" placeholder="Use the button above to draft it; you can edit the text here."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -80,26 +80,26 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <filter string="Birden Fazla Haber" name="multi" domain="[('article_count', '&gt;', 1)]"/>
-                <filter string="Kritik / Yüksek" name="important" domain="[('importance', 'in', ['high', 'critical'])]"/>
-                <filter string="Olumsuz Haber İçeren" name="negative" domain="[('negative_count', '&gt;', 0)]"/>
+                <filter string="Several Articles" name="multi" domain="[('article_count', '&gt;', 1)]"/>
+                <filter string="Critical / High" name="important" domain="[('importance', 'in', ['high', 'critical'])]"/>
+                <filter string="With Negative Articles" name="negative" domain="[('negative_count', '&gt;', 0)]"/>
                 <separator/>
-                <filter string="Son Haber" name="filter_date_last" date="date_last"/>
+                <filter string="Latest Article" name="filter_date_last" date="date_last"/>
                 <separator/>
-                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
 
     <record id="action_political_news_story" model="ir.actions.act_window">
-        <field name="name">Gündemler</field>
+        <field name="name">Stories</field>
         <field name="res_model">political.news.story</field>
         <field name="path">political-stories</field>
         <field name="view_mode">list,form</field>
         <field name="context">{'search_default_multi': 1}</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Henüz gündem yok</p>
-            <p>Aynı olayı anlatan haberler otomatik olarak tek bir gündem altında toplanır.</p>
+            <p class="o_view_nocontent_smiling_face">No story yet</p>
+            <p>Articles about the same event are grouped under one story automatically.</p>
         </field>
     </record>
 </odoo>

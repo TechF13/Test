@@ -4,32 +4,32 @@ from odoo.exceptions import ValidationError
 
 class PoliticalConstituency(models.Model):
     _name = 'political.constituency'
-    _description = 'Bölge'
+    _description = 'Area'
     _parent_store = True
     _rec_name = 'complete_name'
     _order = 'complete_name'
 
-    name = fields.Char('Ad', required=True)
-    complete_name = fields.Char('Tam Ad', compute='_compute_complete_name', recursive=True, store=True)
-    code = fields.Char('Kod')
+    name = fields.Char('Name', required=True)
+    complete_name = fields.Char('Full Name', compute='_compute_complete_name', recursive=True, store=True)
+    code = fields.Char('Code')
     level = fields.Selection([
-        ('province', 'İl'),
-        ('district', 'İlçe'),
-        ('neighborhood', 'Mahalle / Köy'),
-    ], string='Seviye', required=True, default='district')
+        ('province', 'Province'),
+        ('district', 'District'),
+        ('neighborhood', 'Neighborhood / Village'),
+    ], string='Level', required=True, default='district')
     state_id = fields.Many2one(
-        'res.country.state', 'İl (Odoo)', index='btree_not_null',
-        help="İl seviyesindeki bölgeyi Odoo'daki il kaydına bağlar; adresinde bu il olan kişiler için kullanılır.",
+        'res.country.state', 'Province (Odoo)', index='btree_not_null',
+        help='Links a province level area to the Odoo province record.',
     )
-    parent_id = fields.Many2one('political.constituency', 'Üst Bölge', index=True, ondelete='cascade')
+    parent_id = fields.Many2one('political.constituency', 'Parent Area', index=True, ondelete='cascade')
     parent_path = fields.Char(index=True)
-    child_ids = fields.One2many('political.constituency', 'parent_id', 'Alt Bölgeler')
-    responsible_user_id = fields.Many2one('res.users', 'Bölge Sorumlusu')
-    population = fields.Integer('Nüfus')
-    voter_count = fields.Integer('Seçmen Sayısı')
-    notes = fields.Html('Notlar')
+    child_ids = fields.One2many('political.constituency', 'parent_id', 'Sub-areas')
+    responsible_user_id = fields.Many2one('res.users', 'Area Manager')
+    population = fields.Integer('Population')
+    voter_count = fields.Integer('Voters')
+    notes = fields.Html('Notes')
     active = fields.Boolean(default=True)
-    request_count = fields.Integer('Talep Sayısı', compute='_compute_request_count')
+    request_count = fields.Integer('Request Count', compute='_compute_request_count')
 
     @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):
@@ -55,7 +55,7 @@ class PoliticalConstituency(models.Model):
     @api.constrains('parent_id')
     def _check_parent_id(self):
         if self._has_cycle():
-            raise ValidationError(self.env._('Bölgeler döngüsel bir hiyerarşi oluşturamaz.'))
+            raise ValidationError(self.env._('Areas cannot form a recursive hierarchy.'))
 
     def action_view_requests(self):
         self.ensure_one()

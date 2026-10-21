@@ -1,0 +1,2776 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* political_office
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-21 21:44+0000\n"
+"PO-Revision-Date: 2026-10-21 21:44+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_source.py:0
+msgid "%s new articles saved."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_source.py:0
+msgid "%s: enter a valid http(s) feed URL."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_source.py:0
+msgid "%s: the YouTube channel ID must start with 'UC'."
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.report,print_report_name:political_office.action_report_political_news_report
+msgid "'Press Bulletin - %s' % (object.date_to.strftime('%Y-%m-%d'))"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,body_html:political_office.mail_template_request_received
+msgid ""
+"<div>\n"
+"    Sayın <t t-out=\"object.partner_id.name or 'Vatandaşımız'\">Ayşe Demir</t>,<br/><br/>\n"
+"    \"<t t-out=\"object.name\">Mahalle yolunun asfaltlanması</t>\" konulu talebiniz\n"
+"    <t t-out=\"object.id\">42</t> numarasıyla kayda alınmıştır. Ekibimiz talebinizi inceleyerek\n"
+"    en kısa sürede size dönüş yapacaktır.<br/><br/>\n"
+"    Saygılarımızla,<br/>\n"
+"    <t t-out=\"object.company_id.name or ''\">Ofis</t>\n"
+"</div>\n"
+"        "
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,body_html:political_office.mail_template_request_solved
+msgid ""
+"<div>\n"
+"    Sayın <t t-out=\"object.partner_id.name or 'Vatandaşımız'\">Ayşe Demir</t>,<br/><br/>\n"
+"    \"<t t-out=\"object.name\">Mahalle yolunun asfaltlanması</t>\" konulu talebiniz sonuçlanmıştır.\n"
+"    Bize ulaştığınız için teşekkür ederiz.<br/><br/>\n"
+"    Saygılarımızla,<br/>\n"
+"    <t t-out=\"object.company_id.name or ''\">Ofis</t>\n"
+"</div>\n"
+"        "
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,body_html:political_office.mail_template_request_forwarded
+msgid ""
+"<div>\n"
+"    Sayın <t t-out=\"object.partner_id.name or 'Vatandaşımız'\">Ayşe Demir</t>,<br/><br/>\n"
+"    <t t-out=\"object.id\">42</t> numaralı talebiniz\n"
+"    <t t-if=\"object.political_institution_id\"><t t-out=\"object.political_institution_id.name\">Belediye</t> kurumuna</t>\n"
+"    <t t-else=\"\">ilgili kuruma</t>\n"
+"    iletilmiştir. Süreci takip ederek sizi bilgilendirmeye devam edeceğiz.<br/><br/>\n"
+"    Saygılarımızla,<br/>\n"
+"    <t t-out=\"object.company_id.name or ''\">Ofis</t>\n"
+"</div>\n"
+"        "
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "<i class=\"fa fa-arrow-right\"/> View the form"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "<option value=\"\">Select</option>"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "<strong>Suggested action: </strong>"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "AI"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "AI (Claude)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__ai_date
+msgid "AI Analysis Date"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__ai_assignable
+msgid "AI Can Assign"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__ai_error
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "AI Error"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_ai_model
+msgid "AI Model"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_ai_draft_reply
+msgid "AI Reply Draft"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_ai_service
+msgid "AI Service"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__ai_state
+msgid "AI Status"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__ai_summary
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_ai_summary
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "AI Summary"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/project.py:0
+msgid "AI analysis completed."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_ai_allow_new_tags
+msgid "AI can create new tags"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_needaction
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_needaction
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__action_required
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Action Required"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__active
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__active
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__active
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__active
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__active
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__active
+msgid "Active"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__actual_attendance
+msgid "Actual Attendance"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_source
+msgid "Add a news source"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_keyword
+msgid ""
+"Add phrases such as the politician's name, party, rivals, constituency and "
+"topics."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_source
+msgid ""
+"Add the RSS feeds of newspapers or scan all sites for your keywords with "
+"Google News search."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_keyword
+msgid "Add the keywords to track"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_volunteers
+msgid "Add volunteers"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Addressed Ministry / Institution"
+msgstr ""
+
+#. module: political_office
+#: model:res.groups,name:political_office.group_political_manager
+msgid "Administrator"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_agenda
+msgid "Agenda"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__alert_sent
+msgid "Alert Sent"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "All"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "All active keywords"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_dashboard.py:0
+msgid "All day"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_infrastructure
+msgid "Altyapı ve Belediye Hizmetleri"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Analyze Again"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_ai_auto_process
+msgid "Analyze new articles automatically"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_list
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Analyze with AI"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__ai_state__done
+msgid "Analyzed"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_answer_date
+msgid "Answer Date"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Anthropic API"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_anthropic_api_key
+msgid "Anthropic API Key"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "Anthropic API error (%(code)s): %(msg)s"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__match_mode__substring
+msgid "Anywhere in the text"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_motion_research
+msgid "Araştırma Önergesi"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_list
+msgid "Archive"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__review_state__archived
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_keyword_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_tag_view_search
+msgid "Archived"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_constituency
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__constituency_id
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__constituency_id
+#: model:ir.model.fields,field_description:political_office.field_project_task__constituency_id
+#: model:ir.model.fields,field_description:political_office.field_res_partner__constituency_id
+#: model:ir.model.fields,field_description:political_office.field_res_users__constituency_id
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__region
+#: model_terms:ir.ui.view,arch_db:political_office.calendar_event_view_search_inherit_political
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_search_inherit_political
+msgid "Area"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__responsible_user_id
+msgid "Area Manager"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_constituency
+#: model:ir.ui.menu,name:political_office.menu_political_constituency
+msgid "Areas"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_constituency.py:0
+msgid "Areas cannot form a recursive hierarchy."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__article_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__article_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__article_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__article_count
+msgid "Article Count"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Article List"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__full_text
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Article Text"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_dashboard.py:0
+#: model:ir.actions.act_window,name:political_office.action_political_news_article
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__article_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__article_ids
+#: model:ir.ui.menu,name:political_office.menu_political_news
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_keyword_view_list
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_tag_view_list
+msgid "Articles"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Articles Awaiting Action"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_story
+msgid ""
+"Articles about the same event are grouped under one story automatically."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_ai_batch_size
+msgid "Articles analyzed per run"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid ""
+"Articles rated important by the AI analysis are notified to the selected "
+"users immediately."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_attachment_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_attachment_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__tag_ids
+msgid "Automatic Tags"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Bulletin"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_company__political_digest_user_ids
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_digest_user_ids
+msgid "Bulletin Recipients"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Calendar"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_calendar_event
+msgid "Calendar Event"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_story.py:0
+msgid "Cautions"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_motion_answered
+msgid "Cevaplandı / Sonuçlandı"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_channel
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_search_inherit_political
+msgid "Channel"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__citizen_day
+msgid "Citizen Day"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_request
+#: model:ir.model.fields.selection,name:political_office.selection__project_project__political_project_type__request
+#: model:ir.ui.menu,name:political_office.menu_political_requests
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Citizen Requests"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_project_task__political_source_task_ids
+msgid "Citizen requests this motion is based on."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid ""
+"Citizens can send requests directly from the form at /talep on your website."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_ai_model__claude-haiku-5-5
+msgid "Claude Haiku 5.5 (most economical)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_ai_model__claude-opus-5-5
+msgid "Claude Opus 5.5 (recommended)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_ai_model__claude-sonnet-5-5
+msgid "Claude Sonnet 5.5"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__code
+msgid "Code"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "Collect Articles"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__color
+msgid "Color"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_keyword__exclude_terms
+msgid ""
+"Comma separated phrases. Articles containing one of them do not match this "
+"keyword (reduces false positives)."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_config
+msgid "Configuration"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_politician_region
+msgid "Constituency"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_contacts
+msgid "Contacts"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_volunteers
+msgid ""
+"Contacts tagged \"Gönüllü\" (volunteer) are listed here and can be assigned "
+"to field tasks."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__media_type
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__media_type
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Content Type"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "Could not connect to the Anthropic API."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_source.py:0
+msgid "Could not fetch news from %(source)s: %(error)s"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__country
+msgid "Country"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_article.py:0
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Create Request"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__request_ids
+msgid "Created Requests"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__create_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__created_by_ai
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_tag_view_search
+msgid "Created by AI"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__create_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__importance__critical
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_story__importance__critical
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+msgid "Critical"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__critical_count
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Critical / High"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_alert_level__critical
+msgid "Critical articles only"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_keyword__search_query
+msgid ""
+"Custom Google News query (e.g. \"Ahmet Yılmaz\" OR \"A. Yılmaz\"). When "
+"empty, the phrase is searched in quotes."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Daily Press Bulletin"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "Daily Press Bulletin - %s"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid ""
+"Daily positive, neutral and negative article counts over the last 7 days"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.client,name:political_office.action_political_dashboard
+#: model:ir.ui.menu,name:political_office.menu_political_dashboard
+msgid "Dashboard"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Date"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__tag_ids
+msgid "Default Tags"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_article
+msgid ""
+"Define keywords and news sources; news is fetched automatically every hour."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_project_project__political_project_type
+#: model:ir.model.fields,help:political_office.field_project_task__political_project_type
+msgid ""
+"Defines how the tasks are used by the political office; the related extra "
+"fields are shown on tasks."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__description
+msgid "Description for the AI"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Details of Your Request *"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_ai_service__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_dashboard__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__display_name
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__display_name
+#: model:ir.model.fields,field_description:political_office.field_project_project__display_name
+#: model:ir.model.fields,field_description:political_office.field_project_tags__display_name
+#: model:ir.model.fields,field_description:political_office.field_project_task__display_name
+#: model:ir.model.fields,field_description:political_office.field_res_company__display_name
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:political_office.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_constituency__level__district
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_search
+msgid "District"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "District / Area"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_institution_ref
+msgid "Document / Reference No"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__fetch_full_content
+msgid "Download the article text"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_report__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__press_statement_date
+msgid "Draft Date"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+msgid "Draft Press Statement with AI"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__email
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Email"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__date_to
+msgid "End"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "Enter the Anthropic API key in Settings > Political Office."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Enter your phone number or email address so that we can reach you."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__ai_error
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__ai_state__error
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_report__state__error
+msgid "Error"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__name
+msgid "Event"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_agenda_analysis
+#: model:ir.ui.menu,name:political_office.menu_political_agenda_analysis
+#: model_terms:ir.ui.view,arch_db:political_office.calendar_event_view_graph_political
+#: model_terms:ir.ui.view,arch_db:political_office.calendar_event_view_pivot_political
+msgid "Event Analysis"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid ""
+"Every morning the bulletin of the last 24 hours is generated and sent to "
+"these users."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__exclude_terms
+msgid "Excluded Terms"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__executive_summary
+msgid "Executive Summary"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__expected_attendance
+msgid "Expected Attendance"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__fetch_full_content
+msgid ""
+"Extracts the text of the article page in addition to the feed summary. Does "
+"not work with Google News links."
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_education
+msgid "Eğitim"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__content
+msgid "Feed Summary"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__url
+msgid "Feed URL"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_list
+msgid "Fetch"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "Fetch Now"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__fetch_date
+msgid "Fetched On"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_campaign_root
+msgid "Field"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_project__political_project_type__campaign
+msgid "Field / Campaign Work"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Field Details"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__field
+msgid "Field Visit"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_campaign
+#: model:ir.ui.menu,name:political_office.menu_political_campaign
+msgid "Field Work"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__date_first
+msgid "First Article"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_follower_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_follower_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_partner_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_partner_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_project_tags__political_sla_days
+msgid ""
+"For citizen requests with this tag, this many days are added to the "
+"reception date when no deadline is set."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__relevance
+msgid "From 0 to 100: how relevant the article is to the politician."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__complete_name
+msgid "Full Name"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Full Name *"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_journalist
+msgid "Gazeteci"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "Generate Bulletin with AI"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "Generate New Token"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__source_type__google_news
+msgid "Google News Search"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_volunteer
+msgid "Gönüllü"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_motion_agenda
+msgid "Gündemde / Komisyonda"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__has_message
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__has_message
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_motion_draft
+msgid "Hazırlanıyor"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__headline
+msgid "Headline"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__importance__high
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__priority__1
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_story__importance__high
+msgid "High"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_keyword_view_search
+msgid "High Priority"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_alert_level__high
+msgid "High and critical articles"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "Highlights"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_legal
+msgid "Hukuki / İdari Süreçler"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid ""
+"I consent to the processing of my personal data to handle my request and to "
+"being contacted (KVKK). *"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__id
+#: model:ir.model.fields,field_description:political_office.field_political_ai_service__id
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__id
+#: model:ir.model.fields,field_description:political_office.field_political_dashboard__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__id
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__id
+#: model:ir.model.fields,field_description:political_office.field_project_project__id
+#: model:ir.model.fields,field_description:political_office.field_project_tags__id
+#: model:ir.model.fields,field_description:political_office.field_project_task__id
+#: model:ir.model.fields,field_description:political_office.field_res_company__id
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__id
+#: model:ir.model.fields,field_description:political_office.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__message_needaction
+#: model:ir.model.fields,help:political_office.field_political_news_report__message_needaction
+#: model:ir.model.fields,help:political_office.field_political_news_story__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__message_has_error
+#: model:ir.model.fields,help:political_office.field_political_news_article__message_has_sms_error
+#: model:ir.model.fields,help:political_office.field_political_news_report__message_has_error
+#: model:ir.model.fields,help:political_office.field_political_news_report__message_has_sms_error
+#: model:ir.model.fields,help:political_office.field_political_news_story__message_has_error
+#: model:ir.model.fields,help:political_office.field_political_news_story__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__importance
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__importance
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Importance"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Instant Alert"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_alert_level
+msgid "Instant media alert"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_institution_id
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_search_inherit_political
+msgid "Institution"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Institution Reference"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_project_task__political_institution_id
+msgid ""
+"Institution the request was referred to, or ministry / institution addressed"
+" by the motion."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_is_follower
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_is_follower
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_institution
+msgid "Kamu Kurumu"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_motion_bill
+msgid "Kanun Teklifi"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_campaign_door
+msgid "Kapı Kapı Ziyaret"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_story.py:0
+msgid "Key Messages"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Keyword"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__name
+msgid "Keyword / Phrase"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_keyword
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__keyword_ids
+#: model:ir.ui.menu,name:political_office.menu_political_news_keyword
+msgid "Keywords"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_motion_committee
+msgid "Komisyon Çalışması"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_forwarded
+msgid "Kuruma İletildi"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__language
+msgid "Language"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__last_error
+msgid "Last Error"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__last_fetch_date
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "Last Fetch"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__write_uid
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__write_date
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__date_last
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_search
+msgid "Latest Article"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_res_config_settings__political_public_form_enabled
+msgid "Lets citizens send requests directly from /talep on your website."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__level
+msgid "Level"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__url
+msgid "Link"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_constituency__state_id
+msgid "Links a province level area to the Odoo province record."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__importance__low
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_story__importance__low
+msgid "Low"
+msgstr ""
+
+#. module: political_office
+#: model:res.groups,comment:political_office.group_political_manager
+msgid "Manages news sources, keywords, stages and AI settings."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__keyword_ids
+msgid "Matched Keywords"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__match_mode
+msgid "Matching"
+msgstr ""
+
+#. module: political_office
+#: model:project.project,name:political_office.project_parliament
+msgid "Meclis Çalışmaları"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_company__political_alert_user_ids
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_alert_user_ids
+msgid "Media Alert Recipients"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Media Alerts"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_analysis
+#: model:ir.ui.menu,name:political_office.menu_political_news_analysis
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_graph
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_pivot
+msgid "Media Analysis"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_media_root
+msgid "Media Monitoring"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Media Sentiment"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_article.py:0
+msgid "Media alert: %s"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__importance__medium
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_story__importance__medium
+msgid "Medium"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_event_count
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Meeting"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/project.py:0
+msgid "Meetings"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_has_error
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_has_error
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__min_relevance
+msgid "Minimum Relevance"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_digest_min_relevance
+msgid "Minimum relevance for the bulletin"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Motion Details"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__name
+msgid "Name"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__negative_count
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__sentiment__negative
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Negative"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__negative_count
+msgid "Negative Articles"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Negative Articles (7 days)"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Negative:"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_constituency__level__neighborhood
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_search
+msgid "Neighborhood / Village"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__neutral_count
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__sentiment__neutral
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Neutral"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Neutral:"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__review_state__new
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "New"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "New Articles (24 hours)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__last_fetch_count
+msgid "New Articles in Last Fetch"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "New articles are analyzed in the background every 15 minutes."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_news_article
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__article_count
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__media_type__news
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__media_type__news
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "News"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_news_source
+msgid "News Source"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_source
+#: model:ir.ui.menu,name:political_office.menu_political_news_source
+msgid "News Sources"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_news_tag
+msgid "News Tag"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_tag
+#: model:ir.ui.menu,name:political_office.menu_political_news_tag
+msgid "News Tags"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "No article found for the bulletin in the selected period."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_article
+msgid "No article yet"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_report
+msgid "No bulletin yet"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "No critical article waiting for review."
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "No event covered by several articles."
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "No open request with an area."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_story
+msgid "No story yet"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__priority__0
+msgid "Normal"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Not analyzed yet."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__notes
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_form
+msgid "Notes"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Nothing planned for today."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_needaction_counter
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_needaction_counter
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_has_error_counter
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_has_error_counter
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__message_needaction_counter
+#: model:ir.model.fields,help:political_office.field_political_news_report__message_needaction_counter
+#: model:ir.model.fields,help:political_office.field_political_news_story__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__message_has_error_counter
+#: model:ir.model.fields,help:political_office.field_political_news_report__message_has_error_counter
+#: model:ir.model.fields,help:political_office.field_political_news_story__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__res_config_settings__political_alert_level__off
+msgid "Off"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__office
+msgid "Office Visit"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__filter_by_keywords
+msgid "Only keep matching articles"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Open Article"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Open Motions"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Open Requests"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Open Requests by Area"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "Opportunities"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__entity_organizations
+msgid "Organizations Mentioned"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__other
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__other
+msgid "Other"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Overdue Requests"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "PDF"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__parent_id
+msgid "Parent Area"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__parent_path
+msgid "Parent Path"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_parliament
+#: model:ir.model.fields.selection,name:political_office.selection__project_project__political_project_type__parliament
+#: model:ir.ui.menu,name:political_office.menu_political_parliament
+msgid "Parliament Work"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_party_member
+msgid "Parti Üyesi"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_politician_party
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__party
+msgid "Party"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__entity_people
+msgid "People Mentioned"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Person"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__phone
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Phone"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__entity_locations
+msgid "Places Mentioned"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_campaign
+msgid "Plan the first field task"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_campaign_planned
+msgid "Planlandı"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__platform
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__platform
+msgid "Platform"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_root
+#: model:res.groups.privilege,name:political_office.res_groups_privilege_political_office
+#: model_terms:ir.ui.view,arch_db:political_office.calendar_event_view_form_inherit_political
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Political Office"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+#: model:ir.model,name:political_office.model_political_dashboard
+msgid "Political Office Dashboard"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_project__political_project_type
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_project_type
+msgid "Political Office Usage"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.server,name:political_office.ir_cron_ai_process_news_ir_actions_server
+msgid "Political Office: Analyze News with AI"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.server,name:political_office.ir_cron_daily_digest_ir_actions_server
+msgid "Political Office: Daily Press Bulletin"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.server,name:political_office.ir_cron_fetch_news_ir_actions_server
+msgid "Political Office: Fetch News"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_politician_name
+msgid "Politician Name"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Politician Profile"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__population
+msgid "Population"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__positive_count
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__sentiment__positive
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Positive"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Positive:"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__news
+msgid "Press / News"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+#: model:ir.actions.report,name:political_office.action_report_political_news_report
+#: model:ir.model,name:political_office.model_political_news_report
+msgid "Press Bulletin"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_report
+#: model:ir.ui.menu,name:political_office.menu_political_news_report
+msgid "Press Bulletins"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_calendar_event__press_article_ids
+msgid "Press Coverage"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+msgid "Press Statement"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__press_statement
+msgid "Press Statement Draft"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__priority
+msgid "Priority"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Priority Articles"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Profile"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_progress
+msgid "Progress (%)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_project_project
+msgid "Project"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_project_tags
+msgid "Project Tags"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_request_tags
+msgid "Project tags with a resolution time are used as request categories."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_constituency__level__province
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_search
+msgid "Province"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__state_id
+msgid "Province (Odoo)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__published_date
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Published On"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__publisher
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Publisher"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__publisher_count
+msgid "Publisher Count"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__source_type__rss
+msgid "RSS / Atom Feed"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__rating_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__rating_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_reached_count
+msgid "Reached (households / people)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_report__state__done
+msgid "Ready"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "Recommended Actions"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_request
+msgid "Record the first citizen request"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_parliament
+msgid "Record your first motion"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+msgid "Redraft the Statement"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Reference No"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Referral"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Referred Institution"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Refresh"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_source_task_ids
+msgid "Related Requests"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__relevance
+msgid "Relevance"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__report_html
+msgid "Report"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_reporting
+msgid "Reporting"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Request"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_request_analysis
+#: model:ir.ui.menu,name:political_office.menu_political_request_analysis
+msgid "Request Analysis"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_request_tags
+#: model:ir.ui.menu,name:political_office.menu_political_request_category
+msgid "Request Categories"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__request_count
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__request_count
+msgid "Request Count"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Request Follow-up"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_tags__political_sla_days
+msgid "Request Resolution Time (days)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_request_stage
+msgid "Request Stages"
+msgstr ""
+
+#. module: political_office
+#: model:ir.ui.menu,name:political_office.menu_political_requests_root
+msgid "Requests"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__review_state__reviewed
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_list
+msgid "Reviewed"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "Risks"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__rival
+msgid "Rival"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__message_has_sms_error
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__message_has_sms_error
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_ngo
+msgid "STK / Dernek"
+msgstr ""
+
+#. module: political_office
+#: model:project.project,label_tasks:political_office.project_campaign
+msgid "Saha Görevleri"
+msgstr ""
+
+#. module: political_office
+#: model:project.project,name:political_office.project_campaign
+msgid "Saha Çalışmaları"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_campaign_in_field
+msgid "Sahada"
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,body:political_office.sms_template_request_received
+msgid ""
+"Sayın {{ object.partner_id.name or 'Vatandaşımız' }}, talebiniz {{ object.id"
+" }} numarasıyla kayda alındı."
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_health
+msgid "Sağlık"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/project.py:0
+#: model_terms:ir.ui.view,arch_db:political_office.project_task_view_form_inherit_political
+msgid "Schedule Meeting"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__google_news_period
+msgid "Search Period (days)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__search_query
+msgid "Search Query"
+msgstr ""
+
+#. module: political_office
+#: model:res.groups,comment:political_office.group_political_user
+msgid "Sees and handles requests, agenda and news."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Send Request"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_thanks
+msgid "Send a new request"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid ""
+"Send posts from platforms such as X, Instagram or Facebook to this URL as JSON with an automation tool\n"
+"                            such as n8n, Make or Zapier. Example:\n"
+"                            <code>{\"title\": \"...\", \"text\": \"...\", \"url\": \"https://...\", \"author\": \"@account\", \"published\": \"2026-10-21T10:00:00Z\"}</code>"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "Send to Recipients"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid ""
+"Send us your issue or suggestion. Your request will be registered and you "
+"will be kept informed."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__sentiment
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Sentiment"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Set to New"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_office_settings
+#: model:ir.ui.menu,name:political_office.menu_political_settings
+msgid "Settings"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_search
+msgid "Several Articles"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,name:political_office.mail_template_request_received
+msgid "Siyasi Ofis: Talep Alındı"
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,name:political_office.sms_template_request_received
+msgid "Siyasi Ofis: Talep Alındı (SMS)"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,name:political_office.mail_template_request_forwarded
+msgid "Siyasi Ofis: Talep Kuruma İletildi"
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,name:political_office.sms_template_request_forwarded
+msgid "Siyasi Ofis: Talep Kuruma İletildi (SMS)"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,name:political_office.mail_template_request_solved
+msgid "Siyasi Ofis: Talep Sonuçlandı"
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,name:political_office.sms_template_request_solved
+msgid "Siyasi Ofis: Talep Sonuçlandı (SMS)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__media_type__social
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__media_type__social
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__social
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Social Media"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__source_type__webhook
+msgid "Social Media (Webhook)"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_rejected
+msgid "Sonuçlandırılamadı"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_motion_question
+msgid "Soru Önergesi"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_social
+msgid "Sosyal Yardım"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__source_id
+msgid "Source"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_article_id
+msgid "Source Article"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__name
+msgid "Source Name"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+msgid "Source Text"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_campaign_stand
+msgid "Stant / Bildiri Dağıtımı"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__date_from
+msgid "Start"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__review_state
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__state
+msgid "Status"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_news_story
+#: model:ir.ui.menu,name:political_office.menu_political_news_story
+msgid "Stories"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Stories in the News"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_news_story
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__story_id
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_form
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Story"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__child_ids
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_form
+msgid "Sub-areas"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Subject *"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_submission_date
+msgid "Submission Date"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__action_suggestion
+msgid "Suggested Action"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_tag__name
+#: model_terms:ir.ui.view,arch_db:political_office.calendar_event_view_search_inherit_political
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Tag"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__tag_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__tag_ids
+msgid "Tags"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_keyword__tag_ids
+msgid "Tags added automatically to articles matching this keyword."
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,subject:political_office.mail_template_request_received
+msgid "Talebiniz alındı (No: {{ object.id }})"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,subject:political_office.mail_template_request_forwarded
+msgid "Talebiniz ilgili kuruma iletildi (No: {{ object.id }})"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,subject:political_office.mail_template_request_solved
+msgid "Talebiniz sonuçlandı (No: {{ object.id }})"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,description:political_office.mail_template_request_forwarded
+msgid "Talep ilgili kuruma yönlendirildiğinde gönderilir."
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,description:political_office.mail_template_request_solved
+msgid "Talep çözüldüğünde gönderilir."
+msgstr ""
+
+#. module: political_office
+#: model:project.project,label_tasks:political_office.project_citizen_requests
+msgid "Talepler"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_campaign_done
+msgid "Tamamlandı"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_target_count
+msgid "Target (households / people)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_project_task
+msgid "Task"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_dashboard.py:0
+msgid "Tasks"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid ""
+"The AI features need the 'anthropic' Python package: pip install anthropic"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_tag__description
+msgid "The AI uses this description to decide which articles get this tag."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The API key has no access to this model."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The Anthropic API key is invalid."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The Anthropic API rate limit was reached; it will be retried later."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__youtube_channel_id
+msgid "The ID starting with 'UC' on the channel page."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__self
+msgid "The Politician"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_report_view_form
+msgid "The bulletin has not been generated yet."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_news_report
+msgid ""
+"The daily bulletin is generated every morning; you can also create one for "
+"any period."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The model answer was cut at the token limit."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The model declined to process this content."
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_ai_service.py:0
+msgid "The model did not return valid JSON."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "The old URL will stop working. Continue?"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/political_news_report.py:0
+msgid "The start date cannot be after the end date."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.constraint,message:political_office.constraint_political_news_article_url_uniq
+msgid "This article is already saved."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.constraint,message:political_office.constraint_political_news_keyword_name_uniq
+msgid "This keyword already exists."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.constraint,message:political_office.constraint_political_news_tag_name_uniq
+msgid "This tag already exists."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__name
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__name
+#: model_terms:ir.ui.view,arch_db:political_office.report_political_news_report
+msgid "Title"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_politician_title
+msgid "Title / Position"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "Today's Agenda"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#. odoo-python
+#: code:addons/political_office/models/political_dashboard.py:0
+#: code:addons/political_office/static/src/dashboard/dashboard.js:0
+msgid "Today's Events"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__keyword_type__topic
+msgid "Topic"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_list
+msgid "Total"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_campaign
+msgid "Track door-to-door visits, stands and volunteer teams by neighborhood."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_request
+msgid ""
+"Track every request received at the office, by phone, email, web form or in "
+"the field."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.actions.act_window,help:political_office.action_political_parliament
+msgid ""
+"Track parliamentary questions, bills, research motions and committee work."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model,name:political_office.model_political_news_keyword
+msgid "Tracked Keyword"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_keyword__keyword_type
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__source_type
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_keyword_view_search
+msgid "Type"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "UCxxxxxxxxxxxxxxxxxxxxxx"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__url
+msgid "URL of the RSS or Atom feed."
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_transport
+msgid "Ulaşım"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_form
+msgid "Use the button above to draft it; you can edit the text here."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_ai_use_env_credentials
+msgid "Use the key from the environment"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_project_task__display_name
+msgid ""
+"Use these keywords in the title to set new tasks:\n"
+"\n"
+"            #tags Set tags on the task\n"
+"            @user Assign the task to a user\n"
+"            ! Set the task a medium priority\n"
+"            !! Set the task a high priority\n"
+"            !!! Set the task a urgent priority\n"
+"\n"
+"            Make sure to use the right format and order e.g. Improve the configuration screen #feature #v16 @Mitchell !"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Used as context by the AI analyses."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "Used for news summaries, tagging, sentiment analysis and bulletins."
+msgstr ""
+
+#. module: political_office
+#: model:res.groups,name:political_office.group_political_user
+msgid "User"
+msgstr ""
+
+#. module: political_office
+#: model:res.partner.category,name:political_office.partner_category_citizen
+msgid "Vatandaş"
+msgstr ""
+
+#. module: political_office
+#: model:project.project,name:political_office.project_citizen_requests
+msgid "Vatandaş Talepleri"
+msgstr ""
+
+#. module: political_office
+#: model:mail.template,description:political_office.mail_template_request_received
+msgid "Vatandaş talebi kaydedildiğinde gönderilir."
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_waiting_citizen
+msgid "Vatandaştan Bilgi Bekleniyor"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_motion_submitted
+msgid "Verildi"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__media_type__video
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__media_type__video
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Video"
+msgstr ""
+
+#. module: political_office
+#: model:ir.actions.act_window,name:political_office.action_political_volunteers
+#: model:ir.model.fields,field_description:political_office.field_project_task__political_volunteer_ids
+#: model:ir.ui.menu,name:political_office.menu_political_volunteers
+msgid "Volunteers"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_constituency__voter_count
+msgid "Voters"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_article_view_search
+msgid "Waiting for AI"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_article__ai_state__pending
+msgid "Waiting for Analysis"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_thanks
+msgid "We will contact you as soon as possible. Thank you."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_res_config_settings__political_public_form_enabled
+msgid "Web request form (/talep)"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "Webhook"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__webhook_token
+msgid "Webhook Token"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__webhook_url
+msgid "Webhook URL"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__website
+#: model:ir.model.fields.selection,name:political_office.selection__project_task__political_channel__website
+msgid "Website"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_article__website_message_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_report__website_message_ids
+#: model:ir.model.fields,field_description:political_office.field_political_news_story__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_article__website_message_ids
+#: model:ir.model.fields,help:political_office.field_political_news_report__website_message_ids
+#: model:ir.model.fields,help:political_office.field_political_news_story__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__filter_by_keywords
+msgid "When checked, only articles matching at least one keyword are saved."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__keyword_ids
+msgid "When empty, all active keywords are used."
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "When existing tags are not enough, the AI can create up to 2 new tags."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_res_config_settings__political_ai_use_env_credentials
+msgid ""
+"When the API key is empty, the ANTHROPIC_API_KEY environment variable of the"
+" server is used."
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__match_mode__exact
+msgid "Whole word"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_story_view_search
+msgid "With Negative Articles"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_keyword__match_mode__prefix
+msgid "Word start (includes suffixes)"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_keyword__match_mode
+msgid "Word start: 'Ankara' also matches 'Ankara'da' and 'Ankaralı'."
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_new
+msgid "Yeni"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields.selection,name:political_office.selection__political_news_source__source_type__youtube
+msgid "YouTube Channel"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,field_description:political_office.field_political_news_source__youtube_channel_id
+msgid "YouTube Channel ID"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_form
+msgid "Your Requests and Suggestions"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_thanks
+msgid "Your request has been received"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.public_request_thanks
+msgid "Your request number:"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "articles ·"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "e.g. Anadolu Agency - Politics"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.res_config_settings_view_form_political
+msgid "e.g. Member of Parliament for Ankara"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_news_source_view_form
+msgid "e.g. X, Instagram"
+msgstr ""
+
+#. module: political_office
+#: model:ir.model.fields,help:political_office.field_political_news_source__platform
+msgid "e.g. X, Instagram, Facebook, TikTok, YouTube"
+msgstr ""
+
+#. module: political_office
+#: model_terms:ir.ui.view,arch_db:political_office.political_constituency_view_form
+msgid "e.g. Çankaya"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "last 3 days"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "last 7 days"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "negative"
+msgstr ""
+
+#. module: political_office
+#. odoo-python
+#: code:addons/political_office/models/project.py:0
+msgid "res_model"
+msgstr ""
+
+#. module: political_office
+#. odoo-javascript
+#: code:addons/political_office/static/src/dashboard/dashboard.xml:0
+msgid "sources"
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,body:political_office.sms_template_request_solved
+msgid ""
+"{{ object.id }} numaralı talebiniz sonuçlandı. Bize ulaştığınız için "
+"teşekkür ederiz."
+msgstr ""
+
+#. module: political_office
+#: model:sms.template,body:political_office.sms_template_request_forwarded
+msgid ""
+"{{ object.id }} numaralı talebiniz {{ object.political_institution_id.name "
+"or 'ilgili kurum' }} kurumuna iletildi."
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_solved
+msgid "Çözüldü"
+msgstr ""
+
+#. module: political_office
+#: model:project.project,label_tasks:political_office.project_parliament
+msgid "Önergeler"
+msgstr ""
+
+#. module: political_office
+#: model:project.task.type,name:political_office.stage_in_review
+msgid "İnceleniyor"
+msgstr ""
+
+#. module: political_office
+#: model:project.tags,name:political_office.tag_request_employment
+msgid "İstihdam"
+msgstr ""

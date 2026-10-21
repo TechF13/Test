@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_news_report_view_form" model="ir.ui.view">
+        <field name="name">political.news.report.form</field>
+        <field name="model">political.news.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_collect_articles" type="object" string="Haberleri Topla" invisible="state == 'done'"/>
+                    <button name="action_generate" type="object" string="AI ile Bülten Oluştur" class="btn-primary" icon="fa-magic" invisible="state == 'done'"/>
+                    <button name="action_send" type="object" string="Alıcılara Gönder" class="btn-primary" icon="fa-paper-plane" invisible="state != 'done'"/>
+                    <button name="%(political_office.action_report_political_news_report)d" type="action" string="PDF" icon="fa-print" invisible="state != 'done'"/>
+                    <button name="action_reset_draft" type="object" string="Taslağa Al" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from" readonly="state == 'done'"/>
+                            <field name="date_to" readonly="state == 'done'"/>
+                            <field name="min_relevance" readonly="state == 'done'"/>
+                        </group>
+                        <group>
+                            <field name="article_count"/>
+                            <field name="positive_count"/>
+                            <field name="neutral_count"/>
+                            <field name="negative_count"/>
+                            <field name="critical_count"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'error'">
+                        <field name="ai_error"/>
+                    </div>
+                    <notebook>
+                        <page string="Bülten" name="report">
+                            <field name="report_html" placeholder="Bülten henüz oluşturulmadı."/>
+                        </page>
+                        <page string="Haberler" name="articles">
+                            <field name="article_ids" readonly="state == 'done'">
+                                <list>
+                                    <field name="published_date"/>
+                                    <field name="name"/>
+                                    <field name="publisher"/>
+                                    <field name="sentiment"/>
+                                    <field name="importance"/>
+                                    <field name="relevance"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="political_news_report_view_list" model="ir.ui.view">
+        <field name="name">political.news.report.list</field>
+        <field name="model">political.news.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date_to"/>
+                <field name="name"/>
+                <field name="headline"/>
+                <field name="article_count"/>
+                <field name="negative_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'error'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_political_news_report" model="ir.actions.act_window">
+        <field name="name">Basın Bültenleri</field>
+        <field name="res_model">political.news.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz bülten yok</p>
+            <p>Günlük bülten her sabah otomatik oluşturulur; dilediğiniz tarih aralığı için elle de oluşturabilirsiniz.</p>
+        </field>
+    </record>
+</odoo>

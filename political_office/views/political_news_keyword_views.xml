@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_news_keyword_view_list" model="ir.ui.view">
+        <field name="name">political.news.keyword.list</field>
+        <field name="model">political.news.keyword</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="priority" widget="priority" nolabel="1"/>
+                <field name="name"/>
+                <field name="keyword_type"/>
+                <field name="match_mode"/>
+                <field name="exclude_terms" optional="show"/>
+                <field name="search_query" optional="hide"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="article_count"/>
+                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Haberler"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="political_news_keyword_view_search" model="ir.ui.view">
+        <field name="name">political.news.keyword.search</field>
+        <field name="model">political.news.keyword</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="tag_ids"/>
+                <filter string="Yüksek Öncelikli" name="high" domain="[('priority', '=', '1')]"/>
+                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Tür" name="group_type" context="{'group_by': 'keyword_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_political_news_keyword" model="ir.actions.act_window">
+        <field name="name">Anahtar Kelimeler</field>
+        <field name="res_model">political.news.keyword</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Takip edilecek kelimeleri ekleyin</p>
+            <p>Siyasetçinin adı, partisi, rakipleri, seçim bölgesi ve gündem konuları gibi ifadeler ekleyin.</p>
+        </field>
+    </record>
+</odoo>

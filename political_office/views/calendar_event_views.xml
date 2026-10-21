@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="calendar_event_view_form_inherit_political" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit.political</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <field name="location" position="before">
+                <field name="political_event_type" groups="political_office.group_political_user"/>
+                <field name="constituency_id" groups="political_office.group_political_user"/>
+            </field>
+            <xpath expr="//notebook/page[@name='notes']" position="after">
+                <page name="political" string="Siyasi Ofis" groups="political_office.group_political_user">
+                    <group>
+                        <group>
+                            <field name="expected_attendance"/>
+                            <field name="actual_attendance"/>
+                        </group>
+                        <group>
+                            <field name="political_request_ids" widget="many2many_tags"/>
+                            <field name="press_article_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <field name="outcome_notes" placeholder="Görüşmenin sonucu, verilen sözler, takip edilecek konular..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_list_inherit_political" model="ir.ui.view">
+        <field name="name">calendar.event.list.inherit.political</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="arch" type="xml">
+            <field name="location" position="before">
+                <field name="political_event_type" optional="show" groups="political_office.group_political_user"/>
+                <field name="constituency_id" optional="hide" groups="political_office.group_political_user"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_search_inherit_political" model="ir.ui.view">
+        <field name="name">calendar.event.search.inherit.political</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+            <filter name="mymeetings" position="after">
+                <filter string="Siyasi Etkinlikler" name="political_events" domain="[('political_event_type', '!=', False)]"/>
+            </filter>
+            <xpath expr="//group/filter[@name='responsible']" position="after">
+                <filter string="Etkinlik Türü" name="group_political_event_type" context="{'group_by': 'political_event_type'}"/>
+                <filter string="Bölge" name="group_constituency" context="{'group_by': 'constituency_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_graph_political" model="ir.ui.view">
+        <field name="name">calendar.event.graph.political</field>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <graph string="Etkinlik Analizi" type="bar" stacked="1">
+                <field name="start" interval="month"/>
+                <field name="political_event_type"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_pivot_political" model="ir.ui.view">
+        <field name="name">calendar.event.pivot.political</field>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <pivot string="Etkinlik Analizi">
+                <field name="political_event_type" type="row"/>
+                <field name="start" interval="month" type="col"/>
+                <field name="actual_attendance" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_political_agenda" model="ir.actions.act_window">
+        <field name="name">Ajanda</field>
+        <field name="res_model">calendar.event</field>
+        <field name="path">political-agenda</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="view_id" ref="calendar.view_calendar_event_calendar"/>
+        <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+        <field name="context">{'default_political_event_type': 'meeting'}</field>
+    </record>
+
+    <record id="action_political_agenda_analysis" model="ir.actions.act_window">
+        <field name="name">Etkinlik Analizi</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_id" ref="calendar_event_view_graph_political"/>
+        <field name="domain">[('political_event_type', '!=', False)]</field>
+    </record>
+</odoo>

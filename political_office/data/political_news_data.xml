@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tag_economy" model="political.news.tag">
+        <field name="name">Ekonomi</field>
+        <field name="color">2</field>
+        <field name="description">Enflasyon, istihdam, vergi, yatırım, esnaf ve çiftçi konuları.</field>
+    </record>
+    <record id="tag_health" model="political.news.tag">
+        <field name="name">Sağlık</field>
+        <field name="color">3</field>
+        <field name="description">Hastaneler, sağlık hizmetleri, salgınlar.</field>
+    </record>
+    <record id="tag_education" model="political.news.tag">
+        <field name="name">Eğitim</field>
+        <field name="color">4</field>
+        <field name="description">Okullar, üniversiteler, öğretmen ve öğrenci sorunları.</field>
+    </record>
+    <record id="tag_local" model="political.news.tag">
+        <field name="name">Yerel Gündem</field>
+        <field name="color">5</field>
+        <field name="description">Seçim bölgesindeki belediye hizmetleri, altyapı ve yerel olaylar.</field>
+    </record>
+    <record id="tag_security" model="political.news.tag">
+        <field name="name">Güvenlik ve Asayiş</field>
+        <field name="color">6</field>
+        <field name="description">Terör, suç, afet ve kamu güvenliği haberleri.</field>
+    </record>
+    <record id="tag_foreign" model="political.news.tag">
+        <field name="name">Dış Politika</field>
+        <field name="color">7</field>
+        <field name="description">Uluslararası ilişkiler, diplomasi.</field>
+    </record>
+    <record id="tag_parliament" model="political.news.tag">
+        <field name="name">Meclis ve Mevzuat</field>
+        <field name="color">8</field>
+        <field name="description">Kanun teklifleri, soru önergeleri, komisyon çalışmaları.</field>
+    </record>
+    <record id="tag_criticism" model="political.news.tag">
+        <field name="name">Eleştiri</field>
+        <field name="color">1</field>
+        <field name="description">Siyasetçiye veya partisine yönelik eleştiri, suçlama ve olumsuz haberler.</field>
+    </record>
+    <record id="tag_support" model="political.news.tag">
+        <field name="name">Destek ve Övgü</field>
+        <field name="color">10</field>
+        <field name="description">Siyasetçiye veya çalışmalarına yönelik olumlu haber ve açıklamalar.</field>
+    </record>
+    <record id="tag_crisis" model="political.news.tag">
+        <field name="name">Kriz</field>
+        <field name="color">9</field>
+        <field name="description">Acil müdahale veya kamuoyu açıklaması gerektirebilecek gelişmeler.</field>
+    </record>
+    <record id="tag_election" model="political.news.tag">
+        <field name="name">Seçim ve Anket</field>
+        <field name="color">11</field>
+        <field name="description">Seçim süreçleri, anket sonuçları, aday tartışmaları.</field>
+    </record>
+
+    <record id="source_google_news" model="political.news.source">
+        <field name="name">Google News (anahtar kelime araması)</field>
+        <field name="source_type">google_news</field>
+        <field name="website">https://news.google.com</field>
+        <field name="language">tr</field>
+        <field name="country">TR</field>
+    </record>
+</odoo>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_news_article_view_form" model="ir.ui.view">
+        <field name="name">political.news.article.form</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_ai_analyze" type="object" string="AI ile Analiz Et" class="btn-primary" icon="fa-magic" invisible="ai_state == 'done'"/>
+                    <button name="action_ai_analyze" type="object" string="Yeniden Analiz Et" icon="fa-magic" invisible="ai_state != 'done'"/>
+                    <button name="action_mark_reviewed" type="object" string="İncelendi" invisible="review_state != 'new'"/>
+                    <button name="action_create_request" type="object" string="Talep Oluştur" icon="fa-bullhorn"/>
+                    <button name="action_mark_archived" type="object" string="Arşivle" invisible="review_state == 'archived'"/>
+                    <button name="action_reset_new" type="object" string="Yeniye Al" invisible="review_state == 'new'"/>
+                    <field name="review_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_url" type="object" class="oe_stat_button" icon="fa-external-link" string="Habere Git"/>
+                        <button name="action_view_requests" type="object" class="oe_stat_button" icon="fa-bullhorn" invisible="not request_count">
+                            <field name="request_count" widget="statinfo" string="Talep"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Kritik" bg_color="text-bg-danger" invisible="importance != 'critical'"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="publisher"/>
+                            <field name="published_date"/>
+                            <field name="source_id"/>
+                            <field name="url" widget="url"/>
+                            <field name="constituency_id"/>
+                        </group>
+                        <group>
+                            <field name="sentiment" decoration-success="sentiment == 'positive'" decoration-danger="sentiment == 'negative'" widget="badge"/>
+                            <field name="importance" decoration-danger="importance in ('high', 'critical')" widget="badge"/>
+                            <field name="relevance" widget="progressbar"/>
+                            <field name="keyword_ids" widget="many2many_tags"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert" invisible="not action_required">
+                        <strong>Önerilen aksiyon: </strong><field name="action_suggestion" class="d-inline"/>
+                    </div>
+                    <notebook>
+                        <page string="AI Özeti" name="ai">
+                            <field name="ai_summary" placeholder="Henüz analiz edilmedi."/>
+                            <group>
+                                <group>
+                                    <field name="entity_people"/>
+                                    <field name="entity_organizations"/>
+                                    <field name="entity_locations"/>
+                                </group>
+                                <group>
+                                    <field name="ai_state"/>
+                                    <field name="ai_date"/>
+                                    <field name="action_required"/>
+                                    <field name="ai_error" invisible="ai_state != 'error'" class="text-danger"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Kaynak Metin" name="content">
+                            <field name="content"/>
+                            <separator string="Haber Metni" invisible="not full_text"/>
+                            <field name="full_text" invisible="not full_text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="political_news_article_view_list" model="ir.ui.view">
+        <field name="name">political.news.article.list</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="review_state == 'new'" decoration-muted="review_state == 'archived'">
+                <header>
+                    <button name="action_ai_analyze" type="object" string="AI ile Analiz Et"/>
+                    <button name="action_mark_reviewed" type="object" string="İncelendi"/>
+                    <button name="action_mark_archived" type="object" string="Arşivle"/>
+                </header>
+                <field name="published_date"/>
+                <field name="name"/>
+                <field name="publisher" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="keyword_ids" widget="many2many_tags" optional="hide"/>
+                <field name="sentiment" widget="badge" decoration-success="sentiment == 'positive'" decoration-danger="sentiment == 'negative'" optional="show"/>
+                <field name="importance" widget="badge" decoration-danger="importance in ('high', 'critical')" optional="show"/>
+                <field name="relevance" optional="show"/>
+                <field name="constituency_id" optional="hide"/>
+                <field name="ai_state" optional="hide"/>
+                <field name="review_state" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="political_news_article_view_kanban" model="ir.ui.view">
+        <field name="name">political.news.article.kanban</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="review_state" quick_create="false" group_create="false" records_draggable="1">
+                <field name="sentiment"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex small text-muted">
+                            <field name="publisher"/>
+                            <field name="published_date" class="ms-auto"/>
+                        </div>
+                        <field name="name" class="fw-bold"/>
+                        <field name="ai_summary" class="small text-truncate" style="max-height: 4.5em; white-space: normal;"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        <footer>
+                            <field name="sentiment" widget="badge" decoration-success="sentiment == 'positive'" decoration-danger="sentiment == 'negative'"/>
+                            <field name="importance" widget="badge" decoration-danger="importance in ('high', 'critical')" class="ms-1"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="political_news_article_view_search" model="ir.ui.view">
+        <field name="name">political.news.article.search</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Haber" filter_domain="['|', '|', ('name', 'ilike', self), ('ai_summary', 'ilike', self), ('content', 'ilike', self)]"/>
+                <field name="publisher"/>
+                <field name="keyword_ids"/>
+                <field name="tag_ids"/>
+                <field name="constituency_id" operator="child_of"/>
+                <field name="entity_people" string="Kişi"/>
+                <field name="source_id"/>
+                <filter string="Yeni" name="new" domain="[('review_state', '=', 'new')]"/>
+                <filter string="Aksiyon Gerekli" name="action_required" domain="[('action_required', '=', True)]"/>
+                <filter string="Kritik / Yüksek" name="important" domain="[('importance', 'in', ['high', 'critical'])]"/>
+                <separator/>
+                <filter string="Olumlu" name="positive" domain="[('sentiment', '=', 'positive')]"/>
+                <filter string="Nötr" name="neutral" domain="[('sentiment', '=', 'neutral')]"/>
+                <filter string="Olumsuz" name="negative" domain="[('sentiment', '=', 'negative')]"/>
+                <separator/>
+                <filter string="AI Bekliyor" name="ai_pending" domain="[('ai_state', '=', 'pending')]"/>
+                <filter string="AI Hatası" name="ai_error" domain="[('ai_state', '=', 'error')]"/>
+                <separator/>
+                <filter string="Yayın Tarihi" name="filter_published_date" date="published_date"/>
+                <separator/>
+                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Etiket" name="group_tag" context="{'group_by': 'tag_ids'}"/>
+                    <filter string="Anahtar Kelime" name="group_keyword" context="{'group_by': 'keyword_ids'}"/>
+                    <filter string="Duygu" name="group_sentiment" context="{'group_by': 'sentiment'}"/>
+                    <filter string="Önem" name="group_importance" context="{'group_by': 'importance'}"/>
+                    <filter string="Yayın Organı" name="group_publisher" context="{'group_by': 'publisher'}"/>
+                    <filter string="Bölge" name="group_constituency" context="{'group_by': 'constituency_id'}"/>
+                    <filter string="Yayın Tarihi" name="group_published_date" context="{'group_by': 'published_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="political_news_article_view_pivot" model="ir.ui.view">
+        <field name="name">political.news.article.pivot</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <pivot string="Medya Analizi" sample="1">
+                <field name="tag_ids" type="row"/>
+                <field name="sentiment" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="political_news_article_view_graph" model="ir.ui.view">
+        <field name="name">political.news.article.graph</field>
+        <field name="model">political.news.article</field>
+        <field name="arch" type="xml">
+            <graph string="Medya Analizi" type="line" sample="1">
+                <field name="published_date" interval="day"/>
+                <field name="sentiment"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_political_news_article" model="ir.actions.act_window">
+        <field name="name">Haberler</field>
+        <field name="res_model">political.news.article</field>
+        <field name="path">political-news</field>
+        <field name="view_mode">list,kanban,form,pivot,graph</field>
+        <field name="context">{'search_default_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz haber yok</p>
+            <p>Anahtar kelimeleri ve haber kaynaklarını tanımlayın; haberler saatlik olarak otomatik çekilir.</p>
+        </field>
+    </record>
+
+    <record id="action_political_news_analysis" model="ir.actions.act_window">
+        <field name="name">Medya Analizi</field>
+        <field name="res_model">political.news.article</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{'search_default_filter_published_date': 1}</field>
+    </record>
+</odoo>

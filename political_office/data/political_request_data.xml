@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="stage_new" model="political.request.stage">
+        <field name="name">Yeni</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="stage_in_review" model="political.request.stage">
+        <field name="name">İnceleniyor</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="stage_forwarded" model="political.request.stage">
+        <field name="name">Kuruma İletildi</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="stage_waiting_citizen" model="political.request.stage">
+        <field name="name">Vatandaştan Bilgi Bekleniyor</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="stage_solved" model="political.request.stage">
+        <field name="name">Çözüldü</field>
+        <field name="sequence">90</field>
+        <field name="fold" eval="True"/>
+        <field name="is_closed" eval="True"/>
+    </record>
+    <record id="stage_rejected" model="political.request.stage">
+        <field name="name">Sonuçlandırılamadı</field>
+        <field name="sequence">95</field>
+        <field name="fold" eval="True"/>
+        <field name="is_closed" eval="True"/>
+    </record>
+
+    <record id="category_infrastructure" model="political.request.category">
+        <field name="name">Altyapı ve Belediye Hizmetleri</field>
+        <field name="sla_days">20</field>
+    </record>
+    <record id="category_health" model="political.request.category">
+        <field name="name">Sağlık</field>
+        <field name="sla_days">7</field>
+    </record>
+    <record id="category_education" model="political.request.category">
+        <field name="name">Eğitim</field>
+        <field name="sla_days">15</field>
+    </record>
+    <record id="category_employment" model="political.request.category">
+        <field name="name">İstihdam</field>
+        <field name="sla_days">30</field>
+    </record>
+    <record id="category_social" model="political.request.category">
+        <field name="name">Sosyal Yardım</field>
+        <field name="sla_days">10</field>
+    </record>
+    <record id="category_transport" model="political.request.category">
+        <field name="name">Ulaşım</field>
+        <field name="sla_days">20</field>
+    </record>
+    <record id="category_legal" model="political.request.category">
+        <field name="name">Hukuki / İdari Süreçler</field>
+        <field name="sla_days">15</field>
+    </record>
+    <record id="category_other" model="political.request.category">
+        <field name="name">Diğer</field>
+        <field name="sla_days">15</field>
+    </record>
+</odoo>

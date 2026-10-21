@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_political" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.political</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Siyasi Ofis" string="Siyasi Ofis" name="political_office" groups="political_office.group_political_manager">
+                    <block title="Siyasetçi Profili" name="political_profile">
+                        <setting string="Profil" help="Yapay zekâ analizlerinde bağlam olarak kullanılır.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="political_politician_name" class="col-lg-4 o_light_label"/>
+                                    <field name="political_politician_name"/>
+                                </div>
+                                <div class="row">
+                                    <label for="political_politician_title" class="col-lg-4 o_light_label"/>
+                                    <field name="political_politician_title" placeholder="ör. Ankara Milletvekili"/>
+                                </div>
+                                <div class="row">
+                                    <label for="political_politician_party" class="col-lg-4 o_light_label"/>
+                                    <field name="political_politician_party"/>
+                                </div>
+                                <div class="row">
+                                    <label for="political_politician_region" class="col-lg-4 o_light_label"/>
+                                    <field name="political_politician_region"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Yapay Zekâ (Claude)" name="political_ai">
+                        <setting string="Anthropic API" help="Haber özetleme, etiketleme, duygu analizi ve bülten için kullanılır.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="political_anthropic_api_key" class="col-lg-4 o_light_label"/>
+                                    <field name="political_anthropic_api_key" password="True"/>
+                                </div>
+                                <div class="row">
+                                    <label for="political_ai_model" class="col-lg-4 o_light_label"/>
+                                    <field name="political_ai_model"/>
+                                </div>
+                                <div class="mt-2">
+                                    <field name="political_ai_use_env_credentials" class="oe_inline"/>
+                                    <label for="political_ai_use_env_credentials" class="o_light_label"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting help="Yeni çekilen haberler 15 dakikada bir arka planda analiz edilir.">
+                            <field name="political_ai_auto_process"/>
+                            <div class="content-group" invisible="not political_ai_auto_process">
+                                <div class="row mt-2">
+                                    <label for="political_ai_batch_size" class="col-lg-6 o_light_label"/>
+                                    <field name="political_ai_batch_size"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting help="AI mevcut etiketler yetersiz kaldığında en fazla 2 yeni etiket oluşturabilir.">
+                            <field name="political_ai_allow_new_tags"/>
+                        </setting>
+                    </block>
+                    <block title="Günlük Basın Bülteni" name="political_digest">
+                        <setting string="Bülten" help="Her sabah son 24 saatin bülteni oluşturulur ve bu kullanıcılara bildirilir.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="political_digest_user_ids" class="col-lg-4 o_light_label"/>
+                                    <field name="political_digest_user_ids" widget="many2many_tags"/>
+                                </div>
+                                <div class="row">
+                                    <label for="political_digest_min_relevance" class="col-lg-4 o_light_label"/>
+                                    <field name="political_digest_min_relevance"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_political_office_settings" model="ir.actions.act_window">
+        <field name="name">Ayarlar</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'political_office', 'bin_size': False}</field>
+    </record>
+</odoo>

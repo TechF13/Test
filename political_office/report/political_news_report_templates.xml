@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_political_news_report" model="ir.actions.report">
+        <field name="name">Basın Bülteni</field>
+        <field name="model">political.news.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">political_office.report_political_news_report</field>
+        <field name="report_file">political_office.report_political_news_report</field>
+        <field name="print_report_name">'Basın Bülteni - %s' % (object.date_to.strftime('%Y-%m-%d'))</field>
+        <field name="binding_model_id" ref="model_political_news_report"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_political_news_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 t-field="doc.name"/>
+                        <p class="text-muted">
+                            <span t-field="doc.date_from"/> - <span t-field="doc.date_to"/>
+                        </p>
+                        <table class="table table-sm mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Haber</th>
+                                    <th>Olumlu</th>
+                                    <th>Nötr</th>
+                                    <th>Olumsuz</th>
+                                    <th>Kritik / Yüksek</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td t-out="doc.article_count"/>
+                                    <td t-out="doc.positive_count"/>
+                                    <td t-out="doc.neutral_count"/>
+                                    <td t-out="doc.negative_count"/>
+                                    <td t-out="doc.critical_count"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div t-field="doc.report_html"/>
+                        <h3 class="mt-4">Haber Listesi</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tarih</th>
+                                    <th>Başlık</th>
+                                    <th>Yayın Organı</th>
+                                    <th>Duygu</th>
+                                    <th>Önem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.article_ids" t-as="article">
+                                    <td><span t-field="article.published_date" t-options="{'widget': 'date'}"/></td>
+                                    <td><a t-att-href="article.url" t-out="article.name"/></td>
+                                    <td t-out="article.publisher"/>
+                                    <td><span t-field="article.sentiment"/></td>
+                                    <td><span t-field="article.importance"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

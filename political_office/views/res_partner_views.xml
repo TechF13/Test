@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_view_form_inherit_political" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.political</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_political_requests" type="object" class="oe_stat_button" icon="fa-bullhorn"
+                        groups="political_office.group_political_user" invisible="not political_request_count">
+                    <field name="political_request_count" widget="statinfo" string="Talep"/>
+                </button>
+            </div>
+            <field name="category_id" position="after">
+                <field name="political_contact_type" groups="political_office.group_political_user"/>
+                <field name="constituency_id" groups="political_office.group_political_user"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_inherit_political" model="ir.ui.view">
+        <field name="name">res.partner.search.inherit.political</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="constituency_id" operator="child_of" groups="political_office.group_political_user"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_political_contacts" model="ir.actions.act_window">
+        <field name="name">Kişiler</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('political_contact_type', '!=', False)]</field>
+        <field name="context">{'default_political_contact_type': 'citizen'}</field>
+    </record>
+</odoo>

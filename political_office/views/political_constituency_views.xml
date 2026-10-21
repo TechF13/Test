@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_constituency_view_form" model="ir.ui.view">
+        <field name="name">political.constituency.form</field>
+        <field name="model">political.constituency</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_requests" type="object" class="oe_stat_button" icon="fa-bullhorn">
+                            <field name="request_count" widget="statinfo" string="Talep"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Arşivlendi" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="ör. Çankaya"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="level"/>
+                            <field name="parent_id"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="responsible_user_id" widget="many2one_avatar_user"/>
+                            <field name="population"/>
+                            <field name="voter_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Alt Bölgeler" name="children">
+                            <field name="child_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="level"/>
+                                    <field name="voter_count"/>
+                                    <field name="responsible_user_id" widget="many2one_avatar_user"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notlar" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="political_constituency_view_list" model="ir.ui.view">
+        <field name="name">political.constituency.list</field>
+        <field name="model">political.constituency</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="complete_name"/>
+                <field name="level"/>
+                <field name="voter_count" sum="Toplam"/>
+                <field name="responsible_user_id" widget="many2one_avatar_user" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="political_constituency_view_search" model="ir.ui.view">
+        <field name="name">political.constituency.search</field>
+        <field name="model">political.constituency</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="complete_name"/>
+                <field name="responsible_user_id"/>
+                <filter string="İl" name="province" domain="[('level', '=', 'province')]"/>
+                <filter string="İlçe" name="district" domain="[('level', '=', 'district')]"/>
+                <filter string="Mahalle / Köy" name="neighborhood" domain="[('level', '=', 'neighborhood')]"/>
+                <separator/>
+                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_political_constituency" model="ir.actions.act_window">
+        <field name="name">Bölgeler</field>
+        <field name="res_model">political.constituency</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

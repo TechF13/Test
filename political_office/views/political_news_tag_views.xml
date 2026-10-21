@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_news_tag_view_list" model="ir.ui.view">
+        <field name="name">political.news.tag.list</field>
+        <field name="model">political.news.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="ai_assignable"/>
+                <field name="created_by_ai" optional="show"/>
+                <field name="color" widget="color_picker"/>
+                <field name="article_count"/>
+                <button name="action_view_articles" type="object" icon="fa-newspaper-o" title="Haberler"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="political_news_tag_view_search" model="ir.ui.view">
+        <field name="name">political.news.tag.search</field>
+        <field name="model">political.news.tag</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="AI Tarafından Oluşturulan" name="ai_created" domain="[('created_by_ai', '=', True)]"/>
+                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_political_news_tag" model="ir.actions.act_window">
+        <field name="name">Haber Etiketleri</field>
+        <field name="res_model">political.news.tag</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

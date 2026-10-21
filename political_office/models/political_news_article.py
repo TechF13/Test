@@ -78,7 +78,7 @@ class PoliticalNewsArticle(models.Model):
     entity_people = fields.Char('Geçen Kişiler')
     entity_organizations = fields.Char('Geçen Kurumlar')
     entity_locations = fields.Char('Geçen Yerler')
-    request_ids = fields.One2many('political.request', 'article_id', 'Oluşturulan Talepler')
+    request_ids = fields.One2many('project.task', 'political_article_id', 'Oluşturulan Talepler')
     request_count = fields.Integer(compute='_compute_request_count')
     active = fields.Boolean(default=True)
 
@@ -309,21 +309,25 @@ Etiket listesi:
         return {
             'type': 'ir.actions.act_window',
             'name': self.env._('Talep Oluştur'),
-            'res_model': 'political.request',
+            'res_model': 'project.task',
             'view_mode': 'form',
             'target': 'current',
-            'context': {
-                'default_name': self.name,
-                'default_channel': 'news',
-                'default_article_id': self.id,
-                'default_constituency_id': self.constituency_id.id,
-                'default_description': description,
-            },
+            'context': dict(
+                self.env['project.task']._political_request_context(),
+                default_name=self.name,
+                default_political_channel='news',
+                default_political_article_id=self.id,
+                default_constituency_id=self.constituency_id.id,
+                default_description=description,
+            ),
         }
 
     def action_view_requests(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window']._for_xml_id('political_office.action_political_request')
-        action['domain'] = [('article_id', '=', self.id)]
-        action['context'] = {'default_article_id': self.id, 'default_channel': 'news'}
+        action['domain'] = [('political_article_id', '=', self.id)]
+        action['context'] = dict(
+            self.env['project.task']._political_request_context(),
+            default_political_article_id=self.id, default_political_channel='news',
+        )
         return action

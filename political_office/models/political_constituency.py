@@ -17,6 +17,10 @@ class PoliticalConstituency(models.Model):
         ('district', 'İlçe'),
         ('neighborhood', 'Mahalle / Köy'),
     ], string='Seviye', required=True, default='district')
+    state_id = fields.Many2one(
+        'res.country.state', 'İl (Odoo)', index='btree_not_null',
+        help="İl seviyesindeki bölgeyi Odoo'daki il kaydına bağlar; adresinde bu il olan kişiler için kullanılır.",
+    )
     parent_id = fields.Many2one('political.constituency', 'Üst Bölge', index=True, ondelete='cascade')
     parent_path = fields.Char(index=True)
     child_ids = fields.One2many('political.constituency', 'parent_id', 'Alt Bölgeler')
@@ -35,8 +39,14 @@ class PoliticalConstituency(models.Model):
             else:
                 zone.complete_name = zone.name
 
+    @api.onchange('state_id')
+    def _onchange_state_id(self):
+        if self.state_id and not self.name:
+            self.name = self.state_id.name
+            self.level = 'province'
+
     def _compute_request_count(self):
-        counts = dict(self.env['political.request']._read_group(
+        counts = dict(self.env['project.task']._read_group(
             [('constituency_id', 'in', self.ids)], ['constituency_id'], ['__count'],
         ))
         for zone in self:
@@ -50,6 +60,6 @@ class PoliticalConstituency(models.Model):
     def action_view_requests(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window']._for_xml_id('political_office.action_political_request')
-        action['domain'] = [('constituency_id', 'child_of', self.id)]
-        action['context'] = {'default_constituency_id': self.id}
+        action['domain'] = [('project_id.is_political_request', '=', True), ('constituency_id', 'child_of', self.id)]
+        action['context'] = dict(self.env['project.task']._political_request_context(), default_constituency_id=self.id)
         return action

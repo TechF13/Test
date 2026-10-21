@@ -1,6 +1,6 @@
 from . import political_ai_service
 from . import political_constituency
-from . import political_request
+from . import project
 from . import calendar_event
 from . import res_partner
 from . import res_company

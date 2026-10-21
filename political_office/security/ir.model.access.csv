@@ -1,12 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_political_constituency_user,political.constituency.user,model_political_constituency,group_political_user,1,1,1,0
 access_political_constituency_manager,political.constituency.manager,model_political_constituency,group_political_manager,1,1,1,1
-access_political_request_stage_user,political.request.stage.user,model_political_request_stage,group_political_user,1,0,0,0
-access_political_request_stage_manager,political.request.stage.manager,model_political_request_stage,group_political_manager,1,1,1,1
-access_political_request_category_user,political.request.category.user,model_political_request_category,group_political_user,1,0,0,0
-access_political_request_category_manager,political.request.category.manager,model_political_request_category,group_political_manager,1,1,1,1
-access_political_request_user,political.request.user,model_political_request,group_political_user,1,1,1,0
-access_political_request_manager,political.request.manager,model_political_request,group_political_manager,1,1,1,1
 access_political_news_source_user,political.news.source.user,model_political_news_source,group_political_user,1,0,0,0
 access_political_news_source_manager,political.news.source.manager,model_political_news_source,group_political_manager,1,1,1,1
 access_political_news_keyword_user,political.news.keyword.user,model_political_news_keyword,group_political_user,1,0,0,0

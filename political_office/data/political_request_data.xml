@@ -1,64 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <record id="stage_new" model="political.request.stage">
+    <!-- Citizen requests are standard project tasks in a dedicated project. -->
+    <record id="project_citizen_requests" model="project.project">
+        <field name="name">Vatandaş Talepleri</field>
+        <field name="label_tasks">Talepler</field>
+        <field name="is_political_request" eval="True"/>
+        <field name="privacy_visibility">employees</field>
+    </record>
+
+    <record id="stage_new" model="project.task.type">
         <field name="name">Yeni</field>
         <field name="sequence">1</field>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
-    <record id="stage_in_review" model="political.request.stage">
+    <record id="stage_in_review" model="project.task.type">
         <field name="name">İnceleniyor</field>
         <field name="sequence">10</field>
+        <field name="rotting_threshold_days">7</field>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
-    <record id="stage_forwarded" model="political.request.stage">
+    <record id="stage_forwarded" model="project.task.type">
         <field name="name">Kuruma İletildi</field>
         <field name="sequence">20</field>
+        <field name="rotting_threshold_days">15</field>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
-    <record id="stage_waiting_citizen" model="political.request.stage">
+    <record id="stage_waiting_citizen" model="project.task.type">
         <field name="name">Vatandaştan Bilgi Bekleniyor</field>
         <field name="sequence">30</field>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
-    <record id="stage_solved" model="political.request.stage">
+    <record id="stage_solved" model="project.task.type">
         <field name="name">Çözüldü</field>
         <field name="sequence">90</field>
         <field name="fold" eval="True"/>
-        <field name="is_closed" eval="True"/>
+        <field name="rating_template_id" ref="project.rating_project_request_email_template"/>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
-    <record id="stage_rejected" model="political.request.stage">
+    <record id="stage_rejected" model="project.task.type">
         <field name="name">Sonuçlandırılamadı</field>
         <field name="sequence">95</field>
         <field name="fold" eval="True"/>
-        <field name="is_closed" eval="True"/>
+        <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
 
-    <record id="category_infrastructure" model="political.request.category">
+    <!-- Request categories are project tags carrying a resolution time. -->
+    <record id="tag_request_infrastructure" model="project.tags">
         <field name="name">Altyapı ve Belediye Hizmetleri</field>
-        <field name="sla_days">20</field>
+        <field name="political_sla_days">20</field>
     </record>
-    <record id="category_health" model="political.request.category">
+    <record id="tag_request_health" model="project.tags">
         <field name="name">Sağlık</field>
-        <field name="sla_days">7</field>
+        <field name="political_sla_days">7</field>
     </record>
-    <record id="category_education" model="political.request.category">
+    <record id="tag_request_education" model="project.tags">
         <field name="name">Eğitim</field>
-        <field name="sla_days">15</field>
+        <field name="political_sla_days">15</field>
     </record>
-    <record id="category_employment" model="political.request.category">
+    <record id="tag_request_employment" model="project.tags">
         <field name="name">İstihdam</field>
-        <field name="sla_days">30</field>
+        <field name="political_sla_days">30</field>
     </record>
-    <record id="category_social" model="political.request.category">
+    <record id="tag_request_social" model="project.tags">
         <field name="name">Sosyal Yardım</field>
-        <field name="sla_days">10</field>
+        <field name="political_sla_days">10</field>
     </record>
-    <record id="category_transport" model="political.request.category">
+    <record id="tag_request_transport" model="project.tags">
         <field name="name">Ulaşım</field>
-        <field name="sla_days">20</field>
+        <field name="political_sla_days">20</field>
     </record>
-    <record id="category_legal" model="political.request.category">
+    <record id="tag_request_legal" model="project.tags">
         <field name="name">Hukuki / İdari Süreçler</field>
-        <field name="sla_days">15</field>
+        <field name="political_sla_days">15</field>
     </record>
-    <record id="category_other" model="political.request.category">
-        <field name="name">Diğer</field>
-        <field name="sla_days">15</field>
+
+    <!-- Contact types are standard contact tags. -->
+    <record id="partner_category_citizen" model="res.partner.category">
+        <field name="name">Vatandaş</field>
+    </record>
+    <record id="partner_category_party_member" model="res.partner.category">
+        <field name="name">Parti Üyesi</field>
+    </record>
+    <record id="partner_category_journalist" model="res.partner.category">
+        <field name="name">Gazeteci</field>
+    </record>
+    <record id="partner_category_ngo" model="res.partner.category">
+        <field name="name">STK / Dernek</field>
+    </record>
+    <record id="partner_category_institution" model="res.partner.category">
+        <field name="name">Kamu Kurumu</field>
+    </record>
+
+    <!-- Political event types are standard calendar tags. -->
+    <record id="event_type_citizen_day" model="calendar.event.type">
+        <field name="name">Halk Günü</field>
+    </record>
+    <record id="event_type_field_visit" model="calendar.event.type">
+        <field name="name">Saha Ziyareti</field>
+    </record>
+    <record id="event_type_rally" model="calendar.event.type">
+        <field name="name">Miting / Halk Buluşması</field>
+    </record>
+    <record id="event_type_parliament" model="calendar.event.type">
+        <field name="name">Meclis / Komisyon</field>
+    </record>
+    <record id="event_type_party" model="calendar.event.type">
+        <field name="name">Parti Toplantısı</field>
+    </record>
+    <record id="event_type_media" model="calendar.event.type">
+        <field name="name">Basın / Röportaj</field>
+    </record>
+    <record id="event_type_citizen_meeting" model="calendar.event.type">
+        <field name="name">Vatandaş Görüşmesi</field>
     </record>
 </odoo>

@@ -3,11 +3,11 @@
     <menuitem id="menu_political_root" name="Siyasi Ofis" web_icon="political_office,static/description/icon.png"
               groups="group_political_user" sequence="45"/>
 
-    <menuitem id="menu_political_agenda" name="Ajanda" parent="menu_political_root" action="action_political_agenda" sequence="10"/>
+    <menuitem id="menu_political_agenda" name="Ajanda" parent="menu_political_root" action="calendar.action_calendar_event" sequence="10"/>
 
     <menuitem id="menu_political_requests_root" name="Talepler" parent="menu_political_root" sequence="20"/>
     <menuitem id="menu_political_requests" name="Vatandaş Talepleri" parent="menu_political_requests_root" action="action_political_request" sequence="10"/>
-    <menuitem id="menu_political_contacts" name="Kişiler" parent="menu_political_requests_root" action="action_political_contacts" sequence="20"/>
+    <menuitem id="menu_political_contacts" name="Kişiler" parent="menu_political_requests_root" action="contacts.action_contacts" sequence="20"/>
 
     <menuitem id="menu_political_media_root" name="Medya Takibi" parent="menu_political_root" sequence="30"/>
     <menuitem id="menu_political_news" name="Haberler" parent="menu_political_media_root" action="action_political_news_article" sequence="10"/>
@@ -21,8 +21,8 @@
     <menuitem id="menu_political_config" name="Yapılandırma" parent="menu_political_root" sequence="90" groups="group_political_manager"/>
     <menuitem id="menu_political_settings" name="Ayarlar" parent="menu_political_config" action="action_political_office_settings" sequence="1"/>
     <menuitem id="menu_political_constituency" name="Bölgeler" parent="menu_political_config" action="action_political_constituency" sequence="10"/>
-    <menuitem id="menu_political_request_stage" name="Talep Aşamaları" parent="menu_political_config" action="action_political_request_stage" sequence="20"/>
-    <menuitem id="menu_political_request_category" name="Talep Kategorileri" parent="menu_political_config" action="action_political_request_category" sequence="30"/>
+    <menuitem id="menu_political_request_stage" name="Talep Aşamaları" parent="menu_political_config" action="project.open_task_type_form" sequence="20"/>
+    <menuitem id="menu_political_request_category" name="Talep Kategorileri" parent="menu_political_config" action="action_political_request_tags" sequence="30"/>
     <menuitem id="menu_political_news_source" name="Haber Kaynakları" parent="menu_political_config" action="action_political_news_source" sequence="40"/>
     <menuitem id="menu_political_news_keyword" name="Anahtar Kelimeler" parent="menu_political_config" action="action_political_news_keyword" sequence="50"/>
     <menuitem id="menu_political_news_tag" name="Haber Etiketleri" parent="menu_political_config" action="action_political_news_tag" sequence="60"/>

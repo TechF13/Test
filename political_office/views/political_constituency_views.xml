@@ -19,6 +19,7 @@
                     <group>
                         <group>
                             <field name="level"/>
+                            <field name="state_id" invisible="level != 'province'" options="{'no_create': True}"/>
                             <field name="parent_id"/>
                             <field name="code"/>
                         </group>

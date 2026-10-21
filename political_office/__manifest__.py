@@ -17,7 +17,7 @@ Siyasetçi ve ekibi için uçtan uca ofis yönetimi:
 """,
     'author': 'F13 İstanbul',
     'license': 'LGPL-3',
-    'depends': ['mail', 'calendar', 'contacts', 'project'],
+    'depends': ['mail', 'calendar', 'contacts', 'project', 'project_sms', 'portal'],
     'data': [
         'security/political_office_security.xml',
         'security/ir.model.access.csv',
@@ -31,12 +31,21 @@ Siyasetçi ve ekibi için uçtan uca ofis yönetimi:
         'views/political_news_source_views.xml',
         'views/political_news_keyword_views.xml',
         'views/political_news_tag_views.xml',
+        'views/political_news_story_views.xml',
         'views/political_news_article_views.xml',
         'report/political_news_report_templates.xml',
         'views/political_news_report_views.xml',
+        'views/public_request_templates.xml',
         'views/res_config_settings_views.xml',
+        'views/political_dashboard_views.xml',
         'views/political_office_menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'political_office/static/src/dashboard/*',
+        ],
+    },
+    'post_init_hook': 'post_init_hook',
     'application': True,
     'installable': True,
 }

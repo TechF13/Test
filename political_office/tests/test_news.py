@@ -1,7 +1,8 @@
+import json
 from datetime import datetime
 from unittest.mock import patch
 
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import HttpCase, TransactionCase, tagged
 
 from odoo.addons.political_office.models.political_news_article import normalize_url
 from odoo.addons.political_office.models.political_news_keyword import fold_text
@@ -47,6 +48,7 @@ class TestNewsPipeline(TransactionCase):
         super().setUpClass()
         cls.Keyword = cls.env['political.news.keyword']
         cls.tag_health = cls.env.ref('political_office.tag_health')
+        cls.env['political.news.source'].search([]).active = False
         cls.kw_person = cls.Keyword.create({'name': 'Ahmet Yılmaz', 'keyword_type': 'self'})
         cls.kw_city = cls.Keyword.create({
             'name': 'Ankara', 'keyword_type': 'region', 'tag_ids': [(4, cls.tag_health.id)],
@@ -180,3 +182,111 @@ class TestNewsPipeline(TransactionCase):
         self.assertEqual(report.negative_count, 1)
         self.assertIn('https://example.com/r0', report.report_html)
         self.assertNotIn('<script>', report.report_html)
+
+
+YOUTUBE_FEED = b"""<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+  <entry>
+    <yt:videoId>abc</yt:videoId>
+    <title>Ahmet Y\xc4\xb1lmaz meclis konu\xc5\x9fmas\xc4\xb1</title>
+    <link rel="alternate" href="https://www.youtube.com/watch?v=abc"/>
+    <published>2026-10-20T08:00:00+00:00</published>
+    <media:group><media:description>Genel kurulda b\xc3\xbct\xc3\xa7e konu\xc5\x9fmas\xc4\xb1</media:description></media:group>
+  </entry>
+</feed>"""
+
+
+@tagged('post_install', '-at_install')
+class TestNewsExtensions(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.keyword = cls.env['political.news.keyword'].create({'name': 'Ahmet Yılmaz', 'keyword_type': 'self'})
+        cls.Article = cls.env['political.news.article']
+
+    def test_youtube_source(self):
+        source = self.env['political.news.source'].create({
+            'name': 'Kanal', 'source_type': 'youtube', 'youtube_channel_id': 'UC123', 'platform': 'YouTube',
+        })
+        self.assertEqual(source.media_type, 'video')
+        with patch('odoo.addons.political_office.models.political_news_source.http_get', return_value=YOUTUBE_FEED) as get:
+            article = source._fetch_articles()
+        self.assertEqual(get.call_args.args[0], 'https://www.youtube.com/feeds/videos.xml?channel_id=UC123')
+        self.assertEqual(article.media_type, 'video')
+        self.assertEqual(article.content, 'Genel kurulda bütçe konuşması')
+
+    def test_story_clustering(self):
+        first = self.Article.create({'name': 'Çankaya Belediyesi su kesintisi için açıklama yaptı', 'url': 'https://e.com/s1'})
+        second = self.Article.create({'name': 'Çankaya su kesintisi: Belediye açıklama yaptı', 'url': 'https://e.com/s2'})
+        other = self.Article.create({'name': 'Dolar güne yükselişle başladı', 'url': 'https://e.com/s3'})
+        self.assertTrue(first.story_id)
+        self.assertEqual(first.story_id, second.story_id)
+        self.assertNotEqual(first.story_id, other.story_id)
+        self.assertEqual(first.story_id.article_count, 2)
+
+        # the AI can merge an article into an existing story
+        result = {'summary': 'x', 'sentiment': 'neutral', 'importance': 'low', 'relevance': 10, 'tags': [],
+                  'new_tags': [], 'people': [], 'organizations': [], 'locations': [], 'action_required': False,
+                  'action_suggestion': '', 'same_story_as': 1}
+        old_story = other.story_id
+        with patch.object(type(other), '_ai_story_candidates', return_value=first.story_id), \
+                patch.object(type(self.env['political.ai.service']), '_generate_json', return_value=result):
+            other.action_ai_analyze()
+        self.assertEqual(other.story_id, first.story_id)
+        self.assertFalse(old_story.exists(), 'the emptied story is removed')
+
+    def test_alert_and_press_statement(self):
+        self.env['ir.config_parameter'].set_param('political_office.alert_level', 'high')
+        admin = self.env.ref('base.user_admin')
+        self.env.company.political_alert_user_ids = admin
+        article = self.Article.create({'name': 'Kriz haberi', 'url': 'https://e.com/k1', 'content': 'Kriz'})
+        result = {'summary': 'Kriz özeti', 'sentiment': 'negative', 'importance': 'critical', 'relevance': 90,
+                  'tags': [], 'new_tags': [], 'people': [], 'organizations': [], 'locations': [],
+                  'action_required': True, 'action_suggestion': 'Açıklama yap', 'same_story_as': 0}
+        with patch.object(type(self.env['political.ai.service']), '_generate_json', return_value=result):
+            article.action_ai_analyze()
+            article.action_ai_analyze()
+        self.assertTrue(article.alert_sent)
+        alerts = article.message_ids.filtered(lambda m: m.subject and m.subject.startswith('Medya uyarısı'))
+        self.assertEqual(len(alerts), 1, 'an article triggers a single alert')
+        self.assertIn(admin.partner_id, alerts.partner_ids)
+
+        statement = {'title': 'Açıklama', 'statement': 'Birinci paragraf.\n\nİkinci <b>paragraf</b>.',
+                     'key_messages': ['Mesaj'], 'cautions': []}
+        with patch.object(type(self.env['political.ai.service']), '_generate_json', return_value=statement):
+            article.story_id.action_ai_press_statement()
+        self.assertIn('<p>Birinci paragraf.</p>', article.story_id.press_statement)
+        self.assertNotIn('<b>paragraf</b>', article.story_id.press_statement)
+
+    def test_dashboard_data(self):
+        self.Article.create({'name': 'Olumsuz', 'url': 'https://e.com/d1', 'sentiment': 'negative',
+                             'importance': 'high', 'action_required': True})
+        data = self.env['political.dashboard'].get_dashboard_data()
+        self.assertEqual(len(data['trend']['days']), 7)
+        self.assertGreaterEqual(data['trend']['days'][-1]['negative'], 1)
+        self.assertGreaterEqual(data['kpis']['action_news'], 1)
+        self.assertTrue(any(n['name'] == 'Olumsuz' for n in data['important_news']))
+        action = self.env['political.dashboard'].open_kpi('overdue_requests')
+        self.assertEqual(action['res_model'], 'project.task')
+
+
+@tagged('post_install', '-at_install')
+class TestSocialWebhook(HttpCase):
+
+    def test_webhook(self):
+        self.env['political.news.keyword'].create({'name': 'Ankara'})
+        source = self.env['political.news.source'].create({'name': 'X hesabı', 'source_type': 'webhook', 'platform': 'X'})
+        self.assertTrue(source.webhook_token)
+        self.assertEqual(source.media_type, 'social')
+        url = f'/political_office/webhook/{source.webhook_token}'
+        payload = {'items': [
+            {'text': 'Ankara için yeni metro hattı müjdesi', 'url': 'https://x.com/a/status/1', 'author': '@a'},
+            {'text': 'Alakasız paylaşım', 'url': 'https://x.com/a/status/2'},
+            {'text': 'URL yok'},
+        ]}
+        response = self.url_open(url, data=json.dumps(payload), headers={'Content-Type': 'application/json'})
+        self.assertEqual(response.json(), {'received': 2, 'created': 1})
+        article = self.env['political.news.article'].search([('url', '=', 'https://x.com/a/status/1')])
+        self.assertEqual((article.media_type, article.platform, article.publisher), ('social', 'X', '@a'))
+        self.assertEqual(self.url_open('/political_office/webhook/wrong', data='{}').status_code, 404)

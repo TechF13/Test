@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="political_office.Dashboard">
+        <div class="o_action o_political_dashboard h-100 overflow-auto">
+            <div class="container-fluid py-3 px-4" t-if="state.data">
+                <t t-set="data" t-value="state.data"/>
+                <div class="d-flex align-items-center mb-3">
+                    <h2 class="mb-0">Siyasi Ofis Paneli</h2>
+                    <button class="btn btn-light ms-auto" t-on-click="() => this.load()" title="Yenile">
+                        <i class="fa fa-refresh"/>
+                    </button>
+                </div>
+
+                <div class="o_pd_kpis mb-4">
+                    <t t-foreach="[
+                        ['open_requests', 'Açık Talepler', 'fa-bullhorn', ''],
+                        ['overdue_requests', 'Geciken Talepler', 'fa-clock-o', 'o_pd_alert'],
+                        ['today_events', 'Bugünkü Etkinlikler', 'fa-calendar', ''],
+                        ['open_motions', 'Açık Önergeler', 'fa-university', ''],
+                        ['new_news', 'Yeni Haber (24 saat)', 'fa-newspaper-o', ''],
+                        ['negative_news', 'Olumsuz Haber (7 gün)', 'fa-thumbs-o-down', 'o_pd_alert'],
+                        ['action_news', 'Aksiyon Bekleyen Haber', 'fa-flag', 'o_pd_alert'],
+                    ]" t-as="kpi" t-key="kpi[0]">
+                        <button class="o_pd_kpi" t-att-class="data.kpis[kpi[0]] and kpi[3]" t-on-click="() => this.openKpi(kpi[0])">
+                            <span class="o_pd_kpi_label"><i t-attf-class="fa {{kpi[2]}} me-1"/><t t-out="kpi[1]"/></span>
+                            <span class="o_pd_kpi_value" t-out="data.kpis[kpi[0]]"/>
+                        </button>
+                    </t>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <section class="o_pd_card">
+                            <h3>Medya Duygu Dağılımı <small>son 7 gün</small></h3>
+                            <div class="o_pd_legend">
+                                <t t-foreach="data.trend.labels" t-as="item" t-key="item.key">
+                                    <span><i t-attf-class="o_pd_swatch o_pd_{{item.key}}"/><t t-out="item.label"/>: <b t-out="sentimentTotal(item.key)"/></span>
+                                </t>
+                            </div>
+                            <div class="o_pd_chart" role="img" aria-label="Son 7 günde günlük olumlu, nötr ve olumsuz haber sayıları">
+                                <t t-foreach="data.trend.days" t-as="day" t-key="day.day">
+                                    <div class="o_pd_col" t-on-mouseenter="() => state.hover = day" t-on-mouseleave="() => state.hover = null">
+                                        <div class="o_pd_stack">
+                                            <div t-if="day.negative" class="o_pd_seg o_pd_negative" t-att-style="'height:' + segmentHeight(day.negative)"/>
+                                            <div t-if="day.neutral" class="o_pd_seg o_pd_neutral" t-att-style="'height:' + segmentHeight(day.neutral)"/>
+                                            <div t-if="day.positive" class="o_pd_seg o_pd_positive" t-att-style="'height:' + segmentHeight(day.positive)"/>
+                                        </div>
+                                        <span class="o_pd_day" t-out="day.day"/>
+                                        <div t-if="state.hover === day" class="o_pd_tooltip">
+                                            <b t-out="day.day"/>
+                                            <div>Olumlu: <t t-out="day.positive"/></div>
+                                            <div>Nötr: <t t-out="day.neutral"/></div>
+                                            <div>Olumsuz: <t t-out="day.negative"/></div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </section>
+
+                        <section class="o_pd_card mt-4">
+                            <div class="d-flex align-items-baseline">
+                                <h3>Öncelikli Haberler</h3>
+                                <a class="ms-auto small" href="#" t-on-click.prevent="() => this.openXmlAction('political_office.action_political_news_article')">Tümü</a>
+                            </div>
+                            <div t-if="!data.important_news.length" class="text-muted">İncelenmeyi bekleyen kritik haber yok.</div>
+                            <t t-foreach="data.important_news" t-as="news" t-key="news.id">
+                                <div class="o_pd_row" t-on-click="() => this.openRecord('political.news.article', news.id)">
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold" t-out="news.name"/>
+                                        <div class="small text-muted"><t t-out="news.publisher"/> · <t t-out="news.date"/></div>
+                                        <div t-if="news.action" class="small mt-1"><i class="fa fa-flag me-1"/><t t-out="news.action"/></div>
+                                    </div>
+                                    <span t-if="news.importance" t-attf-class="badge rounded-pill o_pd_badge_{{news.importance}}" t-out="news.importance_label"/>
+                                </div>
+                            </t>
+                        </section>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <section class="o_pd_card">
+                            <div class="d-flex align-items-baseline">
+                                <h3>Bugünün Ajandası</h3>
+                                <a class="ms-auto small" href="#" t-on-click.prevent="() => this.openXmlAction('calendar.action_calendar_event')">Takvim</a>
+                            </div>
+                            <div t-if="!data.events.length" class="text-muted">Bugün için planlanmış etkinlik yok.</div>
+                            <t t-foreach="data.events" t-as="event" t-key="event.id">
+                                <div class="o_pd_row" t-on-click="() => this.openRecord('calendar.event', event.id)">
+                                    <span class="o_pd_time" t-out="event.time"/>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold" t-out="event.name"/>
+                                        <div class="small text-muted">
+                                            <t t-out="event.location"/>
+                                            <t t-foreach="event.tags" t-as="tag" t-key="tag"><span class="badge text-bg-light ms-1" t-out="tag"/></t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </section>
+
+                        <section class="o_pd_card mt-4">
+                            <div class="d-flex align-items-baseline">
+                                <h3>Gündemdeki Olaylar <small>son 3 gün</small></h3>
+                                <a class="ms-auto small" href="#" t-on-click.prevent="() => this.openXmlAction('political_office.action_political_news_story')">Tümü</a>
+                            </div>
+                            <div t-if="!data.stories.length" class="text-muted">Birden fazla haberde geçen olay yok.</div>
+                            <t t-foreach="data.stories" t-as="story" t-key="story.id">
+                                <div class="o_pd_row" t-on-click="() => this.openRecord('political.news.story', story.id)">
+                                    <div class="flex-grow-1 fw-semibold" t-out="story.name"/>
+                                    <span class="small text-muted text-nowrap ms-2">
+                                        <t t-out="story.count"/> haber · <t t-out="story.publishers"/> kaynak
+                                        <t t-if="story.negative"> · <span class="o_pd_neg_text"><t t-out="story.negative"/> olumsuz</span></t>
+                                    </span>
+                                </div>
+                            </t>
+                        </section>
+
+                        <section class="o_pd_card mt-4">
+                            <h3>Bölgelere Göre Açık Talepler</h3>
+                            <div t-if="!data.zones.length" class="text-muted">Bölge atanmış açık talep yok.</div>
+                            <t t-foreach="data.zones" t-as="zone" t-key="zone.id">
+                                <div class="o_pd_hbar">
+                                    <span class="o_pd_hbar_label" t-out="zone.name"/>
+                                    <div class="o_pd_hbar_track"><div class="o_pd_hbar_fill" t-att-style="'width:' + zoneWidth(zone.count)"/></div>
+                                    <span class="o_pd_hbar_value" t-out="zone.count"/>
+                                </div>
+                            </t>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

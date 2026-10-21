@@ -63,4 +63,133 @@
         <field name="language">tr</field>
         <field name="country">TR</field>
     </record>
+
+
+    <!-- Turkish news feeds verified on 2026-10-21; only articles matching a keyword are stored. -->
+    <record id="source_aa_gundem" model="political.news.source">
+        <field name="name">Anadolu Ajansı - Gündem</field>
+        <field name="sequence">11</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.aa.com.tr/tr/rss/default?cat=guncel</field>
+        <field name="website">https://www.aa.com.tr</field>
+    </record>
+    <record id="source_trt_gundem" model="political.news.source">
+        <field name="name">TRT Haber - Gündem</field>
+        <field name="sequence">12</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.trthaber.com/gundem_articles.rss</field>
+        <field name="website">https://www.trthaber.com</field>
+    </record>
+    <record id="source_trt_sondakika" model="political.news.source">
+        <field name="name">TRT Haber - Son Dakika</field>
+        <field name="sequence">13</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.trthaber.com/sondakika_articles.rss</field>
+        <field name="website">https://www.trthaber.com</field>
+    </record>
+    <record id="source_ntv_turkiye" model="political.news.source">
+        <field name="name">NTV - Türkiye</field>
+        <field name="sequence">14</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.ntv.com.tr/turkiye.rss</field>
+        <field name="website">https://www.ntv.com.tr</field>
+    </record>
+    <record id="source_hurriyet_gundem" model="political.news.source">
+        <field name="name">Hürriyet - Gündem</field>
+        <field name="sequence">15</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.hurriyet.com.tr/rss/gundem</field>
+        <field name="website">https://www.hurriyet.com.tr</field>
+    </record>
+    <record id="source_milliyet_gundem" model="political.news.source">
+        <field name="name">Milliyet - Gündem</field>
+        <field name="sequence">16</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.milliyet.com.tr/rss/rssnew/gundemrss.xml</field>
+        <field name="website">https://www.milliyet.com.tr</field>
+    </record>
+    <record id="source_sabah_gundem" model="political.news.source">
+        <field name="name">Sabah - Gündem</field>
+        <field name="sequence">17</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.sabah.com.tr/rss/gundem.xml</field>
+        <field name="website">https://www.sabah.com.tr</field>
+    </record>
+    <record id="source_haberturk_gundem" model="political.news.source">
+        <field name="name">Habertürk - Gündem</field>
+        <field name="sequence">18</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.haberturk.com/rss/kategori/gundem.xml</field>
+        <field name="website">https://www.haberturk.com</field>
+    </record>
+    <record id="source_cnnturk_turkiye" model="political.news.source">
+        <field name="name">CNN Türk - Türkiye</field>
+        <field name="sequence">19</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.cnnturk.com/feed/rss/turkiye/news</field>
+        <field name="website">https://www.cnnturk.com</field>
+    </record>
+    <record id="source_cumhuriyet_siyaset" model="political.news.source">
+        <field name="name">Cumhuriyet - Siyaset</field>
+        <field name="sequence">20</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.cumhuriyet.com.tr/rss/siyaset</field>
+        <field name="website">https://www.cumhuriyet.com.tr</field>
+    </record>
+    <record id="source_sozcu_gundem" model="political.news.source">
+        <field name="name">Sözcü - Gündem</field>
+        <field name="sequence">21</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.sozcu.com.tr/feeds-rss-category-gundem</field>
+        <field name="website">https://www.sozcu.com.tr</field>
+    </record>
+    <record id="source_yenisafak_gundem" model="political.news.source">
+        <field name="name">Yeni Şafak - Gündem</field>
+        <field name="sequence">22</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.yenisafak.com/rss?xml=gundem</field>
+        <field name="website">https://www.yenisafak.com</field>
+    </record>
+    <record id="source_karar" model="political.news.source">
+        <field name="name">Karar</field>
+        <field name="sequence">23</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://www.karar.com/rss</field>
+        <field name="website">https://www.karar.com</field>
+    </record>
+    <record id="source_haberler_politika" model="political.news.source">
+        <field name="name">Haberler.com - Politika</field>
+        <field name="sequence">24</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://rss.haberler.com/rss.asp?kategori=politika</field>
+        <field name="website">https://www.haberler.com</field>
+    </record>
+    <record id="source_bbc_turkce" model="political.news.source">
+        <field name="name">BBC Türkçe</field>
+        <field name="sequence">25</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://feeds.bbci.co.uk/turkce/rss.xml</field>
+        <field name="website">https://www.bbc.com/turkce</field>
+    </record>
+    <record id="source_dw_turkce" model="political.news.source">
+        <field name="name">DW Türkçe</field>
+        <field name="sequence">26</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://rss.dw.com/rdf/rss-tur-all</field>
+        <field name="website">https://www.dw.com/tr</field>
+    </record>
+    <record id="source_euronews_turkce" model="political.news.source">
+        <field name="name">Euronews Türkçe</field>
+        <field name="sequence">27</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://tr.euronews.com/rss</field>
+        <field name="website">https://tr.euronews.com</field>
+    </record>
+    <record id="source_bianet" model="political.news.source">
+        <field name="name">Bianet</field>
+        <field name="sequence">28</field>
+        <field name="source_type">rss</field>
+        <field name="url">https://bianet.org/biamag.rss</field>
+        <field name="website">https://bianet.org</field>
+    </record>
 </odoo>

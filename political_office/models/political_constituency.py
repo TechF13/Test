@@ -60,6 +60,6 @@ class PoliticalConstituency(models.Model):
     def action_view_requests(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window']._for_xml_id('political_office.action_political_request')
-        action['domain'] = [('project_id.is_political_request', '=', True), ('constituency_id', 'child_of', self.id)]
+        action['domain'] = [('project_id.political_project_type', '=', 'request'), ('constituency_id', 'child_of', self.id)]
         action['context'] = dict(self.env['project.task']._political_request_context(), default_constituency_id=self.id)
         return action

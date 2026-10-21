@@ -8,12 +8,19 @@ from odoo.tools import html2plaintext
 from .political_news_keyword import fold_text
 
 
+POLITICAL_PROJECT_TYPES = [
+    ('request', 'Vatandaş Talepleri'),
+    ('parliament', 'Meclis Çalışmaları'),
+    ('campaign', 'Saha / Kampanya Çalışmaları'),
+]
+
+
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
-    is_political_request = fields.Boolean(
-        'Vatandaş Talepleri Projesi',
-        help='Bu projedeki görevler vatandaş talebi olarak takip edilir; bölge, kanal ve AI alanları görünür.',
+    political_project_type = fields.Selection(
+        POLITICAL_PROJECT_TYPES, string='Siyasi Ofis Kullanımı',
+        help='Görevlerin siyasi ofis için nasıl kullanılacağını belirler; ilgili ek alanlar görevlerde görünür.',
     )
 
 
@@ -29,7 +36,7 @@ class ProjectTags(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
-    is_political_request = fields.Boolean(related='project_id.is_political_request')
+    political_project_type = fields.Selection(related='project_id.political_project_type')
     political_channel = fields.Selection([
         ('office', 'Ofis Ziyareti'),
         ('phone', 'Telefon'),
@@ -45,8 +52,26 @@ class ProjectTask(models.Model):
         'political.constituency', 'Bölge', tracking=True, index='btree_not_null',
         compute='_compute_constituency_id', store=True, readonly=False,
     )
-    political_institution_id = fields.Many2one('res.partner', 'Yönlendirilen Kurum', tracking=True)
-    political_institution_ref = fields.Char('Kurum Evrak No')
+    political_institution_id = fields.Many2one(
+        'res.partner', 'Kurum', tracking=True,
+        help='Talebin yönlendirildiği kurum ya da önergenin muhatabı olan bakanlık / kurum.',
+    )
+    political_institution_ref = fields.Char('Evrak / Esas No')
+    # Parliament work
+    political_submission_date = fields.Date('Veriliş Tarihi', tracking=True)
+    political_answer_date = fields.Date('Cevap Tarihi', tracking=True)
+    political_source_task_ids = fields.Many2many(
+        'project.task', 'political_task_source_rel', 'task_id', 'source_task_id', 'Dayanak Talepler',
+        domain="[('project_id.political_project_type', '=', 'request')]",
+        help='Bu önergeye konu olan vatandaş talepleri.',
+    )
+    # Field work
+    political_volunteer_ids = fields.Many2many(
+        'res.partner', 'political_task_volunteer_rel', 'task_id', 'partner_id', 'Gönüllüler',
+    )
+    political_target_count = fields.Integer('Hedef (hane / kişi)')
+    political_reached_count = fields.Integer('Ulaşılan (hane / kişi)')
+    political_progress = fields.Float('Gerçekleşme (%)', compute='_compute_political_progress', aggregator='avg')
     political_article_id = fields.Many2one('political.news.article', 'Kaynak Haber', index='btree_not_null')
     political_ai_summary = fields.Text('AI Özeti')
     political_ai_draft_reply = fields.Text('AI Yanıt Taslağı')
@@ -56,6 +81,12 @@ class ProjectTask(models.Model):
     def _compute_constituency_id(self):
         for task in self:
             task.constituency_id = task.constituency_id or task.partner_id.constituency_id
+
+    @api.depends('political_target_count', 'political_reached_count')
+    def _compute_political_progress(self):
+        for task in self:
+            target = task.political_target_count
+            task.political_progress = min(100.0, 100.0 * task.political_reached_count / target) if target else 0.0
 
     def _compute_political_event_count(self):
         counts = dict(self.env['calendar.event']._read_group(
@@ -68,13 +99,13 @@ class ProjectTask(models.Model):
     def create(self, vals_list):
         tasks = super().create(vals_list)
         for task, vals in zip(tasks, vals_list):
-            if task.is_political_request and not vals.get('date_deadline'):
+            if task.political_project_type == 'request' and not vals.get('date_deadline'):
                 task._set_political_deadline()
         return tasks
 
     @api.onchange('tag_ids')
     def _onchange_tag_ids_political_deadline(self):
-        if self.is_political_request and not self.date_deadline:
+        if self.political_project_type == 'request' and not self.date_deadline:
             self._set_political_deadline()
 
     def _set_political_deadline(self):
@@ -87,6 +118,41 @@ class ProjectTask(models.Model):
     def _political_request_context(self):
         project = self.env.ref('political_office.project_citizen_requests', raise_if_not_found=False)
         return {'default_project_id': project.id} if project else {}
+
+    @api.model
+    def _political_create_public_request(self, values):
+        """Create a citizen request submitted through the public web form.
+
+        ``values`` holds already validated form fields. The citizen is matched on
+        e-mail or phone, or created and tagged as a citizen.
+        """
+        from ..hooks import get_tag
+
+        Partner = self.env['res.partner']
+        partner = Partner.browse()
+        if values.get('email'):
+            partner = Partner.search([('email_normalized', '=', values['email'].strip().lower())], limit=1)
+        if not partner and values.get('phone'):
+            partner = Partner.search([('phone', '=', values['phone'].strip())], limit=1)
+        constituency = self.env['political.constituency'].browse(values.get('constituency_id') or []).exists()
+        if not partner:
+            citizen_tag = get_tag(self.env, 'res.partner.category', 'Vatandaş')
+            partner = Partner.create({
+                'name': values['name'],
+                'email': values.get('email'),
+                'phone': values.get('phone'),
+                'constituency_id': constituency.id,
+                'category_id': [(4, citizen_tag.id)] if citizen_tag else [],
+            })
+        task = self.with_context(self._political_request_context(), mail_create_nosubscribe=True).create({
+            'name': values['subject'],
+            'description': Markup('<p>%s</p>') % values['description'],
+            'partner_id': partner.id,
+            'constituency_id': constituency.id or partner.constituency_id.id,
+            'political_channel': 'website',
+        })
+        task.message_subscribe(partner_ids=partner.ids)
+        return task
 
     # ------------------------------------------------------------------
     # Actions

@@ -17,6 +17,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_open_url" type="object" class="oe_stat_button" icon="fa-external-link" string="Habere Git"/>
+                        <button name="action_open_story" type="object" class="oe_stat_button" icon="fa-sitemap" string="Gündem" invisible="not story_id"/>
                         <button name="action_view_requests" type="object" class="oe_stat_button" icon="fa-bullhorn" invisible="not request_count">
                             <field name="request_count" widget="statinfo" string="Talep"/>
                         </button>
@@ -29,7 +30,10 @@
                         <group>
                             <field name="publisher"/>
                             <field name="published_date"/>
+                            <field name="media_type"/>
+                            <field name="platform" invisible="not platform"/>
                             <field name="source_id"/>
+                            <field name="story_id"/>
                             <field name="url" widget="url"/>
                             <field name="constituency_id"/>
                         </group>
@@ -86,6 +90,8 @@
                 <field name="published_date"/>
                 <field name="name"/>
                 <field name="publisher" optional="show"/>
+                <field name="media_type" optional="hide"/>
+                <field name="story_id" optional="hide"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
                 <field name="keyword_ids" widget="many2many_tags" optional="hide"/>
                 <field name="sentiment" widget="badge" decoration-success="sentiment == 'positive'" decoration-danger="sentiment == 'negative'" optional="show"/>
@@ -135,6 +141,7 @@
                 <field name="constituency_id" operator="child_of"/>
                 <field name="entity_people" string="Kişi"/>
                 <field name="source_id"/>
+                <field name="story_id"/>
                 <filter string="Yeni" name="new" domain="[('review_state', '=', 'new')]"/>
                 <filter string="Aksiyon Gerekli" name="action_required" domain="[('action_required', '=', True)]"/>
                 <filter string="Kritik / Yüksek" name="important" domain="[('importance', 'in', ['high', 'critical'])]"/>
@@ -142,6 +149,10 @@
                 <filter string="Olumlu" name="positive" domain="[('sentiment', '=', 'positive')]"/>
                 <filter string="Nötr" name="neutral" domain="[('sentiment', '=', 'neutral')]"/>
                 <filter string="Olumsuz" name="negative" domain="[('sentiment', '=', 'negative')]"/>
+                <separator/>
+                <filter string="Haber" name="media_news" domain="[('media_type', '=', 'news')]"/>
+                <filter string="Sosyal Medya" name="media_social" domain="[('media_type', '=', 'social')]"/>
+                <filter string="Video" name="media_video" domain="[('media_type', '=', 'video')]"/>
                 <separator/>
                 <filter string="AI Bekliyor" name="ai_pending" domain="[('ai_state', '=', 'pending')]"/>
                 <filter string="AI Hatası" name="ai_error" domain="[('ai_state', '=', 'error')]"/>
@@ -154,6 +165,8 @@
                     <filter string="Anahtar Kelime" name="group_keyword" context="{'group_by': 'keyword_ids'}"/>
                     <filter string="Duygu" name="group_sentiment" context="{'group_by': 'sentiment'}"/>
                     <filter string="Önem" name="group_importance" context="{'group_by': 'importance'}"/>
+                    <filter string="İçerik Türü" name="group_media_type" context="{'group_by': 'media_type'}"/>
+                    <filter string="Gündem" name="group_story" context="{'group_by': 'story_id'}"/>
                     <filter string="Yayın Organı" name="group_publisher" context="{'group_by': 'publisher'}"/>
                     <filter string="Bölge" name="group_constituency" context="{'group_by': 'constituency_id'}"/>
                     <filter string="Yayın Tarihi" name="group_published_date" context="{'group_by': 'published_date:day'}"/>

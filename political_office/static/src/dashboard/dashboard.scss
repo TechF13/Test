@@ -1,0 +1,150 @@
+// Chart colors: diverging blue <-> red with a neutral gray midpoint
+// (validated: adjacent CVD and normal-vision separation pass on the light surface).
+.o_political_dashboard {
+    --pd-surface: #fcfcfb;
+    --pd-plane: #f9f9f7;
+    --pd-ink: #0b0b0b;
+    --pd-ink-2: #52514e;
+    --pd-muted: #898781;
+    --pd-grid: #e1e0d9;
+    --pd-border: rgba(11, 11, 11, 0.10);
+    --pd-positive: #2a78d6;
+    --pd-neutral: #b4b2ab;
+    --pd-negative: #e34948;
+    --pd-seq: #2a78d6;
+    background: var(--pd-plane);
+    color: var(--pd-ink);
+
+    h2 { font-weight: 600; }
+    h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        small { color: var(--pd-muted); font-weight: 400; margin-left: 0.25rem; }
+    }
+
+    .o_pd_kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 12px;
+    }
+    .o_pd_kpi {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 14px 16px;
+        background: var(--pd-surface);
+        border: 1px solid var(--pd-border);
+        border-radius: 10px;
+        text-align: left;
+        &:hover { border-color: var(--pd-seq); }
+        &.o_pd_alert .o_pd_kpi_value { color: #b3261e; }
+    }
+    .o_pd_kpi_label { color: var(--pd-ink-2); font-size: 0.85rem; }
+    .o_pd_kpi_value { font-size: 1.9rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
+
+    .o_pd_card {
+        background: var(--pd-surface);
+        border: 1px solid var(--pd-border);
+        border-radius: 10px;
+        padding: 16px 18px;
+    }
+    .o_pd_row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 6px;
+        border-top: 1px solid var(--pd-grid);
+        cursor: pointer;
+        &:hover { background: var(--pd-plane); }
+    }
+    .o_pd_time { min-width: 52px; font-variant-numeric: tabular-nums; color: var(--pd-ink-2); font-weight: 600; }
+    .o_pd_neg_text { color: #b3261e; }
+    .o_pd_badge_critical { background: #d03b3b; color: #fff; }
+    .o_pd_badge_high { background: #fde3dc; color: #8c1d18; }
+    .o_pd_badge_medium { background: #f0efec; color: var(--pd-ink-2); }
+    .o_pd_badge_low { background: #f0efec; color: var(--pd-muted); }
+
+    .o_pd_legend {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        color: var(--pd-ink-2);
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+    .o_pd_swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+    .o_pd_positive { background: var(--pd-positive); }
+    .o_pd_neutral { background: var(--pd-neutral); }
+    .o_pd_negative { background: var(--pd-negative); }
+
+    .o_pd_chart {
+        display: flex;
+        align-items: stretch;
+        gap: 12px;
+        height: 200px;
+        border-bottom: 1px solid #c3c2b7;
+        padding-top: 8px;
+    }
+    .o_pd_col {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        cursor: default;
+        &:hover .o_pd_stack { opacity: 0.85; }
+    }
+    .o_pd_stack {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 2px;  // surface gap between stacked segments
+        max-width: 44px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .o_pd_seg { min-height: 2px; }
+    .o_pd_seg:first-child { border-radius: 4px 4px 0 0; }
+    .o_pd_day {
+        position: absolute;
+        bottom: -22px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--pd-muted);
+        font-variant-numeric: tabular-nums;
+    }
+    .o_pd_tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--pd-ink);
+        color: #fff;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .o_pd_chart + * { margin-top: 28px; }
+    section .o_pd_chart { margin-bottom: 26px; }
+
+    .o_pd_hbar {
+        display: grid;
+        grid-template-columns: minmax(90px, 40%) 1fr 32px;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 0;
+        font-size: 0.875rem;
+    }
+    .o_pd_hbar_label { color: var(--pd-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .o_pd_hbar_track { height: 10px; }
+    .o_pd_hbar_fill { height: 100%; background: var(--pd-seq); border-radius: 0 4px 4px 0; min-width: 2px; }
+    .o_pd_hbar_value { text-align: right; font-variant-numeric: tabular-nums; }
+}

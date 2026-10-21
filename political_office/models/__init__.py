@@ -8,5 +8,7 @@ from . import res_config_settings
 from . import political_news_tag
 from . import political_news_keyword
 from . import political_news_source
+from . import political_news_story
 from . import political_news_article
 from . import political_news_report
+from . import political_dashboard

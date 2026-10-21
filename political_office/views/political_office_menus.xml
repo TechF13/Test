@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_political_root" name="Siyasi Ofis" web_icon="political_office,static/description/icon.png"
-              groups="group_political_user" sequence="45"/>
+              groups="group_political_user" sequence="45" action="action_political_dashboard"/>
+
+    <menuitem id="menu_political_dashboard" name="Panel" parent="menu_political_root" action="action_political_dashboard" sequence="5"/>
 
     <menuitem id="menu_political_agenda" name="Ajanda" parent="menu_political_root" action="calendar.action_calendar_event" sequence="10"/>
 
@@ -9,8 +11,15 @@
     <menuitem id="menu_political_requests" name="Vatandaş Talepleri" parent="menu_political_requests_root" action="action_political_request" sequence="10"/>
     <menuitem id="menu_political_contacts" name="Kişiler" parent="menu_political_requests_root" action="contacts.action_contacts" sequence="20"/>
 
+    <menuitem id="menu_political_parliament" name="Meclis Çalışmaları" parent="menu_political_root" action="action_political_parliament" sequence="25"/>
+
+    <menuitem id="menu_political_campaign_root" name="Saha" parent="menu_political_root" sequence="27"/>
+    <menuitem id="menu_political_campaign" name="Saha Çalışmaları" parent="menu_political_campaign_root" action="action_political_campaign" sequence="10"/>
+    <menuitem id="menu_political_volunteers" name="Gönüllüler" parent="menu_political_campaign_root" action="action_political_volunteers" sequence="20"/>
+
     <menuitem id="menu_political_media_root" name="Medya Takibi" parent="menu_political_root" sequence="30"/>
     <menuitem id="menu_political_news" name="Haberler" parent="menu_political_media_root" action="action_political_news_article" sequence="10"/>
+    <menuitem id="menu_political_news_story" name="Gündemler" parent="menu_political_media_root" action="action_political_news_story" sequence="15"/>
     <menuitem id="menu_political_news_report" name="Basın Bültenleri" parent="menu_political_media_root" action="action_political_news_report" sequence="20"/>
 
     <menuitem id="menu_political_reporting" name="Raporlama" parent="menu_political_root" sequence="80"/>

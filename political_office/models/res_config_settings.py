@@ -23,4 +23,14 @@ class ResConfigSettings(models.TransientModel):
     political_digest_min_relevance = fields.Integer(
         'Bülten için asgari ilgililik', default=30, config_parameter='political_office.digest_min_relevance',
     )
+    political_public_form_enabled = fields.Boolean(
+        'Web talep formu (/talep)', config_parameter='political_office.public_form_enabled',
+        help='Vatandaşların web sitenizdeki /talep adresinden doğrudan talep göndermesini sağlar.',
+    )
+    political_alert_level = fields.Selection([
+        ('high', 'Yüksek ve kritik haberler'),
+        ('critical', 'Sadece kritik haberler'),
+        ('off', 'Kapalı'),
+    ], string='Anlık medya uyarısı', default='high', config_parameter='political_office.alert_level')
+    political_alert_user_ids = fields.Many2many(related='company_id.political_alert_user_ids', readonly=False)
     political_digest_user_ids = fields.Many2many(related='company_id.political_digest_user_ids', readonly=False)

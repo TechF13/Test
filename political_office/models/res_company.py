@@ -7,3 +7,6 @@ class ResCompany(models.Model):
     political_digest_user_ids = fields.Many2many(
         'res.users', 'political_company_digest_user_rel', 'company_id', 'user_id', 'Bülten Alıcıları',
     )
+    political_alert_user_ids = fields.Many2many(
+        'res.users', 'political_company_alert_user_rel', 'company_id', 'user_id', 'Medya Uyarısı Alıcıları',
+    )

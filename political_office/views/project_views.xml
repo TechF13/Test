@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Citizen requests reuse the standard Project task views; only the
-         political fields and buttons are added on top. -->
+    <!-- Requests, parliament motions and field work are standard project tasks;
+         only the political fields and buttons are added on top. -->
     <record id="project_task_view_form_inherit_political" model="ir.ui.view">
         <field name="name">project.task.form.inherit.political</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <field name="is_political_request" invisible="1"/>
+                <field name="political_project_type" invisible="1"/>
                 <button name="action_political_schedule_meeting" type="object" string="Randevu Planla" icon="fa-calendar"
-                        invisible="not is_political_request" groups="political_office.group_political_user"/>
+                        invisible="political_project_type != 'request'" groups="political_office.group_political_user"/>
                 <button name="action_political_ai_analyze" type="object" string="AI ile Analiz Et" icon="fa-magic"
-                        invisible="not is_political_request" groups="political_office.group_political_user"/>
+                        invisible="political_project_type != 'request'" groups="political_office.group_political_user"/>
             </xpath>
             <div name="button_box" position="inside">
                 <button name="action_political_view_events" type="object" class="oe_stat_button" icon="fa-calendar"
@@ -21,21 +21,48 @@
                 </button>
             </div>
             <field name="partner_id" position="after">
-                <field name="constituency_id" invisible="not is_political_request" groups="political_office.group_political_user"/>
-                <field name="political_channel" invisible="not is_political_request" groups="political_office.group_political_user"/>
+                <field name="constituency_id" invisible="not political_project_type" groups="political_office.group_political_user"/>
+                <field name="political_channel" invisible="political_project_type != 'request'" groups="political_office.group_political_user"/>
             </field>
             <page name="description_page" position="after">
-                <page name="political_request" string="Talep Takibi" invisible="not is_political_request"
+                <page name="political_request" string="Talep Takibi" invisible="political_project_type != 'request'"
                       groups="political_office.group_political_user">
                     <group>
                         <group string="Kuruma Yönlendirme">
-                            <field name="political_institution_id"/>
-                            <field name="political_institution_ref"/>
+                            <field name="political_institution_id" string="Yönlendirilen Kurum"/>
+                            <field name="political_institution_ref" string="Kurum Evrak No"/>
                             <field name="political_article_id"/>
                         </group>
                         <group string="Yapay Zekâ">
                             <field name="political_ai_summary"/>
                             <field name="political_ai_draft_reply" widget="text"/>
+                        </group>
+                    </group>
+                </page>
+                <page name="political_parliament" string="Önerge Bilgileri" invisible="political_project_type != 'parliament'"
+                      groups="political_office.group_political_user">
+                    <group>
+                        <group>
+                            <field name="political_institution_id" string="Muhatap Bakanlık / Kurum"/>
+                            <field name="political_institution_ref" string="Esas No"/>
+                        </group>
+                        <group>
+                            <field name="political_submission_date"/>
+                            <field name="political_answer_date"/>
+                        </group>
+                    </group>
+                    <field name="political_source_task_ids" widget="many2many_tags"/>
+                </page>
+                <page name="political_campaign" string="Saha Bilgileri" invisible="political_project_type != 'campaign'"
+                      groups="political_office.group_political_user">
+                    <group>
+                        <group>
+                            <field name="political_volunteer_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="political_target_count"/>
+                            <field name="political_reached_count"/>
+                            <field name="political_progress" widget="progressbar"/>
                         </group>
                     </group>
                 </page>
@@ -51,9 +78,12 @@
             <xpath expr="//search" position="inside">
                 <field name="constituency_id" operator="child_of" groups="political_office.group_political_user"/>
                 <field name="political_institution_id" groups="political_office.group_political_user"/>
+                <field name="political_volunteer_ids" groups="political_office.group_political_user"/>
                 <filter string="Bölge" name="group_constituency" context="{'group_by': 'constituency_id'}"
                         groups="political_office.group_political_user"/>
                 <filter string="Başvuru Kanalı" name="group_political_channel" context="{'group_by': 'political_channel'}"
+                        groups="political_office.group_political_user"/>
+                <filter string="Kurum" name="group_political_institution" context="{'group_by': 'political_institution_id'}"
                         groups="political_office.group_political_user"/>
             </xpath>
         </field>
@@ -65,7 +95,7 @@
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
             <field name="label_tasks" position="after">
-                <field name="is_political_request" groups="political_office.group_political_manager"/>
+                <field name="political_project_type" groups="political_office.group_political_manager"/>
             </field>
         </field>
     </record>
@@ -86,12 +116,51 @@
         <field name="res_model">project.task</field>
         <field name="path">political-requests</field>
         <field name="view_mode">kanban,list,form,calendar,pivot,graph,activity</field>
-        <field name="domain">[('project_id.is_political_request', '=', True)]</field>
+        <field name="domain">[('project_id.political_project_type', '=', 'request')]</field>
         <field name="context" eval="{'default_project_id': ref('project_citizen_requests'), 'search_default_open_tasks': 1}"/>
         <field name="search_view_id" ref="project.view_task_search_form"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">İlk vatandaş talebini kaydedin</p>
-            <p>Ofise, telefona, e-postaya veya sahaya gelen tüm talepleri buradan takip edin.</p>
+            <p>Ofise, telefona, e-postaya, web formuna veya sahaya gelen tüm talepleri buradan takip edin.</p>
+        </field>
+    </record>
+
+    <record id="action_political_parliament" model="ir.actions.act_window">
+        <field name="name">Meclis Çalışmaları</field>
+        <field name="res_model">project.task</field>
+        <field name="path">political-parliament</field>
+        <field name="view_mode">kanban,list,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('project_id.political_project_type', '=', 'parliament')]</field>
+        <field name="context" eval="{'default_project_id': ref('project_parliament'), 'search_default_open_tasks': 1}"/>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">İlk önergenizi kaydedin</p>
+            <p>Soru önergeleri, kanun teklifleri, araştırma önergeleri ve komisyon çalışmalarını takip edin.</p>
+        </field>
+    </record>
+
+    <record id="action_political_campaign" model="ir.actions.act_window">
+        <field name="name">Saha Çalışmaları</field>
+        <field name="res_model">project.task</field>
+        <field name="path">political-field-work</field>
+        <field name="view_mode">kanban,list,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('project_id.political_project_type', '=', 'campaign')]</field>
+        <field name="context" eval="{'default_project_id': ref('project_campaign'), 'search_default_open_tasks': 1}"/>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">İlk saha görevini planlayın</p>
+            <p>Kapı kapı ziyaretleri, stant çalışmaları ve gönüllü ekiplerini mahalle bazında takip edin.</p>
+        </field>
+    </record>
+
+    <record id="action_political_volunteers" model="ir.actions.act_window">
+        <field name="name">Gönüllüler</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('category_id.name', '=', 'Gönüllü')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Gönüllü ekleyin</p>
+            <p>Kişilere "Gönüllü" etiketini verdiğinizde burada listelenirler ve saha görevlerine atanabilirler.</p>
         </field>
     </record>
 
@@ -99,8 +168,7 @@
         <field name="name">Talep Analizi</field>
         <field name="res_model">project.task</field>
         <field name="view_mode">graph,pivot,list</field>
-        <field name="domain">[('project_id.is_political_request', '=', True)]</field>
-        <field name="context">{'graph_groupbys': ['create_date:month', 'tag_ids']}</field>
+        <field name="domain">[('project_id.political_project_type', '=', 'request')]</field>
         <field name="search_view_id" ref="project.view_task_search_form"/>
     </record>
 
@@ -109,6 +177,7 @@
         <field name="res_model">project.tags</field>
         <field name="view_mode">list</field>
         <field name="domain">[('political_sla_days', '>', 0)]</field>
+        <field name="context">{'default_political_sla_days': 15}</field>
         <field name="help" type="html">
             <p>Çözüm süresi tanımlı proje etiketleri talep kategorisi olarak kullanılır.</p>
         </field>

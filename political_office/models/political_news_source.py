@@ -1,4 +1,5 @@
 import logging
+import secrets
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from urllib.parse import quote_plus
@@ -15,6 +16,8 @@ USER_AGENT = 'Mozilla/5.0 (compatible; OdooPoliticalOffice/19.0; +https://www.od
 HTTP_TIMEOUT = 20
 MAX_DOWNLOAD_BYTES = 5 * 1024 * 1024
 GOOGLE_NEWS_URL = 'https://news.google.com/rss/search?q={query}&hl={lang}&gl={country}&ceid={country}:{lang}'
+YOUTUBE_FEED_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id={channel}'
+MEDIA_TYPES = [('news', 'Haber'), ('social', 'Sosyal Medya'), ('video', 'Video')]
 
 
 def http_get(url):
@@ -43,7 +46,7 @@ def _html_to_text(value):
         return ' '.join(value.split())
 
 
-def _parse_date(value):
+def parse_date(value):
     """Parse RFC 822 (RSS) or ISO 8601 (Atom) dates into naive UTC datetimes."""
     if not value:
         return False
@@ -71,7 +74,10 @@ def parse_feed(content):
         if _local(node.tag) not in ('item', 'entry'):
             continue
         item = {'title': '', 'url': '', 'summary': '', 'published': False, 'publisher': ''}
-        for child in node:
+        children = list(node)
+        for group in [c for c in children if _local(c.tag) == 'group']:
+            children.extend(group)
+        for child in children:
             name = _local(child.tag)
             text = (child.text or '').strip()
             if name == 'title':
@@ -86,7 +92,7 @@ def parse_feed(content):
                 if len(text) > len(item['summary']):
                     item['summary'] = text
             elif name in ('pubdate', 'published', 'updated', 'date') and not item['published']:
-                item['published'] = _parse_date(text)
+                item['published'] = parse_date(text)
             elif name == 'source' and text:
                 item['publisher'] = text
             elif name == 'guid' and text.startswith('http') and child.get('isPermaLink', 'true') != 'false':
@@ -127,7 +133,17 @@ class PoliticalNewsSource(models.Model):
     source_type = fields.Selection([
         ('rss', 'RSS / Atom Beslemesi'),
         ('google_news', 'Google News Araması'),
+        ('youtube', 'YouTube Kanalı'),
+        ('webhook', 'Sosyal Medya (Webhook)'),
     ], string='Tür', required=True, default='rss')
+    media_type = fields.Selection(
+        MEDIA_TYPES, string='İçerik Türü', required=True,
+        compute='_compute_media_type', store=True, readonly=False, precompute=True,
+    )
+    platform = fields.Char('Platform', help='ör. X, Instagram, Facebook, TikTok, YouTube')
+    youtube_channel_id = fields.Char('YouTube Kanal ID', help="Kanal sayfasındaki 'UC' ile başlayan kimlik.")
+    webhook_token = fields.Char('Webhook Anahtarı', copy=False, groups='political_office.group_political_manager')
+    webhook_url = fields.Char('Webhook Adresi', compute='_compute_webhook_url', groups='political_office.group_political_manager')
     url = fields.Char('Besleme Adresi', help='RSS veya Atom besleme URL adresi.')
     website = fields.Char('Web Sitesi')
     language = fields.Char('Dil', default='tr')
@@ -154,6 +170,42 @@ class PoliticalNewsSource(models.Model):
     article_count = fields.Integer('Haber Sayısı', compute='_compute_article_count')
     active = fields.Boolean(default=True)
 
+    @api.depends('source_type')
+    def _compute_media_type(self):
+        for source in self:
+            if source.source_type == 'youtube':
+                source.media_type = 'video'
+            elif source.source_type == 'webhook':
+                source.media_type = 'social'
+            else:
+                source.media_type = source.media_type or 'news'
+
+    @api.depends('webhook_token')
+    def _compute_webhook_url(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        for source in self:
+            source.webhook_url = (
+                f'{base_url}/political_office/webhook/{source.webhook_token}' if source.webhook_token else False
+            )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('source_type') == 'webhook' and not vals.get('webhook_token'):
+                vals['webhook_token'] = secrets.token_urlsafe(24)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.get('source_type') == 'webhook':
+            for source in self.sudo().filtered(lambda s: not s.webhook_token):
+                source.webhook_token = secrets.token_urlsafe(24)
+        return res
+
+    def action_regenerate_webhook_token(self):
+        for source in self.sudo():
+            source.webhook_token = secrets.token_urlsafe(24)
+
     def _compute_article_count(self):
         counts = dict(self.env['political.news.article']._read_group(
             [('source_id', 'in', self.ids)], ['source_id'], ['__count'],
@@ -161,11 +213,13 @@ class PoliticalNewsSource(models.Model):
         for source in self:
             source.article_count = counts.get(source, 0)
 
-    @api.constrains('source_type', 'url')
+    @api.constrains('source_type', 'url', 'youtube_channel_id')
     def _check_url(self):
         for source in self:
             if source.source_type == 'rss' and not (source.url or '').startswith(('http://', 'https://')):
                 raise ValidationError(self.env._('%s: geçerli bir http(s) besleme adresi girin.', source.name))
+            if source.source_type == 'youtube' and not (source.youtube_channel_id or '').startswith('UC'):
+                raise ValidationError(self.env._("%s: YouTube kanal kimliği 'UC' ile başlamalıdır.", source.name))
 
     def _get_keywords(self):
         self.ensure_one()
@@ -190,10 +244,16 @@ class PoliticalNewsSource(models.Model):
                     item['query_keyword'] = keyword
                     items.append(item)
             return items
+        if self.source_type == 'youtube':
+            return parse_feed(http_get(YOUTUBE_FEED_URL.format(channel=self.youtube_channel_id)))
+        if self.source_type == 'webhook':
+            return []  # pushed by the webhook endpoint
         return parse_feed(http_get(self.url))
 
     def _fetch_articles(self):
         self.ensure_one()
+        if self.source_type == 'webhook':
+            return self.env['political.news.article']
         articles = self.env['political.news.article']._create_from_feed_items(self, self._collect_items())
         self.write({
             'last_fetch_date': fields.Datetime.now(),
@@ -227,7 +287,7 @@ class PoliticalNewsSource(models.Model):
 
     @api.model
     def _cron_fetch_news(self):
-        sources = self.search([])
+        sources = self.search([('source_type', '!=', 'webhook')])
         cron = self.env['ir.cron']
         cron._commit_progress(remaining=len(sources))
         for source in sources:

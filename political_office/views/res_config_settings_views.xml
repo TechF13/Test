@@ -60,6 +60,28 @@
                             <field name="political_ai_allow_new_tags"/>
                         </setting>
                     </block>
+                    <block title="Vatandaş Talepleri" name="political_requests">
+                        <setting help="Vatandaşlar web sitenizin /talep adresindeki formdan doğrudan talep gönderebilir.">
+                            <field name="political_public_form_enabled"/>
+                            <div class="content-group mt-2" invisible="not political_public_form_enabled">
+                                <a href="/talep" target="_blank" role="button" class="btn-link"><i class="fa fa-arrow-right"/> Formu görüntüle</a>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Medya Uyarıları" name="political_alerts">
+                        <setting string="Anlık Uyarı" help="AI analizinde önemli bulunan haberler seçili kullanıcılara hemen bildirilir.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="political_alert_level" class="col-lg-4 o_light_label"/>
+                                    <field name="political_alert_level"/>
+                                </div>
+                                <div class="row" invisible="political_alert_level == 'off'">
+                                    <label for="political_alert_user_ids" class="col-lg-4 o_light_label"/>
+                                    <field name="political_alert_user_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
                     <block title="Günlük Basın Bülteni" name="political_digest">
                         <setting string="Bülten" help="Her sabah son 24 saatin bülteni oluşturulur ve bu kullanıcılara bildirilir.">
                             <div class="content-group">

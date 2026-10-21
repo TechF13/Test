@@ -11,3 +11,5 @@ access_political_news_article_user,political.news.article.user,model_political_n
 access_political_news_article_manager,political.news.article.manager,model_political_news_article,group_political_manager,1,1,1,1
 access_political_news_report_user,political.news.report.user,model_political_news_report,group_political_user,1,1,1,0
 access_political_news_report_manager,political.news.report.manager,model_political_news_report,group_political_manager,1,1,1,1
+access_political_news_story_user,political.news.story.user,model_political_news_story,group_political_user,1,1,1,0
+access_political_news_story_manager,political.news.story.manager,model_political_news_story,group_political_manager,1,1,1,1

@@ -1,16 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <!-- Citizen notifications sent by the standard stage e-mail mechanism -->
+    <record id="mail_template_request_received" model="mail.template">
+        <field name="name">Siyasi Ofis: Talep Alındı</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="subject">Talebiniz alındı (No: {{ object.id }})</field>
+        <field name="use_default_to" eval="True"/>
+        <field name="description">Vatandaş talebi kaydedildiğinde gönderilir.</field>
+        <field name="body_html" type="html">
+<div>
+    Sayın <t t-out="object.partner_id.name or 'Vatandaşımız'">Ayşe Demir</t>,<br/><br/>
+    "<t t-out="object.name">Mahalle yolunun asfaltlanması</t>" konulu talebiniz
+    <t t-out="object.id">42</t> numarasıyla kayda alınmıştır. Ekibimiz talebinizi inceleyerek
+    en kısa sürede size dönüş yapacaktır.<br/><br/>
+    Saygılarımızla,<br/>
+    <t t-out="object.company_id.name or ''">Ofis</t>
+</div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="mail_template_request_forwarded" model="mail.template">
+        <field name="name">Siyasi Ofis: Talep Kuruma İletildi</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="subject">Talebiniz ilgili kuruma iletildi (No: {{ object.id }})</field>
+        <field name="use_default_to" eval="True"/>
+        <field name="description">Talep ilgili kuruma yönlendirildiğinde gönderilir.</field>
+        <field name="body_html" type="html">
+<div>
+    Sayın <t t-out="object.partner_id.name or 'Vatandaşımız'">Ayşe Demir</t>,<br/><br/>
+    <t t-out="object.id">42</t> numaralı talebiniz
+    <t t-if="object.political_institution_id"><t t-out="object.political_institution_id.name">Belediye</t> kurumuna</t>
+    <t t-else="">ilgili kuruma</t>
+    iletilmiştir. Süreci takip ederek sizi bilgilendirmeye devam edeceğiz.<br/><br/>
+    Saygılarımızla,<br/>
+    <t t-out="object.company_id.name or ''">Ofis</t>
+</div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="mail_template_request_solved" model="mail.template">
+        <field name="name">Siyasi Ofis: Talep Sonuçlandı</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="subject">Talebiniz sonuçlandı (No: {{ object.id }})</field>
+        <field name="use_default_to" eval="True"/>
+        <field name="description">Talep çözüldüğünde gönderilir.</field>
+        <field name="body_html" type="html">
+<div>
+    Sayın <t t-out="object.partner_id.name or 'Vatandaşımız'">Ayşe Demir</t>,<br/><br/>
+    "<t t-out="object.name">Mahalle yolunun asfaltlanması</t>" konulu talebiniz sonuçlanmıştır.
+    Bize ulaştığınız için teşekkür ederiz.<br/><br/>
+    Saygılarımızla,<br/>
+    <t t-out="object.company_id.name or ''">Ofis</t>
+</div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- SMS versions: set them on a stage (SMS Template field) to enable; sending uses IAP credits. -->
+    <record id="sms_template_request_received" model="sms.template">
+        <field name="name">Siyasi Ofis: Talep Alındı (SMS)</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="body">Sayın {{ object.partner_id.name or 'Vatandaşımız' }}, talebiniz {{ object.id }} numarasıyla kayda alındı.</field>
+    </record>
+    <record id="sms_template_request_forwarded" model="sms.template">
+        <field name="name">Siyasi Ofis: Talep Kuruma İletildi (SMS)</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="body">{{ object.id }} numaralı talebiniz {{ object.political_institution_id.name or 'ilgili kurum' }} kurumuna iletildi.</field>
+    </record>
+    <record id="sms_template_request_solved" model="sms.template">
+        <field name="name">Siyasi Ofis: Talep Sonuçlandı (SMS)</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="body">{{ object.id }} numaralı talebiniz sonuçlandı. Bize ulaştığınız için teşekkür ederiz.</field>
+    </record>
+
     <!-- Citizen requests are standard project tasks in a dedicated project. -->
     <record id="project_citizen_requests" model="project.project">
         <field name="name">Vatandaş Talepleri</field>
         <field name="label_tasks">Talepler</field>
-        <field name="is_political_request" eval="True"/>
+        <field name="political_project_type">request</field>
         <field name="privacy_visibility">employees</field>
     </record>
 
     <record id="stage_new" model="project.task.type">
         <field name="name">Yeni</field>
         <field name="sequence">1</field>
+        <field name="mail_template_id" ref="mail_template_request_received"/>
         <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
     <record id="stage_in_review" model="project.task.type">
@@ -23,6 +99,7 @@
         <field name="name">Kuruma İletildi</field>
         <field name="sequence">20</field>
         <field name="rotting_threshold_days">15</field>
+        <field name="mail_template_id" ref="mail_template_request_forwarded"/>
         <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
     <record id="stage_waiting_citizen" model="project.task.type">
@@ -34,6 +111,7 @@
         <field name="name">Çözüldü</field>
         <field name="sequence">90</field>
         <field name="fold" eval="True"/>
+        <field name="mail_template_id" ref="mail_template_request_solved"/>
         <field name="rating_template_id" ref="project.rating_project_request_email_template"/>
         <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
@@ -44,73 +122,57 @@
         <field name="project_ids" eval="[Command.link(ref('project_citizen_requests'))]"/>
     </record>
 
-    <!-- Request categories are project tags carrying a resolution time. -->
-    <record id="tag_request_infrastructure" model="project.tags">
-        <field name="name">Altyapı ve Belediye Hizmetleri</field>
-        <field name="political_sla_days">20</field>
+    <!-- Parliament work: questions, bills, research motions, committee work -->
+    <record id="project_parliament" model="project.project">
+        <field name="name">Meclis Çalışmaları</field>
+        <field name="label_tasks">Önergeler</field>
+        <field name="political_project_type">parliament</field>
+        <field name="privacy_visibility">employees</field>
     </record>
-    <record id="tag_request_health" model="project.tags">
-        <field name="name">Sağlık</field>
-        <field name="political_sla_days">7</field>
+    <record id="stage_motion_draft" model="project.task.type">
+        <field name="name">Hazırlanıyor</field>
+        <field name="sequence">1</field>
+        <field name="project_ids" eval="[Command.link(ref('project_parliament'))]"/>
     </record>
-    <record id="tag_request_education" model="project.tags">
-        <field name="name">Eğitim</field>
-        <field name="political_sla_days">15</field>
+    <record id="stage_motion_submitted" model="project.task.type">
+        <field name="name">Verildi</field>
+        <field name="sequence">10</field>
+        <field name="rotting_threshold_days">15</field>
+        <field name="project_ids" eval="[Command.link(ref('project_parliament'))]"/>
     </record>
-    <record id="tag_request_employment" model="project.tags">
-        <field name="name">İstihdam</field>
-        <field name="political_sla_days">30</field>
+    <record id="stage_motion_agenda" model="project.task.type">
+        <field name="name">Gündemde / Komisyonda</field>
+        <field name="sequence">20</field>
+        <field name="project_ids" eval="[Command.link(ref('project_parliament'))]"/>
     </record>
-    <record id="tag_request_social" model="project.tags">
-        <field name="name">Sosyal Yardım</field>
-        <field name="political_sla_days">10</field>
-    </record>
-    <record id="tag_request_transport" model="project.tags">
-        <field name="name">Ulaşım</field>
-        <field name="political_sla_days">20</field>
-    </record>
-    <record id="tag_request_legal" model="project.tags">
-        <field name="name">Hukuki / İdari Süreçler</field>
-        <field name="political_sla_days">15</field>
-    </record>
-
-    <!-- Contact types are standard contact tags. -->
-    <record id="partner_category_citizen" model="res.partner.category">
-        <field name="name">Vatandaş</field>
-    </record>
-    <record id="partner_category_party_member" model="res.partner.category">
-        <field name="name">Parti Üyesi</field>
-    </record>
-    <record id="partner_category_journalist" model="res.partner.category">
-        <field name="name">Gazeteci</field>
-    </record>
-    <record id="partner_category_ngo" model="res.partner.category">
-        <field name="name">STK / Dernek</field>
-    </record>
-    <record id="partner_category_institution" model="res.partner.category">
-        <field name="name">Kamu Kurumu</field>
+    <record id="stage_motion_answered" model="project.task.type">
+        <field name="name">Cevaplandı / Sonuçlandı</field>
+        <field name="sequence">90</field>
+        <field name="fold" eval="True"/>
+        <field name="project_ids" eval="[Command.link(ref('project_parliament'))]"/>
     </record>
 
-    <!-- Political event types are standard calendar tags. -->
-    <record id="event_type_citizen_day" model="calendar.event.type">
-        <field name="name">Halk Günü</field>
+    <!-- Field and campaign work carried out with volunteers -->
+    <record id="project_campaign" model="project.project">
+        <field name="name">Saha Çalışmaları</field>
+        <field name="label_tasks">Saha Görevleri</field>
+        <field name="political_project_type">campaign</field>
+        <field name="privacy_visibility">employees</field>
     </record>
-    <record id="event_type_field_visit" model="calendar.event.type">
-        <field name="name">Saha Ziyareti</field>
+    <record id="stage_campaign_planned" model="project.task.type">
+        <field name="name">Planlandı</field>
+        <field name="sequence">1</field>
+        <field name="project_ids" eval="[Command.link(ref('project_campaign'))]"/>
     </record>
-    <record id="event_type_rally" model="calendar.event.type">
-        <field name="name">Miting / Halk Buluşması</field>
+    <record id="stage_campaign_in_field" model="project.task.type">
+        <field name="name">Sahada</field>
+        <field name="sequence">10</field>
+        <field name="project_ids" eval="[Command.link(ref('project_campaign'))]"/>
     </record>
-    <record id="event_type_parliament" model="calendar.event.type">
-        <field name="name">Meclis / Komisyon</field>
-    </record>
-    <record id="event_type_party" model="calendar.event.type">
-        <field name="name">Parti Toplantısı</field>
-    </record>
-    <record id="event_type_media" model="calendar.event.type">
-        <field name="name">Basın / Röportaj</field>
-    </record>
-    <record id="event_type_citizen_meeting" model="calendar.event.type">
-        <field name="name">Vatandaş Görüşmesi</field>
+    <record id="stage_campaign_done" model="project.task.type">
+        <field name="name">Tamamlandı</field>
+        <field name="sequence">90</field>
+        <field name="fold" eval="True"/>
+        <field name="project_ids" eval="[Command.link(ref('project_campaign'))]"/>
     </record>
 </odoo>

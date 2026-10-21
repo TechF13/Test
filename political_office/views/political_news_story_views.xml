@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="political_news_story_view_form" model="ir.ui.view">
+        <field name="name">political.news.story.form</field>
+        <field name="model">political.news.story</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_ai_press_statement" type="object" string="AI ile Basın Açıklaması Hazırla"
+                            class="btn-primary" icon="fa-magic" invisible="press_statement"/>
+                    <button name="action_ai_press_statement" type="object" string="Açıklamayı Yeniden Hazırla"
+                            icon="fa-magic" invisible="not press_statement"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_articles" type="object" class="oe_stat_button" icon="fa-newspaper-o">
+                            <field name="article_count" widget="statinfo" string="Haber"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Kritik" bg_color="text-bg-danger" invisible="importance != 'critical'"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_first"/>
+                            <field name="date_last"/>
+                            <field name="publisher_count"/>
+                        </group>
+                        <group>
+                            <field name="importance" widget="badge" decoration-danger="importance in ('high', 'critical')"/>
+                            <field name="negative_count"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Haberler" name="articles">
+                            <field name="article_ids" readonly="1">
+                                <list>
+                                    <field name="published_date"/>
+                                    <field name="name"/>
+                                    <field name="publisher"/>
+                                    <field name="media_type"/>
+                                    <field name="sentiment" widget="badge" decoration-success="sentiment == 'positive'" decoration-danger="sentiment == 'negative'"/>
+                                    <field name="importance"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Basın Açıklaması" name="press_statement">
+                            <field name="press_statement_date" invisible="not press_statement_date"/>
+                            <field name="press_statement" placeholder="Taslak hazırlamak için üstteki butonu kullanın; metni burada düzenleyebilirsiniz."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="political_news_story_view_list" model="ir.ui.view">
+        <field name="name">political.news.story.list</field>
+        <field name="model">political.news.story</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="importance == 'critical'" decoration-bf="article_count &gt; 2">
+                <field name="date_last"/>
+                <field name="name"/>
+                <field name="article_count"/>
+                <field name="publisher_count" optional="show"/>
+                <field name="negative_count" optional="show"/>
+                <field name="importance" widget="badge" decoration-danger="importance in ('high', 'critical')"/>
+                <field name="date_first" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="political_news_story_view_search" model="ir.ui.view">
+        <field name="name">political.news.story.search</field>
+        <field name="model">political.news.story</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Birden Fazla Haber" name="multi" domain="[('article_count', '&gt;', 1)]"/>
+                <filter string="Kritik / Yüksek" name="important" domain="[('importance', 'in', ['high', 'critical'])]"/>
+                <filter string="Olumsuz Haber İçeren" name="negative" domain="[('negative_count', '&gt;', 0)]"/>
+                <separator/>
+                <filter string="Son Haber" name="filter_date_last" date="date_last"/>
+                <separator/>
+                <filter string="Arşivlenmiş" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_political_news_story" model="ir.actions.act_window">
+        <field name="name">Gündemler</field>
+        <field name="res_model">political.news.story</field>
+        <field name="path">political-stories</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_multi': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz gündem yok</p>
+            <p>Aynı olayı anlatan haberler otomatik olarak tek bir gündem altında toplanır.</p>
+        </field>
+    </record>
+</odoo>

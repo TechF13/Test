@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_fetch" type="object" string="Şimdi Çek" class="btn-primary" icon="fa-refresh"/>
+                    <button name="action_fetch" type="object" string="Şimdi Çek" class="btn-primary" icon="fa-refresh" invisible="source_type == 'webhook'"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -23,6 +23,9 @@
                         <group>
                             <field name="source_type" widget="radio"/>
                             <field name="url" widget="url" invisible="source_type != 'rss'" required="source_type == 'rss'"/>
+                            <field name="youtube_channel_id" invisible="source_type != 'youtube'" required="source_type == 'youtube'" placeholder="UCxxxxxxxxxxxxxxxxxxxxxx"/>
+                            <field name="platform" invisible="source_type not in ('webhook', 'youtube')" placeholder="ör. X, Instagram"/>
+                            <field name="media_type"/>
                             <field name="website" widget="url"/>
                             <field name="language" invisible="source_type != 'google_news'"/>
                             <field name="country" invisible="source_type != 'google_news'"/>
@@ -34,6 +37,16 @@
                             <field name="keyword_ids" widget="many2many_tags" placeholder="Tüm aktif anahtar kelimeler"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </group>
+                    </group>
+                    <group string="Webhook" invisible="source_type != 'webhook'" groups="political_office.group_political_manager">
+                        <div colspan="2" class="text-muted">
+                            X, Instagram, Facebook gibi platformlardaki paylaşımları n8n, Make veya Zapier gibi bir otomasyon
+                            aracıyla bu adrese JSON olarak gönderin. Örnek:
+                            <code>{"title": "...", "text": "...", "url": "https://...", "author": "@hesap", "published": "2026-10-21T10:00:00Z"}</code>
+                        </div>
+                        <field name="webhook_url" widget="CopyClipboardChar" readonly="1"/>
+                        <button name="action_regenerate_webhook_token" type="object" string="Yeni Anahtar Üret" class="btn-link"
+                                confirm="Eski adres çalışmayı bırakacak. Devam edilsin mi?"/>
                     </group>
                     <group string="Son Çekim">
                         <group>
